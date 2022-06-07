@@ -1,0 +1,7 @@
+{
+  "name": "coachgurus",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "react"
+}
