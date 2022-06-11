@@ -26,25 +26,27 @@ const LoginContainer: React.FC<ContainerProps> = () => {
                     {/* TODO: Web Content  */}
                 </IonCol>
                 <IonCol className='login-right-panel'>
-                    <IonHeader>
-                        Join over 25 million people who use Sworkit for custom workouts anytime anywhere.
+                    <IonHeader className='login-right-panel-h1'>
+                        Join over 25 million people who use Sworkit for custom workouts anytime anywhere.                        
                     </IonHeader>
-                    <IonButton expand="block" className='login-apple'>
-                        <IonIcon slot="start" icon={logoApple}></IonIcon>
-                        Signin with Apple
-                    </IonButton>
-                    <IonButton expand="block" className='login-google'>
-                        <IonIcon slot="start" icon={logoGoogle}></IonIcon>
-                        Signin with Google
-                    </IonButton>
-                    <IonButton expand="block" className='login-facebook'>
-                        <IonIcon slot="start" icon={logoFacebook}></IonIcon>
-                        Signin with Facebook
-                    </IonButton>
-                    <IonButton expand="block" className='login-custom-mail'>
-                        <IonIcon slot="start" icon={mailOutline}></IonIcon>
-                        Signin with Facebook
-                    </IonButton>
+                    <div className='login-action'>
+                            <IonButton expand="block" className='login-apple'>
+                                <IonIcon slot="start" icon={logoApple}></IonIcon>
+                                Signin with Apple
+                            </IonButton>
+                            <IonButton expand="block" className='login-google'>
+                                <IonIcon slot="start" icon={logoGoogle}></IonIcon>
+                                Signin with Google
+                            </IonButton>
+                            <IonButton expand="block" className='login-facebook'>
+                                <IonIcon slot="start" icon={logoFacebook}></IonIcon>
+                                Signin with Facebook
+                            </IonButton>
+                            <IonButton expand="block" className='login-custom-mail'>
+                                <IonIcon slot="start" icon={mailOutline}></IonIcon>
+                                Signin with Facebook
+                            </IonButton>
+                        </div>
                 </IonCol>
             </IonRow>
         </IonGrid>
