@@ -1,7 +1,7 @@
 // Import components
 import { IonButton, IonCol, IonGrid, IonHeader, IonIcon, IonRow } from '@ionic/react';
 import { isPlatform } from '@ionic/react';
-
+import AWS from 'aws-sdk';
 import { GoogleAuth, User } from "@codetrix-studio/capacitor-google-auth";
 
 // Import Icons
@@ -31,6 +31,27 @@ const LoginContainer: React.FC<ContainerProps> = () => {
         GoogleAuth.signIn().
             then((response: User) => {
                 debugger;
+
+                AWS.config.update({region:'us-east-1'});
+
+                const credentials = new AWS.CognitoIdentityCredentials({
+                    IdentityPoolId: 'us-east-1:00b158f6-feaf-4f00-b902-c55b01b15ad5',
+                    Logins: {
+                        'accounts.google.com': response.authentication.idToken
+                    }
+                });
+
+                AWS.config.credentials = credentials;
+
+                credentials.get((error) => {
+                    debugger;
+                    // Access AWS resources here.
+                    console.log('We are in', error);
+                    if (!error) {
+                       // const user = this.makeUser(username);
+                      //  console.log(user);
+                    }
+                });
             });
     }
 
