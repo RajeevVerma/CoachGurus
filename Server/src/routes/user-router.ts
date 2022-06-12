@@ -25,7 +25,7 @@ export const p = {
  */
 router.get(p.get, async (_: Request, res: Response) => {
     const users = await userService.getAll();
-    return res.status(OK).json({users});
+    return res.status(OK).json({ users });
 });
 
 
@@ -33,14 +33,15 @@ router.get(p.get, async (_: Request, res: Response) => {
  * Add one user.
  */
 router.post(p.add, async (req: Request, res: Response) => {
-    const { user } = req.body;
+    const user = req.body;
+    console.log("req", req.body);
     // Check param
     if (!user) {
         throw new ParamMissingError();
     }
     // Fetch data
-    await userService.addOne(user);
-    return res.status(CREATED).end();
+    const data = await userService.addOne(user);
+    return res.status(CREATED).json(data);
 });
 
 
