@@ -7,3 +7,8 @@ GIT Branch Workflow
 # TOOLS - 
 
 ANDROID STUDIO - https://developer.android.com/studio
+
+
+npm install -g nodemon
+
+java -Djava.library.path=./DynamoDBLocal_lib -jar DynamoDBLocal.jar -sharedDb -port 9000
