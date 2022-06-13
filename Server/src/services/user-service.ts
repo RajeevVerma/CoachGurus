@@ -2,14 +2,13 @@ import userRepo from '@repos/user-repo';
 import { IUser } from '@models/user-model';
 import { UserNotFoundError } from '@shared/errors';
 
-
-
 /**
  * Get all users.
  * 
  * @returns 
  */
 function getAll(): Promise<IUser[]> {
+
     return userRepo.getAll();
 }
 
@@ -20,9 +19,9 @@ function getAll(): Promise<IUser[]> {
  * @param user 
  * @returns 
  */
-function addOne(user: IUser): Promise<void> {
-    return userRepo.add(user);
-}
+const addOne = async (user: IUser): Promise<any> => {
+    return await userRepo.save(user);
+};
 
 
 /**
