@@ -1,7 +1,8 @@
+import { uniqueIdGenerator } from "@shared/utils";
 
 // User schema
 export interface IUser {
-    id: number;
+    id: string;
     name: string;
     email: string;
 }
@@ -14,7 +15,7 @@ export interface IUser {
  */
 function getNew(name: string, email: string): IUser {
     return {
-        id: -1,
+        id: uniqueIdGenerator('user'),
         email,
         name,
     };

@@ -7,11 +7,20 @@ import { UserNotFoundError } from '@shared/errors';
  * 
  * @returns 
  */
-function getAll(): Promise<IUser[]> {
+async function get(email: string): Promise<IUser> {
 
-    return userRepo.getAll();
+    return await userRepo.getOne(email);
 }
 
+/**
+ * Get all users.
+ * 
+ * @returns 
+ */
+async function getAll(): Promise<IUser[]> {
+
+    return await userRepo.getAll();
+}
 
 /**
  * Add one user.
@@ -19,10 +28,9 @@ function getAll(): Promise<IUser[]> {
  * @param user 
  * @returns 
  */
-const addOne = async (user: IUser): Promise<any> => {
+const addOne = async (user: IUser): Promise<IUser> => {
     return await userRepo.save(user);
 };
-
 
 /**
  * Update one user.
@@ -38,14 +46,13 @@ async function updateOne(user: IUser): Promise<void> {
     return userRepo.update(user);
 }
 
-
 /**
  * Delete a user by their id.
  * 
  * @param id 
  * @returns 
  */
-async function deleteOne(id: number): Promise<void> {
+async function deleteOne(id: string): Promise<void> {
     const persists = await userRepo.persists(id);
     if (!persists) {
         throw new UserNotFoundError();
@@ -56,6 +63,7 @@ async function deleteOne(id: number): Promise<void> {
 
 // Export default
 export default {
+    get,
     getAll,
     addOne,
     updateOne,

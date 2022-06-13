@@ -17,31 +17,29 @@ const TABLE_NAME: string = "Users";
  * @param email 
  * @returns 
  */
-async function getOne(email: string): Promise<IUser | null> {
+async function getOne(email: string): Promise<IUser> {
     var params = {
         TableName: TABLE_NAME,
         Key: {
-
+            email: email
         }
     };
     let result: IUser;
-    // ddbDocClient. get(params, function (err, data) {
-    //     //result = data;
-    //     if (err) {
-    //         console.error("Unable to read item. Error JSON:", JSON.stringify(err, null, 2));
-    //     } else {
-    //         console.log("GetItem succeeded:", JSON.stringify(data, null, 2));
-    //     }
-    // });
-
-
-    const db = await orm.openDb();
-    for (const user of db.users) {
-        if (user.email === email) {
-            return user;
-        }
-    }
-    return null;
+    return new Promise((resolve, error) => {
+        dbClient.get(
+            params,
+            function (err, data) {
+                result = data as IUser;
+                if (err) {
+                    console.error(err);
+                    error(err);
+                } else {
+                    console.log("GetItem succeeded:", data);
+                    resolve(result);
+                }
+            }
+        );
+    });
 }
 
 
@@ -50,7 +48,7 @@ async function getOne(email: string): Promise<IUser | null> {
  * 
  * @param id 
  */
-async function persists(id: number): Promise<boolean> {
+async function persists(id: string): Promise<boolean> {
     const db = await orm.openDb();
     for (const user of db.users) {
         if (user.id === id) {
@@ -67,8 +65,25 @@ async function persists(id: number): Promise<boolean> {
  * @returns 
  */
 async function getAll(): Promise<IUser[]> {
-    const db = await orm.openDb();
-    return db.users;
+    let result: IUser[] = [];
+
+    return new Promise((resolve, error) => {
+        dbClient.scan(
+            {
+                TableName: TABLE_NAME,
+            },
+            function (err, data) {
+                result = data as IUser[];
+                if (err) {
+                    console.error(err);
+                    error(err);
+                } else {
+                    console.log("getAll succeeded:", data);
+                    resolve(result);
+                }
+            }
+        );
+    });
 }
 
 /**
@@ -79,40 +94,44 @@ async function getAll(): Promise<IUser[]> {
  */
 const save = async (user: IUser): Promise<any> => {
     console.log("user-repo", user);
-    let result: any = {};
+    let result: IUser | null = null;
 
-    // Call using bare-bones client and Command object.
-    const puuter = await dbClient.put(
-        {
-            TableName: TABLE_NAME,
-            Item: user,
-        },
-        async function (err, data) {
-            if (err) {
-                console.error(err);
-            } else {
-                console.log("PutItem succeeded:", data);
-                const getter = await dbClient.get(
-                    {
-                        TableName: TABLE_NAME,
-                        Key: {
-                            "id": user.id
+    return new Promise((resolve, error) => {
+        dbClient.put(
+            {
+                TableName: TABLE_NAME,
+                Item: user,
+            },
+            async function (err, data) {
+                if (err) {
+                    console.error(err);
+                } else {
+                    console.log("PutItem succeeded:", data);
+
+                    await dbClient.get(
+                        {
+                            TableName: TABLE_NAME,
+                            Key: {
+                                "id": user.id
+                            }
+                        },
+                        function (err, data) {
+                            result = data as IUser;
+                            if (err) {
+                                console.error(err);
+                                error(err);
+                            } else {
+                                console.log("GetItem succeeded:", data);
+                                resolve(result);
+                            }
                         }
-                    },
-                    function (err, data) {
-                        result = data;
-                        if (err) {
-                            console.error(err);
-                        } else {
-                            console.log("GetItem succeeded:", data);
-                        }
-                    }
-                );
+                    );
+                }
             }
-        }
-    );
+        );
 
-    return result;
+        return result;
+    })
 };
 
 /**
@@ -138,7 +157,7 @@ async function update(user: IUser): Promise<void> {
  * @param id 
  * @returns 
  */
-async function deleteOne(id: number): Promise<void> {
+async function deleteOne(id: string): Promise<void> {
     const db = await orm.openDb();
     for (let i = 0; i < db.users.length; i++) {
         if (db.users[i].id === id) {

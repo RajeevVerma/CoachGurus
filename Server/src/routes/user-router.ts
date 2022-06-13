@@ -11,20 +11,31 @@ const router = Router();
 const { CREATED, OK } = StatusCodes;
 
 // Paths
-export const p = {
-    get: '/all',
+export const paths = {
+    get: '/get/:email',
+    getAll: '/all',
     add: '/add',
     update: '/update',
     delete: '/delete/:id',
 } as const;
 
+/**
+ * Get all users.
+ */
+router.get(paths.get, async (req: Request, res: Response) => {
+    const { id } = req.params;
+    const users = await userService.get(id);
+
+    return res.status(OK).json({ users });
+});
 
 
 /**
  * Get all users.
  */
-router.get(p.get, async (_: Request, res: Response) => {
+router.get(paths.getAll, async (_: Request, res: Response) => {
     const users = await userService.getAll();
+
     return res.status(OK).json({ users });
 });
 
@@ -32,7 +43,7 @@ router.get(p.get, async (_: Request, res: Response) => {
 /**
  * Add one user.
  */
-router.post(p.add, async (req: Request, res: Response) => {
+router.post(paths.add, async (req: Request, res: Response) => {
     const user = req.body;
     console.log("req", req.body);
     // Check param
@@ -48,7 +59,7 @@ router.post(p.add, async (req: Request, res: Response) => {
 /**
  * Update one user.
  */
-router.put(p.update, async (req: Request, res: Response) => {
+router.put(paths.update, async (req: Request, res: Response) => {
     const { user } = req.body;
     // Check param
     if (!user) {
@@ -63,14 +74,14 @@ router.put(p.update, async (req: Request, res: Response) => {
 /**
  * Delete one user.
  */
-router.delete(p.delete, async (req: Request, res: Response) => {
+router.delete(paths.delete, async (req: Request, res: Response) => {
     const { id } = req.params;
     // Check param
     if (!id) {
         throw new ParamMissingError();
     }
     // Fetch data
-    await userService.delete(Number(id));
+    await userService.delete(id);
     return res.status(OK).end();
 });
 
