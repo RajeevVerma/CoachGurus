@@ -1,31 +1,70 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <title>Ionic App</title>
 
-    <base href="/" />
+<head>
+  <meta charset="utf-8" />
+  <title>Ionic App</title>
 
-    <meta name="color-scheme" content="light dark" />
-    <meta
-      name="viewport"
-      content="viewport-fit=cover, width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"
-    />
-    <meta name="format-detection" content="telephone=no" />
-    <meta name="msapplication-tap-highlight" content="no" />
+  <base href="/" />
 
-    <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
+  <meta name="color-scheme" content="light dark" />
+  <meta name="viewport"
+    content="viewport-fit=cover, width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <meta name="format-detection" content="telephone=no" />
+  <meta name="msapplication-tap-highlight" content="no" />
 
-    <link rel="shortcut icon" type="image/png" href="%PUBLIC_URL%/assets/icon/favicon.png" />
+  <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
 
-    <!-- add to homescreen for ios -->
-    <meta name="apple-mobile-web-app-capable" content="yes" />
-    <meta name="apple-mobile-web-app-title" content="Ionic App" />
-    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
-  </head>
+  <link rel="shortcut icon" type="image/png" href="%PUBLIC_URL%/assets/icon/favicon.png" />
 
-  <body>
-    <div id="root"></div>
-  </body>
+  <!-- add to homescreen for ios -->
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-title" content="Ionic App" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+</head>
+
+<body>
+  <div id="root"></div>
+
+  <script>
+
+    // window.fbAsyncInit = function () {
+    //   FB = {};
+
+    //   FB.init({
+    //     appId: '738509124269341',
+    //     cookie: true, // enable cookies to allow the server to access the session
+    //     xfbml: true, // parse social plugins on this page
+    //     version: 'v5.0' // use graph api current version
+    //   });
+    // };
+
+    // // Load the SDK asynchronously
+    // (function (d, s, id) {
+    //   var js, fjs = d.getElementsByTagName(s)[0];
+    //   if (d.getElementById(id)) return;
+    //   js = d.createElement(s); js.id = id;
+    //   js.src = "https://connect.facebook.net/en_US/sdk.js";
+    //   fjs.parentNode.insertBefore(js, fjs);
+    // }(document, 'script', 'facebook-jssdk'));
+
+    window.fbAsyncInit = function() {
+    FB.init({
+      appId      : '738509124269341',
+      cookie     : true,                     // Enable cookies to allow the server to access the session.
+      xfbml      : true,                     // Parse social plugins on this webpage.
+      version    : 'v5.0'           // Use this Graph API version for this call.
+    });
+
+
+    FB.getLoginStatus(function(response) {   // Called after the JS SDK has been initialized.
+     debugger        // Returns the login status.
+    });
+  };
+  </script>
+
+<script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js"></script>
+
+</body>
 
 </html>

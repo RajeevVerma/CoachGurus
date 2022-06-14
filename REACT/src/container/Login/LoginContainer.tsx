@@ -1,8 +1,14 @@
 // Import components
 import { IonButton, IonCol, IonGrid, IonHeader, IonIcon, IonRow } from '@ionic/react';
 import { isPlatform } from '@ionic/react';
+import { FacebookLoginPlugin, FacebookLogin } from '@capacitor-community/facebook-login';
+
+import { Plugin, registerPlugin } from '@capacitor/core'
+
 import AWS from 'aws-sdk';
 import { GoogleAuth, User } from "@codetrix-studio/capacitor-google-auth";
+
+
 
 // Import Icons
 import { logoGoogle, logoApple, logoFacebook, mailOutline } from "ionicons/icons";
@@ -11,6 +17,7 @@ import { logoGoogle, logoApple, logoFacebook, mailOutline } from "ionicons/icons
 import './LoginContainer.css';
 
 interface ContainerProps { }
+
 
 const LoginContainer: React.FC<ContainerProps> = () => {
 
@@ -28,16 +35,27 @@ const LoginContainer: React.FC<ContainerProps> = () => {
     });
 
     const loginWithGoogle = () => {
-        GoogleAuth.signIn().
-            then((response: User) => {
+
+        const FBLogin: FacebookLoginPlugin = FacebookLogin;
+
+        FBLogin.initialize({
+            appId: '738509124269341',
+            xfbml: true, // parse social plugins on this page
+            version: 'v5.0', // use graph api current version  
+            autoLogAppEvents: true,
+        }).then((value) => {
+            debugger
+            FBLogin.login({
+                permissions: ['public_profile', 'email']
+            }).then((response) => {
                 debugger;
 
-                AWS.config.update({region:'us-east-1'});
+                AWS.config.update({ region: 'us-east-1' });
 
                 const credentials = new AWS.CognitoIdentityCredentials({
                     IdentityPoolId: 'us-east-1:00b158f6-feaf-4f00-b902-c55b01b15ad5',
                     Logins: {
-                        'accounts.google.com': response.authentication.idToken
+                        'graph.facebook.com': response.accessToken?.token ?? '',
                     }
                 });
 
@@ -48,11 +66,49 @@ const LoginContainer: React.FC<ContainerProps> = () => {
                     // Access AWS resources here.
                     console.log('We are in', error);
                     if (!error) {
-                       // const user = this.makeUser(username);
-                      //  console.log(user);
+                        // const user = this.makeUser(username);
+                        //  console.log(user);
                     }
                 });
-            });
+            })
+        });
+
+
+
+        // const FacebookLogin = new FacebookLoginWeb().login({
+        //     permissions: ['public_profile', 'email'],
+        // }).then((value)=>{
+        //     debugger
+
+        // })
+
+
+
+        // GoogleAuth.signIn().
+        //     then((response: User) => {
+        //         debugger;
+
+        //         AWS.config.update({ region: 'us-east-1' });
+
+        //         const credentials = new AWS.CognitoIdentityCredentials({
+        //             IdentityPoolId: 'us-east-1:00b158f6-feaf-4f00-b902-c55b01b15ad5',
+        //             Logins: {
+        //                 'accounts.google.com': response.authentication.idToken
+        //             }
+        //         });
+
+        //         AWS.config.credentials = credentials;
+
+        //         credentials.get((error) => {
+        //             debugger;
+        //             // Access AWS resources here.
+        //             console.log('We are in', error);
+        //             if (!error) {
+        //                 // const user = this.makeUser(username);
+        //                 //  console.log(user);
+        //             }
+        //         });
+        //     });
     }
 
     return (
