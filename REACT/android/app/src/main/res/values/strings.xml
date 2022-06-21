@@ -4,4 +4,7 @@
     <string name="title_activity_main">coachgurus</string>
     <string name="package_name">io.ionic.starter</string>
     <string name="custom_url_scheme">io.ionic.starter</string>
+    <string name="facebook_app_id">738509124269341</string>
+    <string name="server_client_id">1042016617653-jderfq6e5acm8mh0ql3v096mpb2kscua.apps.googleusercontent.com</string>
+
 </resources>
