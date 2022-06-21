@@ -1,0 +1,1 @@
+export { AWSLogins } from './login.interface';
