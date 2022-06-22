@@ -4,6 +4,8 @@ import { IonButton, IonCol, IonGrid, IonHeader, IonIcon, IonRow } from '@ionic/r
 // Import AWS Configuration
 import AWS from 'aws-sdk';
 import { User } from "@codetrix-studio/capacitor-google-auth";
+import '@codetrix-studio/capacitor-google-auth';
+
 
 // Import Utilities
 import { GoogleInit, GoogleLogin, PlatFromUtility } from '../../utilities'
@@ -18,7 +20,7 @@ import { AWSLogins } from '../../models';
 
 interface ContainerProps { }
 
-GoogleInit();
+//GoogleInit();
 
 const LoginContainer: React.FC<ContainerProps> = () => {
 

@@ -2,5 +2,15 @@
 	"appId": "io.ionic.starter",
 	"appName": "coachgurus",
 	"webDir": "build",
-	"bundledWebRuntime": false
+	"bundledWebRuntime": false,
+	"plugins": {
+		"GoogleAuth": {
+			"scopes": [
+				"profile",
+				"email"
+			],
+			"serverClientId": "1042016617653-jderfq6e5acm8mh0ql3v096mpb2kscua.apps.googleusercontent.com",
+			"forceCodeForRefreshToken": true
+		}
+	}
 }
