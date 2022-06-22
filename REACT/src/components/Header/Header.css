@@ -1,0 +1,36 @@
+@media(min-width: 768px) {
+    .mobile-header {
+        display: none;
+    }
+
+    .header {
+        display: flex;
+        background: #fff;
+        padding-left: 40px;
+        padding-right: 40px;
+    }
+}
+
+@media(max-width: 768px) {
+    .mobile-header {
+        display: block;
+    }
+    .mobile-menu{
+        display: block !important;
+    }
+    .header {
+        display: none;
+    }
+}
+
+.active-item {
+    border-bottom: 2px solid var(--ion-color-primary);
+}
+
+.header-item {
+    z-index: 11;
+}
+
+ion-icon {
+    color: var(--ion-color-medium-shade)
+}
