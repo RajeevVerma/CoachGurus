@@ -19,6 +19,3 @@ project(':capacitor-status-bar').projectDir = new File('../node_modules/@capacit
 
 include ':codetrix-studio-capacitor-google-auth'
 project(':codetrix-studio-capacitor-google-auth').projectDir = new File('../node_modules/@codetrix-studio/capacitor-google-auth/android')
-
-include ':rdlabo-capacitor-facebook-login'
-project(':rdlabo-capacitor-facebook-login').projectDir = new File('../node_modules/@rdlabo/capacitor-facebook-login/android/@rdlabo/capacitor-facebook-login')

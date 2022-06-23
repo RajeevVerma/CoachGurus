@@ -1,1 +1,1 @@
-export { AWSLogins } from './login.interface';
+export * from './login.interface';

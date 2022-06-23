@@ -1,3 +1,4 @@
-export const AWSLogins = {
-    'accounts.google.com': ''
+export interface AWSLogins {
+    'accounts.google.com'?: string,
+    'graph.facebook.com'?: string,
 };

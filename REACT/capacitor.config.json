@@ -6,11 +6,12 @@
 	"plugins": {
 		"GoogleAuth": {
 			"scopes": [
-			  "profile",
-			  "email"
+				"profile",
+				"email"
 			],
 			"serverClientId": "1042016617653-jderfq6e5acm8mh0ql3v096mpb2kscua.apps.googleusercontent.com",
+			"androidClientId": "1042016617653-7o7l82jnc74gpdlc3jj6on68c9d461ej.apps.googleusercontent.com",
 			"forceCodeForRefreshToken": true
-		  }
+		}
 	}
 }

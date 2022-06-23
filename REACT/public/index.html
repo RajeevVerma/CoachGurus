@@ -12,9 +12,6 @@
     content="viewport-fit=cover, width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" />
   <meta name="format-detection" content="telephone=no" />
   <meta name="msapplication-tap-highlight" content="no" />
-  <meta name="google-signin-client_id" content="1042016617653-jderfq6e5acm8mh0ql3v096mpb2kscua.apps.googleusercontent.com">
-
-
   <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
 
   <link rel="shortcut icon" type="image/png" href="%PUBLIC_URL%/assets/icon/favicon.png" />
@@ -27,42 +24,6 @@
 
 <body>
   <div id="root"></div>
-
-   <script>
-
-     window.fbAsyncInit = function () {
-       FB = {};
-
-      FB.init({
-        appId: '738509124269341',
-        cookie: true, // enable cookies to allow the server to access the session
-        xfbml: true, // parse social plugins on this page
-        version: 'v5.0' // use graph api current version
-      });
-    };
-
-    // Load the SDK asynchronously
-    (function (d, s, id) {
-      var js, fjs = d.getElementsByTagName(s)[0];
-      if (d.getElementById(id)) return;
-      js = d.createElement(s); js.id = id;
-      js.src = "https://connect.facebook.net/en_US/sdk.js";
-      fjs.parentNode.insertBefore(js, fjs);
-    }(document, 'script', 'facebook-jssdk'));
-
-    window.fbAsyncInit = function() {
-    FB.init({
-      appId      : '738509124269341',
-      cookie     : true,                     // Enable cookies to allow the server to access the session.
-      xfbml      : true,                     // Parse social plugins on this webpage.
-      version    : 'v5.0'           // Use this Graph API version for this call.
-    });
-  };
-  </script> 
-
-<script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js"></script>
-<script id="google-one-tap" src="https://accounts.google.com/gsi/client"></script>
-
 </body>
 
 </html>
