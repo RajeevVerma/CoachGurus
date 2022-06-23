@@ -24,6 +24,7 @@ GoogleAuth.initialize();
 const LoginContainer: React.FC<ContainerProps> = () => {
 
     const loginWithGoogle = () => {
+
         GoogleLogin()
             .then((user: User) => {
                 AuthenticateAWS({
