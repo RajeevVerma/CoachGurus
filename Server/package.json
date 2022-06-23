@@ -3,6 +3,7 @@
     "version": "0.0.0",
     "scripts": {
         "create-db": "node dist/db-infra/db-creation/createUsers.js",
+        "drop-db": "node dist/db-infra/db-cleanup/dropAllTables.js",
         "build": "ts-node build.ts",
         "lint": "eslint . --ext .ts",
         "start": "node -r module-alias/register ./dist --env=production",

@@ -1,12 +1,24 @@
 import { uniqueIdGenerator } from "@shared/utils";
+import { EndeavourCategory, UserSignUpSource, UserType } from "./enums/enumTypes";
 
 // User schema
 export interface IUser {
     id: string;
-    name: string;
     email: string;
-}
+    name: string;
+    SignUpSourceType: UserSignUpSource;
+    mobilePhone?: string;
+    homePhone?: string;
+    userType: UserType;
 
+    signUpDate: Date;
+    lastLoginDate?: Date;
+
+    profilePicUrl?: string;
+
+    /** Should be sorted based on priority */
+    endeavourTypes?: EndeavourCategory[];
+}
 
 /**
  * Get a new User object.
@@ -18,6 +30,9 @@ function getNew(name: string, email: string): IUser {
         id: uniqueIdGenerator('user'),
         email,
         name,
+        SignUpSourceType: UserSignUpSource.Facebook,
+        userType: UserType.Guru,
+        signUpDate: new Date(),
     };
 }
 
@@ -29,11 +44,7 @@ function getNew(name: string, email: string): IUser {
  * @returns 
  */
 function copy(user: IUser): IUser {
-    return {
-        id: user.id,
-        email: user.email,
-        name: user.name,
-    }
+    return { ...user };
 }
 
 
