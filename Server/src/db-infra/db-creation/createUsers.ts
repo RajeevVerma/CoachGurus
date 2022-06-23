@@ -1,4 +1,4 @@
-import serviceConfigOptions from "../../shared/constants/aws-config";
+import serviceConfigOptions from '../../shared/constants/aws-config';
 import * as AWS from "aws-sdk";
 
 AWS.config.update(serviceConfigOptions);
