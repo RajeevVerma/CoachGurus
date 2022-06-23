@@ -4,8 +4,6 @@ import { Request, Response, Router } from 'express';
 import userService from '@services/user-service';
 import { ParamMissingError } from '@shared/errors';
 
-
-
 // Constants
 const router = Router();
 const { CREATED, OK } = StatusCodes;
@@ -23,12 +21,13 @@ export const paths = {
  * Get all users.
  */
 router.get(paths.get, async (req: Request, res: Response) => {
-    const { id } = req.params;
-    const users = await userService.get(id);
+    const { email } = req.params;
+    console.log('email', email);
+    debugger;
+    const users = await userService.get(email);
 
-    return res.status(OK).json({ users });
+    return res.status(OK).json(users);
 });
-
 
 /**
  * Get all users.
@@ -38,7 +37,6 @@ router.get(paths.getAll, async (_: Request, res: Response) => {
 
     return res.status(OK).json({ users });
 });
-
 
 /**
  * Add one user.
@@ -55,7 +53,6 @@ router.post(paths.add, async (req: Request, res: Response) => {
     return res.status(CREATED).json(data);
 });
 
-
 /**
  * Update one user.
  */
@@ -70,7 +67,6 @@ router.put(paths.update, async (req: Request, res: Response) => {
     return res.status(OK).end();
 });
 
-
 /**
  * Delete one user.
  */
@@ -84,7 +80,6 @@ router.delete(paths.delete, async (req: Request, res: Response) => {
     await userService.delete(id);
     return res.status(OK).end();
 });
-
 
 // Export default
 export default router;

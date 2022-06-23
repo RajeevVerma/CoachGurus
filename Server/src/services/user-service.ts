@@ -29,6 +29,10 @@ async function getAll(): Promise<IUser[]> {
  * @returns 
  */
 const addOne = async (user: IUser): Promise<IUser> => {
+    const existingUser = await userRepo.getOne(user.email);
+    if (existingUser) {
+        return existingUser;
+    }
     return await userRepo.save(user);
 };
 

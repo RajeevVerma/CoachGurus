@@ -1,5 +1,4 @@
 import { IUser } from '@models/user-model';
-import { getRandomInt } from '@shared/functions';
 import orm from './mock-orm';
 import AWS from 'aws-sdk';
 import serviceConfigOptions from '@shared/constants/aws-config';
@@ -7,9 +6,7 @@ import serviceConfigOptions from '@shared/constants/aws-config';
 AWS.config.update(serviceConfigOptions);
 
 const dbClient = new AWS.DynamoDB.DocumentClient();
-const TABLE_NAME: string = "Users";
-// Bare-bones document client
-//const ddbDocClient = DynamoDBDocumentClient.from(dbClient); // client is DynamoDB client
+const TABLE_NAME: string = 'Users';
 
 /**
  * Get one user.
@@ -19,22 +16,25 @@ const TABLE_NAME: string = "Users";
  */
 async function getOne(email: string): Promise<IUser> {
     var params = {
+        ExpressionAttributeValues: {
+            ":e": email
+        },
+        KeyConditionExpression: 'email= :e',
+
         TableName: TABLE_NAME,
-        Key: {
-            email: email
-        }
     };
-    let result: IUser;
+
+    let result: IUser | undefined;
     return new Promise((resolve, error) => {
-        dbClient.get(
+        dbClient.query(
             params,
             function (err, data) {
-                result = data as IUser;
                 if (err) {
                     console.error(err);
                     error(err);
                 } else {
-                    console.log("GetItem succeeded:", data);
+                    result = data.Items?.[0] as IUser;
+                    console.log('GetItem succeeded:', result);
                     resolve(result);
                 }
             }
@@ -78,7 +78,7 @@ async function getAll(): Promise<IUser[]> {
                     console.error(err);
                     error(err);
                 } else {
-                    console.log("getAll succeeded:", data);
+                    console.log('getAll succeeded:', data);
                     resolve(result);
                 }
             }
@@ -93,7 +93,7 @@ async function getAll(): Promise<IUser[]> {
  * @returns 
  */
 const save = async (user: IUser): Promise<any> => {
-    console.log("user-repo", user);
+    console.log('user-repo', user);
     let result: IUser | null = null;
 
     return new Promise((resolve, error) => {
@@ -106,13 +106,13 @@ const save = async (user: IUser): Promise<any> => {
                 if (err) {
                     console.error(err);
                 } else {
-                    console.log("PutItem succeeded:", data);
+                    console.log('PutItem succeeded:', data);
 
                     await dbClient.get(
                         {
                             TableName: TABLE_NAME,
                             Key: {
-                                "id": user.id
+                                'email': user.email
                             }
                         },
                         function (err, data) {
@@ -121,7 +121,7 @@ const save = async (user: IUser): Promise<any> => {
                                 console.error(err);
                                 error(err);
                             } else {
-                                console.log("GetItem succeeded:", data);
+                                console.log('GetItem succeeded:', data);
                                 resolve(result);
                             }
                         }
