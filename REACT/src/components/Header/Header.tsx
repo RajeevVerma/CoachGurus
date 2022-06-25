@@ -34,7 +34,7 @@ function Header(props: IHeaderProps): JSX.Element {
             <IonHeader className='mobile-header '>
                 <IonToolbar>
                     <IonButtons slot='start'>
-                        <IonMenuButton className='mobile-menu' menu='main-content'>
+                        <IonMenuButton>
                             <IonButton >
                                 <IonIcon slot='icon-only' icon={menu}></IonIcon>
                             </IonButton>
@@ -49,30 +49,6 @@ function Header(props: IHeaderProps): JSX.Element {
                     </IonButtons>
                 </IonToolbar>
             </IonHeader>
-            <IonMenu contentId='main-content' menuId='main-content' side='start'>
-                <IonHeader>
-                    <IonToolbar>
-                        <IonTitle>Menu</IonTitle>
-                    </IonToolbar>
-                </IonHeader>
-
-                <IonContent>
-                    <IonMenuToggle>
-                        <IonItem button >
-                            Home
-                        </IonItem>
-                        <IonItem button >
-                            Sport
-                        </IonItem>
-                        <IonItem button >
-                            Academics
-                        </IonItem>
-                        <IonItem button >
-                            Extra Curicullar
-                        </IonItem>
-                    </IonMenuToggle>
-                </IonContent>
-            </IonMenu>
 
             {/* Web Header */}
             <IonRow className='header ion-align-items-center'>
@@ -81,16 +57,16 @@ function Header(props: IHeaderProps): JSX.Element {
                 </IonCol>
 
                 <IonCol size='6' class='ion-text-left header-item'>
-                    <IonButton fill='clear' color='dark'>
+                    <IonButton fill='clear' color='dark' routerLink={"/home"}>
                         Home
                     </IonButton>
-                    <IonButton fill='clear' color='dark'>
+                    <IonButton fill='clear' color='dark' routerLink={"/sports"}>
                         Sports
                     </IonButton>
-                    <IonButton fill='clear' color='dark'>
+                    <IonButton fill='clear' color='dark' routerLink={"/academics"}>
                         Academics
                     </IonButton>
-                    <IonButton fill='clear' color='dark'>
+                    <IonButton fill='clear' color='dark' routerLink={"/extra-curicullar"}>
                         Extra Curicullar
                     </IonButton>
                 </IonCol>

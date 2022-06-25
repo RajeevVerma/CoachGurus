@@ -5,8 +5,27 @@ import { IonCol, IonIcon, IonRadio, IonRow, IonSearchbar } from '@ionic/react';
 import { search } from 'ionicons/icons';
 import './HomeBanner.css';
 import { Box, Container } from '@mui/system';
-const backgroundImage =
-    'https://images.unsplash.com/photo-1534854638093-bada1813ca19?auto=format&fit=crop&w=1400&q=80';
+import LocationPicker from '../LocationPicker/LocationPicker';
+import SportCategories from '../SportCategories/SportCategories';
+
+const sportCategories = [
+    {
+        imageUrl: `${process.env.PUBLIC_URL}/assets/images/tennis.jpg`,
+        category: 'badminton'
+    },
+    {
+        imageUrl: `${process.env.PUBLIC_URL}/assets/images/tennis.jpg`,
+        category: 'swimming'
+    },
+    {
+        imageUrl: `${process.env.PUBLIC_URL}/assets/images/tennis.jpg`,
+        category: 'tennis'
+    },
+    {
+        imageUrl: `${process.env.PUBLIC_URL}/assets/images/tennis.jpg`,
+        category: 'cricket'
+    },
+];
 
 export default function HomeBanner() {
     return (
@@ -17,27 +36,12 @@ export default function HomeBanner() {
                     mb: 14,
                     alignItems: 'center',
                 }}>
-                <Typography color="inherit" align="center" variant="h2">
+                <Typography color="inherit" align="center" sx={{ typography: { sm: 'h2', xs: 'h4' } }}>
                     Find the best gurus
                 </Typography>
                 <IonRow className='search-container'>
                     <IonCol className='search-locaiton-container' size='2' sizeMd='2' sizeSm='6' sizeXs='6'>
-
-                        <Select
-                            fullWidth
-                            id="demo-simple-select"
-                            value={'Pune'}
-                            label="Location"
-                            sx={{
-                                height: 50,
-                                boder: "1px solid white",
-                                color: '#fff', "&.MuiSVGIcon-root": {
-                                    color: 'white',
-                                },
-                            }}>
-                            <MenuItem value='MyLocation'>Use My Location</MenuItem>
-                            <MenuItem value='Pune'>Pune</MenuItem>
-                        </Select>
+                        <LocationPicker />
                     </IonCol>
 
                     <IonCol size='8' sizeMd='6' sizeSm='6' sizeXs='6'>
@@ -60,6 +64,8 @@ export default function HomeBanner() {
                         <Button variant='contained' size='large' sx={{ height: 48 }}>Find Guru</Button>
                     </IonCol>
                 </IonRow>
+
+
                 <Box
                     sx={{
                         position: 'absolute',
@@ -71,7 +77,9 @@ export default function HomeBanner() {
                         opacity: 0.5,
                         zIndex: -1,
                     }} />
-                {/*<Background sx={sxBackground} />*/}
+
+                {/** Show categories, only for the web */}
+                <SportCategories customClassName='sport-categories' categories={sportCategories} />
 
             </Container>
         </section >

@@ -8,7 +8,7 @@
     background-position: 50% 50%;
     background-repeat: no-repeat;
     height: 650px; /* this will move to media queries and vary for each of the screen.*/
-    background-image: url('../../public/assets/images/app-baner.jpg');
+    background-image: url('../../../public/assets/images/app-baner.jpg');
 }
 
 ion-content {
@@ -29,3 +29,6 @@ ion-content {
     padding: 0px 22px;
 }
 
+ion-icon {
+    color: var(--ion-color-medium-shade)
+}

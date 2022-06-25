@@ -1,0 +1,12 @@
+@media (min-width: 680px) {
+  .sport-categories {
+    margin-top: 100px;
+    display: block;
+  }
+}
+
+@media (max-width: 680px) {
+  .sport-categories {
+    display: none;
+  }
+}

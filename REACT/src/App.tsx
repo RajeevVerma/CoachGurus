@@ -1,7 +1,13 @@
 import { Redirect, Route } from 'react-router-dom';
 import { IonApp, IonRouterOutlet, setupIonicReact } from '@ionic/react';
 import { IonReactRouter } from '@ionic/react-router';
-import Home from './pages/Home';
+
+import {
+    Home,
+    Academics,
+    Sports,
+    ExtraCuricullar
+} from './pages';
 
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/react/css/core.css';
@@ -21,17 +27,26 @@ import '@ionic/react/css/display.css';
 
 /* Theme variables */
 import './theme/variables.css';
-import Header from './components/Header/Header';
+import { MobileMenu } from './components';
 
 setupIonicReact();
 
 const App: React.FC = () => (
     <IonApp>
-        <Header />
         <IonReactRouter>
-            <IonRouterOutlet>
+            <MobileMenu />
+            <IonRouterOutlet id="menu-content">
                 <Route exact path="/home">
                     <Home />
+                </Route>
+                <Route exact path="/sports">
+                    <Sports />
+                </Route>
+                <Route exact path="/academics">
+                    <Academics />
+                </Route>
+                <Route exact path="/extra-curicullar">
+                    <ExtraCuricullar />
                 </Route>
                 <Route exact path="/">
                     <Redirect to="/home" />

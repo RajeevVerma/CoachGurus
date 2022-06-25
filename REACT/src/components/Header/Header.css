@@ -8,6 +8,11 @@
         background: #fff;
         padding-left: 40px;
         padding-right: 40px;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 1;
     }
 }
 
@@ -29,8 +34,4 @@
 
 .header-item {
     z-index: 11;
-}
-
-ion-icon {
-    color: var(--ion-color-medium-shade)
 }
