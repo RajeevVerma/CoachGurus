@@ -6,7 +6,7 @@ import app from '@server';
 import userRepo from '@repos/user-repo';
 import User, { IUser } from '@models/user-model';
 import { pErr } from '@shared/functions';
-import { p as userPaths } from '@routes/user-router';
+import { paths as userPaths } from '@routes/user-router';
 import { ParamMissingError, UserNotFoundError } from '@shared/errors';
 
 type TReqBody = string | object | undefined;
@@ -93,7 +93,7 @@ describe('user-router', () => {
 
         it(`should return a status code of "${CREATED}" if the request was successful.`, (done) => {
             // Setup Spy
-            spyOn(userRepo, 'add').and.returnValue(Promise.resolve());
+            spyOn(userRepo, 'save').and.returnValue(Promise.resolve());
             // Call API
             agent.post(addUsersPath).type('form').send(userData)
                 .end((err: Error, res: Response) => {
@@ -120,7 +120,7 @@ describe('user-router', () => {
             if the request was unsuccessful.`, (done) => {
             // Setup spy
             const errMsg = 'Could not add user.';
-            spyOn(userRepo, 'add').and.throwError(errMsg);
+            spyOn(userRepo, 'save').and.throwError(errMsg);
             // Call API
             callApi(userData)
                 .end((err: Error, res: Response) => {

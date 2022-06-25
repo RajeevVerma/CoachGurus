@@ -2,17 +2,25 @@ import userRepo from '@repos/user-repo';
 import { IUser } from '@models/user-model';
 import { UserNotFoundError } from '@shared/errors';
 
+/**
+ * Get all users.
+ * 
+ * @returns 
+ */
+async function get(email: string): Promise<IUser> {
 
+    return await userRepo.getOne(email);
+}
 
 /**
  * Get all users.
  * 
  * @returns 
  */
-function getAll(): Promise<IUser[]> {
-    return userRepo.getAll();
-}
+async function getAll(): Promise<IUser[]> {
 
+    return await userRepo.getAll();
+}
 
 /**
  * Add one user.
@@ -20,10 +28,13 @@ function getAll(): Promise<IUser[]> {
  * @param user 
  * @returns 
  */
-function addOne(user: IUser): Promise<void> {
-    return userRepo.add(user);
-}
-
+const addOne = async (user: IUser): Promise<IUser> => {
+    const existingUser = await userRepo.getOne(user.email);
+    if (existingUser) {
+        return existingUser;
+    }
+    return await userRepo.save(user);
+};
 
 /**
  * Update one user.
@@ -39,14 +50,13 @@ async function updateOne(user: IUser): Promise<void> {
     return userRepo.update(user);
 }
 
-
 /**
  * Delete a user by their id.
  * 
  * @param id 
  * @returns 
  */
-async function deleteOne(id: number): Promise<void> {
+async function deleteOne(id: string): Promise<void> {
     const persists = await userRepo.persists(id);
     if (!persists) {
         throw new UserNotFoundError();
@@ -57,6 +67,7 @@ async function deleteOne(id: number): Promise<void> {
 
 // Export default
 export default {
+    get,
     getAll,
     addOne,
     updateOne,

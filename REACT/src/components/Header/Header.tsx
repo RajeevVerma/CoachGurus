@@ -17,6 +17,7 @@ import {
 } from '@ionic/react';
 import { menu, personCircleOutline } from 'ionicons/icons';
 import './Header.css';
+import ProfileAvatar from './ProfileAvatar/ProfileAvatar';
 /**
  * Represents Props for the Header component. 
  */
@@ -74,9 +75,7 @@ function Header(props: IHeaderProps): JSX.Element {
                     <IonButton fill='clear' color='dark'>
                         Join as Coach
                     </IonButton>
-                    <IonButton fill='clear' color='dark'>
-                        <IonIcon icon={personCircleOutline} />
-                    </IonButton>
+                    <ProfileAvatar />
                 </IonCol>
             </IonRow>
         </>

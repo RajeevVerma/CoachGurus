@@ -5,7 +5,7 @@ import { IonCol, IonIcon, IonRadio, IonRow, IonSearchbar } from '@ionic/react';
 import { search } from 'ionicons/icons';
 import './HomeBanner.css';
 import { Box, Container } from '@mui/system';
-import LocationPicker from '../LocationPicker/LocationPicker';
+import LocationPicker from '../Header/LocationPicker/LocationPicker';
 import SportCategories from '../SportCategories/SportCategories';
 
 const sportCategories = [
