@@ -1,6 +1,4 @@
-import React from "react";
-
-import { Avatar, Typography, Paper } from '@mui/material';
+import { Avatar, Typography } from '@mui/material';
 
 export interface ISportCategoryProps {
     category: string,

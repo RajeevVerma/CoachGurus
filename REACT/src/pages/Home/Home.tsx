@@ -1,13 +1,9 @@
 import {
-    IonButton,
     IonCol,
     IonContent,
     IonGrid,
     IonRow,
-    IonSearchbar,
 } from '@ionic/react';
-
-import { FormControl, InputLabel, MenuItem, Select } from '@mui/material';
 
 import { Header, Footer, GuruCard, HomeBanner } from '../../components';
 

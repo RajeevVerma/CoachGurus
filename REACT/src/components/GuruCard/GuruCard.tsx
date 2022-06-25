@@ -1,4 +1,3 @@
-import React from "react";
 // Import Ionic 
 import {
     IonCard,
@@ -27,7 +26,7 @@ interface IGuruCardProps {
 function GuruCard(props: IGuruCardProps): JSX.Element {
     return (
         <IonCard>
-            <img src="assets/images/madison.jpeg" />
+            <img alt={'guru-card'} src="assets/images/madison.jpeg" />
             <IonCardHeader>
                 <IonCardSubtitle>Kharadi, Pune</IonCardSubtitle>
                 <IonCardTitle>Tony Stark <span className='rating-container'><IonIcon icon={star} /> 3.5</span> </IonCardTitle>

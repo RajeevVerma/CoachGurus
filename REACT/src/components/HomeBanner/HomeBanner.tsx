@@ -1,7 +1,5 @@
-import * as React from 'react';
-import { Button, FormControl, IconButton, InputBase, InputLabel, MenuItem, Paper, Select, Typography } from '@mui/material';
-import BannerWrapper from './BannerWrapper';
-import { IonCol, IonIcon, IonRadio, IonRow, IonSearchbar } from '@ionic/react';
+import { Button, IconButton, InputBase, Paper, Typography } from '@mui/material';
+import { IonCol, IonIcon, IonRow } from '@ionic/react';
 import { search } from 'ionicons/icons';
 import './HomeBanner.css';
 import { Box, Container } from '@mui/system';

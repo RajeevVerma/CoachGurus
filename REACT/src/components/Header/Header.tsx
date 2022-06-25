@@ -1,4 +1,3 @@
-import React from 'react';
 import {
     IonHeader,
     IonToolbar,
@@ -8,13 +7,7 @@ import {
     IonMenuButton,
     IonIcon,
     IonRow,
-    IonCol,
-    IonMenu,
-    IonContent,
-    IonMenuToggle,
-    IonItem,
-    IonPage
-} from '@ionic/react';
+    IonCol} from '@ionic/react';
 import { menu, personCircleOutline } from 'ionicons/icons';
 import './Header.css';
 import ProfileAvatar from './ProfileAvatar/ProfileAvatar';
