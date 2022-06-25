@@ -1,0 +1,37 @@
+@media(min-width: 768px) {
+    .mobile-header {
+        display: none;
+    }
+
+    .header {
+        display: flex;
+        background: #fff;
+        padding-left: 40px;
+        padding-right: 40px;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 1;
+    }
+}
+
+@media(max-width: 768px) {
+    .mobile-header {
+        display: block;
+    }
+    .mobile-menu{
+        display: block !important;
+    }
+    .header {
+        display: none;
+    }
+}
+
+.active-item {
+    border-bottom: 2px solid var(--ion-color-primary);
+}
+
+.header-item {
+    z-index: 11;
+}

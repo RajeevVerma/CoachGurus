@@ -17,7 +17,8 @@ import './LoginContainer.css';
 
 import { AWSLogins } from '../../models';
 
-interface ContainerProps { }
+interface ContainerProps {
+}
 
 GoogleAuth.initialize();
 
