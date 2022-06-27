@@ -11,7 +11,7 @@ export interface IUser {
     homePhone?: string;
     userType: UserType;
 
-    signUpDate: Date;
+    signUpDate?: Date;
     lastLoginDate?: Date;
 
     profilePicUrl?: string;

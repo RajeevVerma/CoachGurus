@@ -12,10 +12,14 @@ import { GoogleLogin, PlatFromUtility } from '../../utilities'
 // Import Icons
 import { logoGoogle, logoApple, logoFacebook, mailOutline } from "ionicons/icons";
 
+// Import Hooks
+import { loginHook } from '../../hooks'
+
 // Import css
 import './LoginContainer.css';
 
-import { AWSLogins } from '../../models';
+import { AWSLogins, IUser } from '../../models';
+import { UserSignUpSource, UserType } from '../../enums';
 
 interface ContainerProps {
 }
@@ -24,10 +28,22 @@ GoogleAuth.initialize();
 
 const LoginContainer: React.FC<ContainerProps> = () => {
 
-    const loginWithGoogle = () => {
+    const { login } = loginHook();
 
+    let loggedInUser: IUser;
+
+    const loginWithGoogle = () => {
         GoogleLogin()
             .then((user: User) => {
+
+                loggedInUser = {
+                    email: user.email,
+                    id: user.id,
+                    name: user.name,
+                    SignUpSourceType: UserSignUpSource.Google,
+                    userType: UserType.Trainee
+                };
+
                 AuthenticateAWS({
                     'accounts.google.com': user.authentication.idToken
                 });
@@ -53,19 +69,20 @@ const LoginContainer: React.FC<ContainerProps> = () => {
 
         AWS.config.update({ region: 'us-east-1' });
 
-        const logins: any = { idToken };
-
         const credentials = new AWS.CognitoIdentityCredentials({
             IdentityPoolId: 'us-east-1:00b158f6-feaf-4f00-b902-c55b01b15ad5',
-            Logins: logins
+            Logins: {
+                ...idToken
+            }
         });
 
         AWS.config.credentials = credentials;
 
-        credentials.get((error) => {
+        credentials.get(async (error) => {
             // Access AWS resources here.
-            if (!error) {
-                // TODO: Create USER
+            if (!error && loggedInUser) {
+
+                await login(loggedInUser);
             }
         });
     }
