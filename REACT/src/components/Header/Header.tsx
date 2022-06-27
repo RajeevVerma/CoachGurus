@@ -7,7 +7,8 @@ import {
     IonMenuButton,
     IonIcon,
     IonRow,
-    IonCol} from '@ionic/react';
+    IonCol
+} from '@ionic/react';
 import { menu, personCircleOutline } from 'ionicons/icons';
 import './Header.css';
 import ProfileAvatar from './ProfileAvatar/ProfileAvatar';
@@ -37,9 +38,7 @@ function Header(props: IHeaderProps): JSX.Element {
                     <IonTitle slot='start'>Coach Guru</IonTitle>
 
                     <IonButtons slot='end'>
-                        <IonButton slot='end'>
-                            <IonIcon slot='icon-only' icon={personCircleOutline} />
-                        </IonButton>
+                        <ProfileAvatar />
                     </IonButtons>
                 </IonToolbar>
             </IonHeader>
@@ -65,7 +64,7 @@ function Header(props: IHeaderProps): JSX.Element {
                     </IonButton>
                 </IonCol>
                 <IonCol size='3' className='ion-text-right header-item'>
-                    <IonButton fill='clear' color='dark'>
+                    <IonButton fill='clear' color='dark' routerLink={'/login'}>
                         Join as Coach
                     </IonButton>
                     <ProfileAvatar />
