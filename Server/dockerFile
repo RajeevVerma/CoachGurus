@@ -1,0 +1,10 @@
+FROM node:16
+ENV NODE_ENV=production
+WORKDIR C:/dev/coachgurus/Server
+COPY ["package.json", "package-lock.json*", "npm-shrinkwrap.json*", "./"]
+RUN npm install && mv node_modules ../
+COPY . .
+EXPOSE 8081
+# RUN chown -R node C:/dev/coachgurus/Server/app
+# USER node
+CMD ["npm","start"]

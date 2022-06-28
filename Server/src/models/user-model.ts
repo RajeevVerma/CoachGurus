@@ -6,7 +6,7 @@ export interface IUser {
     id: string;
     email: string;
     name: string;
-    SignUpSourceType: UserSignUpSource;
+    signUpSourceType: UserSignUpSource;
     mobilePhone?: string;
     homePhone?: string;
     userType: UserType;
@@ -17,7 +17,7 @@ export interface IUser {
     profilePicUrl?: string;
 
     /** Should be sorted based on priority */
-    endeavourTypes?: EndeavourCategory[];
+   // endeavourTypes?: EndeavourCategory[];
 }
 
 /**
@@ -30,7 +30,7 @@ function getNew(name: string, email: string): IUser {
         id: uniqueIdGenerator('user'),
         email,
         name,
-        SignUpSourceType: UserSignUpSource.Facebook,
+        signUpSourceType: UserSignUpSource.Facebook,
         userType: UserType.Guru,
         signUpDate: new Date(),
     };
