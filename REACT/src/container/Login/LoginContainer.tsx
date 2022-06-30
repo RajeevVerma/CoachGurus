@@ -3,6 +3,11 @@ import { IonButton, IonCol, IonGrid, IonHeader, IonIcon, IonRow } from '@ionic/r
 
 // Import AWS Configuration
 import AWS from 'aws-sdk';
+import { Auth } from '@aws-amplify/auth';
+import awsconfig from '../../aws-exports';
+
+import { Amplify } from "aws-amplify";
+
 import { GoogleAuth, User } from "@codetrix-studio/capacitor-google-auth";
 import { FacebookLogin, FacebookLoginPlugin, FacebookLoginResponse } from '@capacitor-community/facebook-login';
 
@@ -20,13 +25,98 @@ import './LoginContainer.css';
 
 import { AWSLogins, IUser } from '../../models';
 import { UserSignUpSource, UserType } from '../../enums';
+import { useEffect, useState } from 'react';
 
 interface ContainerProps {
 }
 
 GoogleAuth.initialize();
+Amplify.configure(awsconfig);
+
+const NOTSIGNIN = 'You are NOT logged in';
+const SIGNEDIN = 'You have logged in successfully';
+const SIGNEDOUT = 'You have logged out successfully';
+const WAITINGFOROTP = 'Enter OTP number';
+const VERIFYNUMBER = 'Verifying number (Country code +XX needed)';
+
 
 const LoginContainer: React.FC<ContainerProps> = () => {
+
+    const [message, setMessage] = useState('Welcome to Demo');
+    const [user, setUser] = useState(null);
+    const [session, setSession] = useState(null);
+    const [otp, setOtp] = useState('');
+    const [number, setNumber] = useState('+918380088317');
+    const password = Math.random().toString(10) + 'Abc#';
+
+    useEffect(() => {
+        verifyAuth();
+    }, []);
+
+    const verifyAuth = () => {
+        Auth.currentAuthenticatedUser()
+            .then((user) => {
+                setUser(user);
+                setMessage(SIGNEDIN);
+                setSession(null);
+            })
+            .catch((err) => {
+                console.error(err);
+                setMessage(NOTSIGNIN);
+            });
+    };
+    const signOut = () => {
+        if (user) {
+            Auth.signOut();
+            setUser(null);
+            setOtp('');
+            setMessage(SIGNEDOUT);
+        } else {
+            setMessage(NOTSIGNIN);
+        }
+    };
+    const signIn = () => {
+        setMessage(VERIFYNUMBER);
+        Auth.signIn(number)
+            .then((result) => {
+                setSession(result);
+                setMessage(WAITINGFOROTP);
+            })
+            .catch((e) => {
+                if (e.code === 'UserNotFoundException') {
+                    signUp();
+                } else if (e.code === 'UsernameExistsException') {
+                    setMessage(WAITINGFOROTP);
+                    signIn();
+                } else {
+                    console.log(e.code);
+                    console.error(e);
+                }
+            });
+    };
+    const signUp = async () => {
+        const result = await Auth.signUp({
+            username: number,
+            password,
+            attributes: {
+                phone_number: number,
+            },
+        }).then(() => signIn());
+        return result;
+    };
+    const verifyOtp = () => {
+        Auth.sendCustomChallengeAnswer(session, otp)
+            .then((user) => {
+                setUser(user);
+                setMessage(SIGNEDIN);
+                setSession(null);
+            })
+            .catch((err) => {
+                setMessage(err.message);
+                setOtp('');
+                console.log(err);
+            });
+    };
 
     const { login } = loginHook();
 
@@ -112,11 +202,12 @@ const LoginContainer: React.FC<ContainerProps> = () => {
                         <IonButton
                             expand="block"
                             className='login-facebook'
-                            onClick={() => loginWithFaceBook()}>
+                            onClick={() => signIn()}>
                             <IonIcon slot="start" icon={logoFacebook}></IonIcon>
                             Signin with Facebook
                         </IonButton>
-                        <IonButton expand="block" className='login-custom-mail'>
+                        <IonButton expand="block" className='login-custom-mail'
+                            onClick={() => signOut()}>
                             <IonIcon slot="start" icon={mailOutline}></IonIcon>
                             Signin with Custom
                         </IonButton>
