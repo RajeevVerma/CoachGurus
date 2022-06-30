@@ -8,5 +8,5 @@ const serverStartMsg = 'Express server started on port: ',
 
 // Start server
 server.listen(port, () => {
-    logger.err(serverStartMsg + port);
+    logger.info(serverStartMsg + port);
 });

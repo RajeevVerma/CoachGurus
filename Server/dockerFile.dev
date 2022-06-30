@@ -1,0 +1,16 @@
+# Fetch base image
+FROM node:16
+# Set the envirionment to development
+ENV NODE_ENV=devlopment 
+# Set the working directory 
+WORKDIR /server
+# Copy package json 
+COPY ["package.json", "package-lock.json*", "./"]
+# Install depedencies
+RUN npm install 
+# Copy source
+COPY . .
+# Expose Port 
+EXPOSE 3000
+# Run npm start:dev
+CMD ["npm", "run", "start:dev"]
