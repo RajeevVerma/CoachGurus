@@ -1,9 +1,12 @@
 import { ServiceConfigurationOptions } from "aws-sdk/lib/service";
 
+export let dbEndpoint = "http://localhost:8000";
 
-const serviceConfigOptions: ServiceConfigurationOptions = {
-    region: "ap-south-1",
-    endpoint: "http://localhost:9000"
+export const setProductionEndpoint = (): void => {
+    serviceConfigOptions.endpoint = "https://dynamodb.ap-south-1.amazonaws.com";
 };
 
-export default serviceConfigOptions;
+export const serviceConfigOptions: ServiceConfigurationOptions = {
+  region: "ap-south-1",
+  endpoint: dbEndpoint,
+};

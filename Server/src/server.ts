@@ -32,7 +32,8 @@ if (process.env.NODE_ENV === 'development') {
 
 // Security (helmet recommended in express docs)
 if (process.env.NODE_ENV === 'production') {
-    app.use(helmet());
+    app.use(morgan('dev'));
+    console.log('express start', 'production');
 }
 
 

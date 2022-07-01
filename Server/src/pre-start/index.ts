@@ -6,6 +6,7 @@ import "module-alias/register";
 import path from "path";
 import dotenv from "dotenv";
 import commandLineArgs from "command-line-args";
+import { dbEndpoint, setProductionEndpoint } from "@shared/constants/aws-config";
 
 (() => {
   // Setup command line options
@@ -17,7 +18,13 @@ import commandLineArgs from "command-line-args";
       type: String,
     },
   ]);
-  console.log('options', options);
+  
+  console.log("options", options);
+  if (options.env === "production") {
+    setProductionEndpoint();
+    console.log("dbEndpoint set", dbEndpoint);
+  }
+
   // Set the env file
   const result2 = dotenv.config({
     path: path.join(__dirname, `env/${options.env}.env`),
