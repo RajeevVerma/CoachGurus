@@ -1,0 +1,18 @@
+# pull the base image
+FROM node:14
+
+# set working directory 
+WORKDIR /frontend
+
+# install application dependencies
+COPY package.json .
+RUN npm install
+
+# add react app
+COPY . .
+
+EXPOSE 3000
+
+# start app
+CMD ["npm", "start"]
+
