@@ -41,9 +41,6 @@ function ProfileAvatar(props: IProfileAvatarProps): JSX.Element {
         <MenuItem>
           <IonButton routerLink='/login'>Sign In</IonButton>
         </MenuItem>
-        <MenuItem>
-          <IonButton routerLink='/login'>Register</IonButton>
-        </MenuItem>
       </Menu>
     </>
   ) : (
