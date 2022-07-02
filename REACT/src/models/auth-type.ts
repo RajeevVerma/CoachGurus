@@ -21,7 +21,7 @@ export interface ICognitoUser {
   challengeParam?: {
     USERNAME: string;
   };
-  Session: string | null;
+  Session?: string;
   authenticationFlowType: string;
   client: {
     endpoint: string;

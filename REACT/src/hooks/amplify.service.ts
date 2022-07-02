@@ -13,7 +13,7 @@ export class AmplifyService {
    * @param countryCode
    * @returns
    */
-  private signUp = async (phoneNumber: number, countryCode: string) => {
+  private signUp = async (phoneNumber: string, countryCode: string) => {
     await Auth.signUp({
       username: `${countryCode}${phoneNumber}`,
       password: `${v4()}${Math.random()}`,
@@ -24,30 +24,37 @@ export class AmplifyService {
   };
 
   public signIn = async (
-    phoneNumber: number,
+    phoneNumber: string,
     countryCode: string
-  ): Promise<void> => {
-    await Auth.signIn(`${countryCode}${phoneNumber}`)
-      .then((_result: ICognitoUser) => {
-        customLogin({
-          phoneNumber: phoneNumber,
+  ): Promise<ICognitoUser | undefined> => {
+    return new Promise(async (resolve: (user?: ICognitoUser) => void) => {
+      await Auth.signIn(`${countryCode}${phoneNumber}`)
+        .then((result: ICognitoUser) => {
+          resolve(result);
+        })
+        .catch((error: ICognitoError) => {
+          if (error.code === 'UserNotFoundException') {
+            this.signUp(phoneNumber, countryCode);
+          } else if (error.code === 'UsernameExistsException') {
+            this.signIn(phoneNumber, countryCode);
+          } else {
+            resolve();
+          }
         });
-        return Promise.resolve();
-      })
-      .catch((error: ICognitoError) => {
-        if (error.code === 'UserNotFoundException') {
-          this.signUp(phoneNumber, countryCode);
-        } else if (error.code === 'UsernameExistsException') {
-          this.signIn(phoneNumber, countryCode);
-        } else {
-          return Promise.reject();
-        }
-      });
-  };
-
-  googleLogin = () => {
-    Auth.federatedSignIn({
-      provider: CognitoHostedUIIdentityProvider.Google,
     });
   };
+
+  federatedIdentityLogin = (provider: CognitoHostedUIIdentityProvider) => {
+    Auth.federatedSignIn({
+      provider,
+    });
+  };
+
+  verifyUserSession = (user: ICognitoUser, otp: string) => {
+    Auth.sendCustomChallengeAnswer(user, otp).then((user: any) => {
+      debugger;
+    });
+  };
+
+  logOut = () => Auth.signOut();
 }

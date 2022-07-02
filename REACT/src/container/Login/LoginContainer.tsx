@@ -1,3 +1,11 @@
+// Import modules
+import { useEffect, useState } from 'react';
+
+// Import AWS Configuration
+import { Auth } from '@aws-amplify/auth';
+import { Amplify } from 'aws-amplify';
+import awsconfig from '../../aws-exports';
+
 // Import components
 import {
   IonButton,
@@ -5,25 +13,12 @@ import {
   IonGrid,
   IonHeader,
   IonIcon,
+  IonInput,
   IonRow,
 } from '@ionic/react';
 
-// Import AWS Configuration
-import AWS from 'aws-sdk';
-import { Auth } from '@aws-amplify/auth';
-import awsconfig from '../../aws-exports';
-
-import { Amplify } from 'aws-amplify';
-
-import { GoogleAuth, User } from '@codetrix-studio/capacitor-google-auth';
-import {
-  FacebookLogin,
-  FacebookLoginPlugin,
-  FacebookLoginResponse,
-} from '@capacitor-community/facebook-login';
-
 // Import Utilities
-import { GoogleLogin, PlatFromUtility } from '../../utilities';
+import { PlatFromUtility } from '../../utilities';
 
 // Import Icons
 import {
@@ -34,108 +29,57 @@ import {
 } from 'ionicons/icons';
 
 // Import Hooks
-import { loginHook } from '../../hooks';
 
 // Import css
 import './LoginContainer.css';
 
-import { AWSLogins, ISocialUser } from '../../models';
-import { UserSignUpSource, UserType } from '../../enums';
-import { useEffect, useState } from 'react';
 import { LoginService } from '../../hooks/login.service';
+import { ICognitoUser } from '../../models';
 
 interface ContainerProps {}
 
-GoogleAuth.initialize();
 Amplify.configure(awsconfig);
 
-const NOTSIGNIN = 'You are NOT logged in';
-const SIGNEDIN = 'You have logged in successfully';
-const SIGNEDOUT = 'You have logged out successfully';
-const WAITINGFOROTP = 'Enter OTP number';
-const VERIFYNUMBER = 'Verifying number (Country code +XX needed)';
-
 const LoginContainer: React.FC<ContainerProps> = () => {
-  const [message, setMessage] = useState('Welcome to Demo');
-  const [user, setUser] = useState(null);
-  const [session, setSession] = useState(null);
-  const [otp, setOtp] = useState('');
-  const [number, setNumber] = useState('+918380088317');
-  const password = Math.random().toString(10) + 'Abc#';
+  const [user, setUser] = useState<ICognitoUser | undefined>();
+  const [phoneNumber, setPhoneNumber] = useState<string>('7387799822');
+  const [oneTimePasscode, setOneTimePasscode] = useState('');
 
-  const { addUnauthorizeCustomUser, addSocialUser } = LoginService;
+  const {
+    addUnauthorizeCustomUser,
+    authenticateWithApple,
+    authenticateWithFaceBook,
+    authenticateWithGoogle,
+    verifyLogin,
+    logOut,
+  } = LoginService;
 
   useEffect(() => {
     verifyAuth();
   }, []);
 
+  const handleLoginEvent = () => {
+    addUnauthorizeCustomUser(phoneNumber).then((user?: ICognitoUser) => {
+      setUser(user);
+    });
+  };
+
+  const handleVerifyLogin = () => {
+    if (user) {
+      verifyLogin(user, oneTimePasscode);
+    }
+  };
+
+  const handleLogout = () => logOut();
+
   const verifyAuth = () => {
     Auth.currentAuthenticatedUser()
       .then((user: any) => {
         setUser(user);
-        setMessage(SIGNEDIN);
-        setSession(null);
       })
       .catch((err: any) => {
         console.error(err);
-        setMessage(NOTSIGNIN);
       });
-  };
-  const signOut = () => {
-    if (user) {
-      Auth.signOut();
-      setUser(null);
-      setOtp('');
-      setMessage(SIGNEDOUT);
-    } else {
-      setMessage(NOTSIGNIN);
-    }
-  };
-
-  const verifyOtp = () => {
-    Auth.sendCustomChallengeAnswer(session, otp)
-      .then((user: any) => {
-        setUser(user);
-        setMessage(SIGNEDIN);
-        setSession(null);
-      })
-      .catch((err: Error) => {
-        setMessage(err.message);
-        setOtp('');
-        console.log(err);
-      });
-  };
-
-  let loggedInUser: ISocialUser;
-
-  const loginWithGoogle = () => {
-    GoogleLogin().then((user: User) => {
-      loggedInUser = {
-        email: user.email,
-        id: user.id,
-        name: user.name,
-        SignUpSourceType: UserSignUpSource.Google,
-        userType: UserType.Trainee,
-      };
-
-      addSocialUser({
-        'accounts.google.com': user.authentication.idToken,
-      });
-    });
-  };
-
-  const loginWithFaceBook = async () => {
-    await FacebookLogin.initialize({ appId: '738509124269341' });
-
-    const FBLogin: FacebookLoginPlugin = FacebookLogin;
-
-    FBLogin.login({
-      permissions: ['public_profile', 'email'],
-    }).then((response: FacebookLoginResponse) => {
-      addSocialUser({
-        'graph.facebook.com': response.accessToken?.token ?? '',
-      });
-    });
   };
 
   return (
@@ -152,30 +96,66 @@ const LoginContainer: React.FC<ContainerProps> = () => {
             anytime anywhere.
           </IonHeader>
           <div className='login-action'>
-            <IonButton expand='block' className='login-apple'>
+            <IonButton
+              expand='block'
+              className='login-apple'
+              onClick={() => authenticateWithApple()}>
               <IonIcon slot='start' icon={logoApple}></IonIcon>
               Signin with Apple
             </IonButton>
             <IonButton
               expand='block'
               className='login-google'
-              onClick={() => loginWithGoogle()}>
+              onClick={() => authenticateWithGoogle()}>
               <IonIcon slot='start' icon={logoGoogle}></IonIcon>
               Signin with Google
             </IonButton>
             <IonButton
               expand='block'
               className='login-facebook'
-              onClick={() => addUnauthorizeCustomUser(7387799822)}>
+              onClick={() => authenticateWithFaceBook()}>
               <IonIcon slot='start' icon={logoFacebook}></IonIcon>
               Signin with Facebook
             </IonButton>
+            <IonInput
+              type='text'
+              className='custom-login'
+              pattern='\d{3}[\-]\d{3}[\-]\d{4}'
+              value={phoneNumber}
+              onIonChange={(event) => setPhoneNumber(`${event.target.value}`)}
+            />
+
             <IonButton
               expand='block'
               className='login-custom-mail'
-              onClick={() => signOut()}>
+              onClick={() => handleLoginEvent()}>
               <IonIcon slot='start' icon={mailOutline}></IonIcon>
-              Signin with Custom
+              GET OTP
+            </IonButton>
+
+            <IonInput
+              type='text'
+              className='custom-login-otp'
+              value={oneTimePasscode}
+              onIonChange={(event) =>
+                setOneTimePasscode(`${event.target.value}`)
+              }
+            />
+
+            <IonButton
+              expand='block'
+              className='login-custom-mail'
+              onClick={() => handleVerifyLogin()}>
+              <IonIcon slot='start' icon={mailOutline}></IonIcon>
+              Verify OTP
+            </IonButton>
+
+            <IonButton
+              expand='block'
+              className='login-custom-mail'
+              onClick={() => handleLogout()}>
+              <IonIcon slot='start' icon={mailOutline}></IonIcon>
+              Log Out
             </IonButton>
           </div>
         </IonCol>

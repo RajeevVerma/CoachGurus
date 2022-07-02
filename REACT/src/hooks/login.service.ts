@@ -1,7 +1,7 @@
-import { AWSError } from 'aws-sdk';
-import { AWSLogins } from '../models';
+import { CognitoHostedUIIdentityProvider } from '@aws-amplify/auth/lib/types/Auth';
+import { ICognitoUser } from '../models';
+
 import { AmplifyService } from './amplify.service';
-import { AwsService } from './aws.service';
 import { loginHook } from './login-hooks';
 
 const { customLogin, socialLogin } = loginHook();
@@ -9,23 +9,31 @@ const { customLogin, socialLogin } = loginHook();
 const amplifyService = new AmplifyService();
 
 export const LoginService = {
-  /**
-   * Add User with social platforms Google, FaceBook, Instagram or Apple
-   * @param idToken token to validate
-   */
-  addSocialUser: (idToken: AWSLogins) => {
-    const credentials = AwsService.credentials(idToken);
+  addUnauthorizeCustomUser: async (
+    phoneNumber: string,
+    countryCode = '+91'
+  ) => {
+    const session = await amplifyService.signIn(phoneNumber, countryCode);
 
-    AwsService.authenticatedUser(credentials, (error?: AWSError) => {
-      if (error) {
-        console.error(error);
-      } else {
-      }
-    });
+    return session;
   },
-  addUnauthorizeCustomUser: (phoneNumber: number, countryCode = '+91') => {
-    amplifyService.signIn(phoneNumber, countryCode);
-    //amplifyService.googleLogin();
-
+  verifyLogin: (user: ICognitoUser, otp: string) => {
+    amplifyService.verifyUserSession(user, otp);
   },
+  authenticateWithFaceBook: () => {
+    amplifyService.federatedIdentityLogin(
+      CognitoHostedUIIdentityProvider.Facebook
+    );
+  },
+  authenticateWithGoogle: () => {
+    amplifyService.federatedIdentityLogin(
+      CognitoHostedUIIdentityProvider.Google
+    );
+  },
+  authenticateWithApple: () => {
+    amplifyService.federatedIdentityLogin(
+      CognitoHostedUIIdentityProvider.Apple
+    );
+  },
+  logOut: () => amplifyService.logOut(),
 };
