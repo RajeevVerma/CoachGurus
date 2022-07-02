@@ -4,7 +4,7 @@ import { IonButton, IonCol, IonGrid, IonHeader, IonIcon, IonRow } from '@ionic/r
 // Import AWS Configuration
 import AWS from 'aws-sdk';
 import { Auth } from '@aws-amplify/auth';
-import awsconfig from '../../aws-exports';
+// import awsconfig from '../../aws-exports';
 
 import { Amplify } from "aws-amplify";
 
@@ -31,7 +31,7 @@ interface ContainerProps {
 }
 
 GoogleAuth.initialize();
-Amplify.configure(awsconfig);
+// Amplify.configure(awsconfig);
 
 const NOTSIGNIN = 'You are NOT logged in';
 const SIGNEDIN = 'You have logged in successfully';

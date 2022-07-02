@@ -1,0 +1,9 @@
+.main-container {
+    font-family: system-ui;
+}
+
+@media (min-width:769px) {
+    .main-container {
+        --padding-top: 3rem;
+    }
+}

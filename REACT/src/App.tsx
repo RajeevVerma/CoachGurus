@@ -28,7 +28,7 @@ import '@ionic/react/css/display.css';
 /* Theme variables */
 import './theme/variables.css';
 import { MobileMenu } from './components';
-import { LoginContainer } from './container';
+import { LoginContainer, CoachProfileContainer } from './container';
 
 setupIonicReact();
 
@@ -52,8 +52,11 @@ const App: React.FC = () => (
                 <Route exact path="/login">
                     <LoginContainer />
                 </Route>
+                <Route exact path="/coach">
+                    <CoachProfileContainer />
+                </Route>
                 <Route exact path="/">
-                    <Redirect to="/home" />
+                    <Redirect to="/coach" />
                 </Route>
             </IonRouterOutlet>
         </IonReactRouter>
