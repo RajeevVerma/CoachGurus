@@ -59,7 +59,7 @@ function ProfileAvatar(props: IProfileAvatarProps): JSX.Element {
         anchorOrigin={{ horizontal: 'left', vertical: 'bottom' }}>
         <MenuItem>
           <IonButton onClick={() => logOutSession && logOutSession()}>
-            Logout
+            Sign Out
           </IonButton>
         </MenuItem>
       </Menu>
