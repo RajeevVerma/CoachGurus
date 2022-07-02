@@ -1,7 +1,6 @@
 import cookieParser from 'cookie-parser';
 import morgan from 'morgan';
 import path from 'path';
-import helmet from 'helmet';
 
 import express, { NextFunction, Request, Response } from 'express';
 import StatusCodes from 'http-status-codes';
@@ -30,11 +29,12 @@ if (process.env.NODE_ENV === 'development') {
     app.use(morgan('dev'));
 }
 
-// Security (helmet recommended in express docs)
-if (process.env.NODE_ENV === 'production') {
-    app.use(morgan('dev'));
-    console.log('express start', 'production');
-}
+
+// // Security (helmet recommended in express docs)
+// if (process.env.NODE_ENV === 'production') {
+//     app.use(hemlet('dev'));
+//     console.log('express start', 'production');
+// }
 
 
 /***********************************************************************************
