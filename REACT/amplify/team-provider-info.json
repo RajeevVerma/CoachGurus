@@ -1,0 +1,39 @@
+{
+  "dev": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-coachgurus-dev-145716-authRole",
+      "UnauthRoleArn": "arn:aws:iam::605641608794:role/amplify-coachgurus-dev-145716-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::605641608794:role/amplify-coachgurus-dev-145716-authRole",
+      "Region": "us-east-1",
+      "DeploymentBucketName": "amplify-coachgurus-dev-145716-deployment",
+      "UnauthRoleName": "amplify-coachgurus-dev-145716-unauthRole",
+      "StackName": "amplify-coachgurus-dev-145716",
+      "StackId": "arn:aws:cloudformation:us-east-1:605641608794:stack/amplify-coachgurus-dev-145716/2ddff170-f9e9-11ec-b1ae-0aeac1e7b445",
+      "AmplifyAppId": "d3npdp7vd3x9ll",
+      "AuthTriggerTemplateURL": "https://s3.amazonaws.com/amplify-coachgurus-dev-145716-deployment/amplify-cfn-templates/auth/auth-trigger-cloudformation-template.json"
+    },
+    "categories": {
+      "auth": {
+        "CustomLogin": {}
+      },
+      "function": {
+        "CustomLoginCreateAuthChallenge": {
+          "deploymentBucketName": "amplify-coachgurus-dev-145716-deployment",
+          "s3Key": "amplify-builds/CustomLoginCreateAuthChallenge-33634575507444526478-build.zip"
+        },
+        "CustomLoginDefineAuthChallenge": {
+          "deploymentBucketName": "amplify-coachgurus-dev-145716-deployment",
+          "s3Key": "amplify-builds/CustomLoginDefineAuthChallenge-417678436f6235426a4b-build.zip"
+        },
+        "CustomLoginPreSignup": {
+          "deploymentBucketName": "amplify-coachgurus-dev-145716-deployment",
+          "s3Key": "amplify-builds/CustomLoginPreSignup-68482f3872505747634f-build.zip"
+        },
+        "CustomLoginVerifyAuthChallengeResponse": {
+          "deploymentBucketName": "amplify-coachgurus-dev-145716-deployment",
+          "s3Key": "amplify-builds/CustomLoginVerifyAuthChallengeResponse-2f6852366e6c7a376c48-build.zip"
+        }
+      }
+    }
+  }
+}
