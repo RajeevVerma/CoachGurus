@@ -26,8 +26,8 @@ export class AmplifyService {
   public signIn = async (
     phoneNumber: string,
     countryCode: string
-  ): Promise<ICognitoUser | undefined> => {
-    return new Promise(async (resolve: (user?: ICognitoUser) => void) => {
+  ): Promise<ICognitoUser | undefined> =>
+    new Promise(async (resolve: (user?: ICognitoUser) => void) => {
       await Auth.signIn(`${countryCode}${phoneNumber}`)
         .then((result: ICognitoUser) => {
           resolve(result);
@@ -42,19 +42,20 @@ export class AmplifyService {
           }
         });
     });
-  };
 
   federatedIdentityLogin = (provider: CognitoHostedUIIdentityProvider) => {
-    Auth.federatedSignIn({
-      provider,
-    });
+    Auth.federatedSignIn({ provider });
   };
 
-  verifyUserSession = (user: ICognitoUser, otp: string) => {
-    Auth.sendCustomChallengeAnswer(user, otp).then((user: any) => {
-      debugger;
+  verifyUserSession = (user: ICognitoUser, otp: string) =>
+    new Promise(async (resolve: (user?: ICognitoUser) => void) => {
+      Auth.sendCustomChallengeAnswer(user, otp).then((user: ICognitoUser) => {
+        resolve(user);
+      });
     });
-  };
+
+  getLoggedInUser = async (): Promise<ICognitoUser> =>
+    await Auth.currentAuthenticatedUser();
 
   logOut = () => Auth.signOut();
 }

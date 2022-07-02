@@ -35,5 +35,8 @@ export const LoginService = {
       CognitoHostedUIIdentityProvider.Apple
     );
   },
+  getLoggedInUser: (): Promise<ICognitoUser> =>
+    amplifyService.getLoggedInUser(),
+
   logOut: () => amplifyService.logOut(),
 };

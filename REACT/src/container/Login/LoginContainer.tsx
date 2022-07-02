@@ -1,11 +1,6 @@
 // Import modules
 import { useEffect, useState } from 'react';
 
-// Import AWS Configuration
-import { Auth } from '@aws-amplify/auth';
-import { Amplify } from 'aws-amplify';
-import awsconfig from '../../aws-exports';
-
 // Import components
 import {
   IonButton,
@@ -28,8 +23,6 @@ import {
   mailOutline,
 } from 'ionicons/icons';
 
-// Import Hooks
-
 // Import css
 import './LoginContainer.css';
 
@@ -37,9 +30,6 @@ import { LoginService } from '../../hooks/login.service';
 import { ICognitoUser } from '../../models';
 
 interface ContainerProps {}
-
-Amplify.configure(awsconfig);
-
 const LoginContainer: React.FC<ContainerProps> = () => {
   const [user, setUser] = useState<ICognitoUser | undefined>();
   const [phoneNumber, setPhoneNumber] = useState<string>('7387799822');
@@ -50,6 +40,7 @@ const LoginContainer: React.FC<ContainerProps> = () => {
     authenticateWithApple,
     authenticateWithFaceBook,
     authenticateWithGoogle,
+    getLoggedInUser,
     verifyLogin,
     logOut,
   } = LoginService;
@@ -73,13 +64,9 @@ const LoginContainer: React.FC<ContainerProps> = () => {
   const handleLogout = () => logOut();
 
   const verifyAuth = () => {
-    Auth.currentAuthenticatedUser()
-      .then((user: any) => {
-        setUser(user);
-      })
-      .catch((err: any) => {
-        console.error(err);
-      });
+    getLoggedInUser().then((user: ICognitoUser) => {
+      debugger;
+    });
   };
 
   return (
