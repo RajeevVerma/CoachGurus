@@ -17,9 +17,8 @@ export const LoginService = {
 
     return session;
   },
-  verifyLogin: (user: ICognitoUser, otp: string) => {
-    amplifyService.verifyUserSession(user, otp);
-  },
+  verifyLogin: async (user: ICognitoUser, otp: string) =>
+    await amplifyService.verifyUserSession(user, otp),
   authenticateWithFaceBook: () => {
     amplifyService.federatedIdentityLogin(
       CognitoHostedUIIdentityProvider.Facebook

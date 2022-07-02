@@ -11,6 +11,8 @@ const Home: React.FC = () => {
   const { getLoggedInUser, logOut } = LoginService;
 
   const [user, setUser] = useState<ICognitoUser | undefined>();
+  
+  const handleLogoutSession = () => logOut();
 
   useEffect(() => {
     const verifyUser = () => {
@@ -23,11 +25,8 @@ const Home: React.FC = () => {
         });
     };
     verifyUser();
-  }, [getLoggedInUser]);
+  }, [getLoggedInUser,user]);
 
-  const handleLogoutSession = () => {
-    logOut();
-  };
 
   return (
     <>

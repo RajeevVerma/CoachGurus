@@ -28,9 +28,11 @@ import './LoginContainer.css';
 
 import { LoginService } from '../../hooks/login.service';
 import { ICognitoUser } from '../../models';
+import { useHistory } from 'react-router';
 
 interface ContainerProps {}
 const LoginContainer: React.FC<ContainerProps> = () => {
+  const [message, setMessage] = useState<string>('');
   const [user, setUser] = useState<ICognitoUser | undefined>();
   const [phoneNumber, setPhoneNumber] = useState<string>('7387799822');
   const [oneTimePasscode, setOneTimePasscode] = useState('');
@@ -56,9 +58,17 @@ const LoginContainer: React.FC<ContainerProps> = () => {
     });
   };
 
-  const handleVerifyLogin = () => {
+  let history = useHistory();
+
+  const handleVerifyLogin = async () => {
     if (user) {
-      verifyLogin(user, oneTimePasscode);
+      await verifyLogin(user, oneTimePasscode)
+        .then(() => {
+          history.push('/home');
+        })
+        .catch(() => {
+          setMessage('Invalid otp');
+        });
     }
   };
 
@@ -71,10 +81,7 @@ const LoginContainer: React.FC<ContainerProps> = () => {
           {/* TODO: Web Content  */}
         </IonCol>
         <IonCol className='login-right-panel'>
-          <IonHeader className='login-right-panel-h1'>
-            Join over 25 million people who use Sworkit for custom workouts
-            anytime anywhere.
-          </IonHeader>
+          <IonHeader className='login-right-panel-h1'>{message}</IonHeader>
           <div className='login-action'>
             <IonButton
               expand='block'
@@ -128,14 +135,6 @@ const LoginContainer: React.FC<ContainerProps> = () => {
               onClick={() => handleVerifyLogin()}>
               <IonIcon slot='start' icon={mailOutline}></IonIcon>
               Verify OTP
-            </IonButton>
-
-            <IonButton
-              expand='block'
-              className='login-custom-mail'
-              onClick={() => handleLogout()}>
-              <IonIcon slot='start' icon={mailOutline}></IonIcon>
-              Log Out
             </IonButton>
           </div>
         </IonCol>
