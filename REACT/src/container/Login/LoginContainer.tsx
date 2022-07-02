@@ -39,9 +39,10 @@ import { loginHook } from '../../hooks';
 // Import css
 import './LoginContainer.css';
 
-import { AWSLogins, IUser } from '../../models';
+import { AWSLogins, ISocialUser } from '../../models';
 import { UserSignUpSource, UserType } from '../../enums';
 import { useEffect, useState } from 'react';
+import { LoginService } from '../../hooks/login.service';
 
 interface ContainerProps {}
 
@@ -62,18 +63,20 @@ const LoginContainer: React.FC<ContainerProps> = () => {
   const [number, setNumber] = useState('+918380088317');
   const password = Math.random().toString(10) + 'Abc#';
 
+  const { addUnauthorizeCustomUser, addSocialUser } = LoginService;
+
   useEffect(() => {
     verifyAuth();
   }, []);
 
   const verifyAuth = () => {
     Auth.currentAuthenticatedUser()
-      .then((user) => {
+      .then((user: any) => {
         setUser(user);
         setMessage(SIGNEDIN);
         setSession(null);
       })
-      .catch((err) => {
+      .catch((err: any) => {
         console.error(err);
         setMessage(NOTSIGNIN);
       });
@@ -88,35 +91,7 @@ const LoginContainer: React.FC<ContainerProps> = () => {
       setMessage(NOTSIGNIN);
     }
   };
-  const signIn = () => {
-    setMessage(VERIFYNUMBER);
-    Auth.signIn(number)
-      .then((result) => {
-        setSession(result);
-        setMessage(WAITINGFOROTP);
-      })
-      .catch((e) => {
-        if (e.code === 'UserNotFoundException') {
-          signUp();
-        } else if (e.code === 'UsernameExistsException') {
-          setMessage(WAITINGFOROTP);
-          signIn();
-        } else {
-          console.log(e.code);
-          console.error(e);
-        }
-      });
-  };
-  const signUp = async () => {
-    const result = await Auth.signUp({
-      username: number,
-      password,
-      attributes: {
-        phone_number: number,
-      },
-    }).then(() => signIn());
-    return result;
-  };
+
   const verifyOtp = () => {
     Auth.sendCustomChallengeAnswer(session, otp)
       .then((user: any) => {
@@ -131,9 +106,7 @@ const LoginContainer: React.FC<ContainerProps> = () => {
       });
   };
 
-  const { login } = loginHook();
-
-  let loggedInUser: IUser;
+  let loggedInUser: ISocialUser;
 
   const loginWithGoogle = () => {
     GoogleLogin().then((user: User) => {
@@ -145,7 +118,7 @@ const LoginContainer: React.FC<ContainerProps> = () => {
         userType: UserType.Trainee,
       };
 
-      AuthenticateAWS({
+      addSocialUser({
         'accounts.google.com': user.authentication.idToken,
       });
     });
@@ -159,29 +132,9 @@ const LoginContainer: React.FC<ContainerProps> = () => {
     FBLogin.login({
       permissions: ['public_profile', 'email'],
     }).then((response: FacebookLoginResponse) => {
-      AuthenticateAWS({
+      addSocialUser({
         'graph.facebook.com': response.accessToken?.token ?? '',
       });
-    });
-  };
-
-  const AuthenticateAWS = (idToken: AWSLogins) => {
-    AWS.config.update({ region: 'us-east-1' });
-
-    const credentials = new AWS.CognitoIdentityCredentials({
-      IdentityPoolId: 'us-east-1:00b158f6-feaf-4f00-b902-c55b01b15ad5',
-      Logins: {
-        ...idToken,
-      },
-    });
-
-    AWS.config.credentials = credentials;
-
-    credentials.get(async (error) => {
-      // Access AWS resources here.
-      if (!error && loggedInUser) {
-        await login(loggedInUser);
-      }
     });
   };
 
@@ -213,7 +166,7 @@ const LoginContainer: React.FC<ContainerProps> = () => {
             <IonButton
               expand='block'
               className='login-facebook'
-              onClick={() => signIn()}>
+              onClick={() => addUnauthorizeCustomUser(7387799822)}>
               <IonIcon slot='start' icon={logoFacebook}></IonIcon>
               Signin with Facebook
             </IonButton>
