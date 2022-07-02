@@ -40,14 +40,15 @@ const LoginContainer: React.FC<ContainerProps> = () => {
     authenticateWithApple,
     authenticateWithFaceBook,
     authenticateWithGoogle,
-    getLoggedInUser,
     verifyLogin,
     logOut,
   } = LoginService;
 
+  const handleLogout = () => logOut();
+
   useEffect(() => {
-    verifyAuth();
-  }, []);
+    handleLogout();
+  }, [handleLogout]);
 
   const handleLoginEvent = () => {
     addUnauthorizeCustomUser(phoneNumber).then((user?: ICognitoUser) => {
@@ -59,14 +60,6 @@ const LoginContainer: React.FC<ContainerProps> = () => {
     if (user) {
       verifyLogin(user, oneTimePasscode);
     }
-  };
-
-  const handleLogout = () => logOut();
-
-  const verifyAuth = () => {
-    getLoggedInUser().then((user: ICognitoUser) => {
-      debugger;
-    });
   };
 
   return (

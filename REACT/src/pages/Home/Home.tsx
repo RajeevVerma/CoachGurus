@@ -1,45 +1,60 @@
-import {
-    IonCol,
-    IonContent,
-    IonGrid,
-    IonRow,
-} from '@ionic/react';
+import { IonCol, IonContent, IonGrid, IonRow } from '@ionic/react';
+import { useState, useEffect } from 'react';
 
 import { Header, Footer, GuruCard, HomeBanner } from '../../components';
+import { LoginService } from '../../hooks/login.service';
+import { ICognitoUser } from '../../models';
 
 import './Home.css';
 
 const Home: React.FC = () => {
-    return (
-        <>
-            <Header />
-            <IonContent
-                fullscreen={true}>
+  const { getLoggedInUser, logOut } = LoginService;
 
-                {/** Banner  */}
-                <HomeBanner />
-                <div className="header-container">
-                    <h3>Featured Gurus</h3>
-                </div>
-                <IonGrid>
-                    <IonRow>
-                        <IonCol size="4" sizeMd='4' sizeXs='12'>
-                            <GuruCard />
-                        </IonCol>
-                        <IonCol size="4" sizeMd='4' sizeXs='12'>
-                            <GuruCard />
-                        </IonCol>
-                        <IonCol size="4" sizeMd='4' sizeXs='12'>
-                            <GuruCard />
-                        </IonCol>
-                    </IonRow>
-                </IonGrid>
-                <Footer />
+  const [user, setUser] = useState<ICognitoUser | undefined>();
 
-            </IonContent>
+  useEffect(() => {
+    const verifyUser = () => {
+      getLoggedInUser()
+        .then((user: ICognitoUser) => {
+          setUser(user);
+        })
+        .catch(() => {
+          setUser(undefined);
+        });
+    };
+    verifyUser();
+  }, [getLoggedInUser]);
 
-        </>
-    );
+  const handleLogoutSession = () => {
+    logOut();
+  };
+
+  return (
+    <>
+      <Header user={user} logOutSession={handleLogoutSession} />
+      <IonContent fullscreen={true}>
+        {/** Banner  */}
+        <HomeBanner />
+        <div className='header-container'>
+          <h3>Featured Gurus</h3>
+        </div>
+        <IonGrid>
+          <IonRow>
+            <IonCol size='4' sizeMd='4' sizeXs='12'>
+              <GuruCard />
+            </IonCol>
+            <IonCol size='4' sizeMd='4' sizeXs='12'>
+              <GuruCard />
+            </IonCol>
+            <IonCol size='4' sizeMd='4' sizeXs='12'>
+              <GuruCard />
+            </IonCol>
+          </IonRow>
+        </IonGrid>
+        <Footer />
+      </IonContent>
+    </>
+  );
 };
 
 export default Home;

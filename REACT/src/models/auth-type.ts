@@ -27,7 +27,7 @@ export interface ICognitoUser {
     endpoint: string;
   };
   pool?: ICognitoUserPool;
-  signInUserSession: ICognitoUserSession | null;
+  signInUserSession?: ICognitoUserSession;
   storage: { [key: string]: string };
   username: string;
 }
@@ -91,6 +91,7 @@ interface ICognitoIdToken {
     iss: string;
     name: string;
     phone_number: string;
+    picture?: string;
     phone_number_verified: boolean;
     sub: string;
     token_use: string;
