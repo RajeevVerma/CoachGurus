@@ -1,13 +1,11 @@
 import { Redirect, Route } from 'react-router-dom';
 import { IonApp, IonRouterOutlet, setupIonicReact } from '@ionic/react';
 import { IonReactRouter } from '@ionic/react-router';
+// Import AWS Configuration
+import { Amplify } from 'aws-amplify';
+import awsconfig from './aws-exports';
 
-import {
-    Home,
-    Academics,
-    Sports,
-    ExtraCuricullar
-} from './pages';
+import { Home, Academics, Sports, ExtraCuricullar } from './pages';
 
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/react/css/core.css';
@@ -32,32 +30,34 @@ import { LoginContainer } from './container';
 
 setupIonicReact();
 
+Amplify.configure(awsconfig);
+
 const App: React.FC = () => (
-    <IonApp>
-        <IonReactRouter>
-            <MobileMenu />
-            <IonRouterOutlet id="menu-content">
-                <Route exact path="/home">
-                    <Home />
-                </Route>
-                <Route exact path="/sports">
-                    <Sports />
-                </Route>
-                <Route exact path="/academics">
-                    <Academics />
-                </Route>
-                <Route exact path="/extra-curicullar">
-                    <ExtraCuricullar />
-                </Route>
-                <Route exact path="/login">
-                    <LoginContainer />
-                </Route>
-                <Route exact path="/">
-                    <Redirect to="/home" />
-                </Route>
-            </IonRouterOutlet>
-        </IonReactRouter>
-    </IonApp>
+  <IonApp>
+    <IonReactRouter>
+      <MobileMenu />
+      <IonRouterOutlet id='menu-content'>
+        <Route exact path='/home'>
+          <Home />
+        </Route>
+        <Route exact path='/sports'>
+          <Sports />
+        </Route>
+        <Route exact path='/academics'>
+          <Academics />
+        </Route>
+        <Route exact path='/extra-curicullar'>
+          <ExtraCuricullar />
+        </Route>
+        <Route exact path='/login'>
+          <LoginContainer />
+        </Route>
+        <Route exact path='/'>
+          <Redirect to='/home' />
+        </Route>
+      </IonRouterOutlet>
+    </IonReactRouter>
+  </IonApp>
 );
 
 export default App;
