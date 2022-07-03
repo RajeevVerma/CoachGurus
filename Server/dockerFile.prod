@@ -1,21 +1,35 @@
+# Stage one to build and keep things ready for final image
+# Fetch base image
 FROM node:16
+# Set environment to dev so we can download the necessary depedencies to build the project 
 ENV NODE_ENV=development
+# Set the working directory to server
 WORKDIR /server
+# Copy source files
 COPY package.json ./
 COPY tsconfig.json ./
 COPY . ./
+# List all file 
 RUN ls -a
+# Install packages 
 RUN npm install
+# Build 
 RUN npm run build
 
-## this is stage two , where the app actually runs
+# Stage tow where the app actually runs
+# Base image
 FROM node:16
+# Set enviroment to production
 ENV NODE_ENV=production
+# Set working directory 
 WORKDIR /server
+# Copy pakcage json 
 COPY package.json ./
+# Install packages required for production 
 RUN npm install --only=production
+# Copy dist folder from stage 1 ( we can give it a alias to the base image using as  FROM node:16 as base and --from=base)
 COPY --from=0 /server/dist ./dist
-# RUN npm install pm2 -g
+# RUN npm install pm2 -g # TODO: we can use pm2 as it is recommended later.
 EXPOSE 80
-# CMD ["pm2-runtime","app.js"]
+# CMD ["pm2-runtime","app.js"] # TODO: we can use pm2 as it is recommended later.
 CMD ["npm", "start"]
