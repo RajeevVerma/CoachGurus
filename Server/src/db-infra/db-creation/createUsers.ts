@@ -8,6 +8,7 @@ var params = {
   TableName: "Users",
   KeySchema: [
     { AttributeName: "email", KeyType: "HASH" }, //Partition key
+
   ],
   AttributeDefinitions: [{ AttributeName: "email", AttributeType: "S" }],
   ProvisionedThroughput: {
@@ -15,6 +16,8 @@ var params = {
     WriteCapacityUnits: 5,
   },
 };
+
+
 dynamodb.createTable(params, function (err, data) {
   if (err) {
     console.error(

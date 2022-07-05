@@ -11,15 +11,15 @@ const TABLE_NAME: string = "Users";
 
 /**
  * Get one user.
- * @param email
+ * @param id
  * @returns
  */
-async function getOne(email: string): Promise<IUser> {
+async function getOne(id: string): Promise<IUser> {
   var params = {
     ExpressionAttributeValues: {
-      ":e": email,
+      ":e": id,
     },
-    KeyConditionExpression: "email= :e",
+    KeyConditionExpression: "id= :e",
 
     TableName: TABLE_NAME,
   };
