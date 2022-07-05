@@ -19,7 +19,7 @@
       "function": {
         "CustomLoginCreateAuthChallenge": {
           "deploymentBucketName": "amplify-coachgurus-dev-145716-deployment",
-          "s3Key": "amplify-builds/CustomLoginCreateAuthChallenge-33634575507444526478-build.zip"
+          "s3Key": "amplify-builds/CustomLoginCreateAuthChallenge-37704e6a725957776a71-build.zip"
         },
         "CustomLoginDefineAuthChallenge": {
           "deploymentBucketName": "amplify-coachgurus-dev-145716-deployment",

@@ -8,7 +8,7 @@ import { ICognitoUser } from '../../models';
 import './Home.css';
 
 const Home: React.FC = () => {
-  const { getLoggedInUser, logOut } = LoginService;
+  const { getLoggedInUser, logOut } = LoginService();
 
   const [user, setUser] = useState<ICognitoUser | undefined>();
   

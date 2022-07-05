@@ -65,10 +65,7 @@
       ],
       "customAuth": true,
       "frontendAuthConfig": {
-        "socialProviders": [
-          "FACEBOOK",
-          "GOOGLE"
-        ],
+        "socialProviders": [],
         "usernameAttributes": [
           "EMAIL",
           "PHONE_NUMBER"

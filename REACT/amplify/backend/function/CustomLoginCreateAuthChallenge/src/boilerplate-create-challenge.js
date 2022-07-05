@@ -11,7 +11,7 @@ exports.handler = (event, context, callback) => {
   console.log(event, context);
 
   //sns sms
-  const sns = new AWS.SNS({ region: 'us-east-1' });
+  const sns = new AWS.SNS({ region: 'ap-south-1' });
   sns.publish(
     {
       Message: 'your otp: ' + challengeAnswer,

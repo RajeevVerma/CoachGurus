@@ -16,12 +16,7 @@ import {
 import { PlatFromUtility } from '../../utilities';
 
 // Import Icons
-import {
-  logoGoogle,
-  logoApple,
-  logoFacebook,
-  mailOutline,
-} from 'ionicons/icons';
+import { mailOutline } from 'ionicons/icons';
 
 // Import css
 import './LoginContainer.css';
@@ -29,6 +24,8 @@ import './LoginContainer.css';
 import { LoginService } from '../../hooks/login.service';
 import { ICognitoUser } from '../../models';
 import { useHistory } from 'react-router';
+import { loginHook } from '../../hooks';
+import { UserSignUpSource, UserType } from '../../enums';
 
 interface ContainerProps {}
 const LoginContainer: React.FC<ContainerProps> = () => {
@@ -37,14 +34,7 @@ const LoginContainer: React.FC<ContainerProps> = () => {
   const [phoneNumber, setPhoneNumber] = useState<string>('7387799822');
   const [oneTimePasscode, setOneTimePasscode] = useState('');
 
-  const {
-    addUnauthorizeCustomUser,
-    authenticateWithApple,
-    authenticateWithFaceBook,
-    authenticateWithGoogle,
-    verifyLogin,
-    logOut,
-  } = LoginService;
+  const { addUnauthorizeCustomUser, verifyLogin, logOut } = LoginService();
 
   const handleLogout = () => logOut();
 
@@ -63,8 +53,24 @@ const LoginContainer: React.FC<ContainerProps> = () => {
   const handleVerifyLogin = async () => {
     if (user) {
       await verifyLogin(user, oneTimePasscode)
-        .then(() => {
-          history.push('/home');
+        .then((user) => {
+
+          debugger;
+          if (user?.signInUserSession?.accessToken) {
+            loginHook().customLogin(
+              {
+                email: 'anshui',
+                id: '2',
+                name: 'anshuld',
+                SignUpSourceType: UserSignUpSource.Unknown,
+                userType: UserType.Guru,
+              },
+              user?.signInUserSession?.accessToken.jwtToken
+            ).then(()=> {
+              history.push('/home');
+            });
+          }
+         
         })
         .catch(() => {
           setMessage('Invalid otp');
@@ -83,27 +89,6 @@ const LoginContainer: React.FC<ContainerProps> = () => {
         <IonCol className='login-right-panel'>
           <IonHeader className='login-right-panel-h1'>{message}</IonHeader>
           <div className='login-action'>
-            <IonButton
-              expand='block'
-              className='login-apple'
-              onClick={() => authenticateWithApple()}>
-              <IonIcon slot='start' icon={logoApple}></IonIcon>
-              Signin with Apple
-            </IonButton>
-            <IonButton
-              expand='block'
-              className='login-google'
-              onClick={() => authenticateWithGoogle()}>
-              <IonIcon slot='start' icon={logoGoogle}></IonIcon>
-              Signin with Google
-            </IonButton>
-            <IonButton
-              expand='block'
-              className='login-facebook'
-              onClick={() => authenticateWithFaceBook()}>
-              <IonIcon slot='start' icon={logoFacebook}></IonIcon>
-              Signin with Facebook
-            </IonButton>
             <IonInput
               type='text'
               className='custom-login'

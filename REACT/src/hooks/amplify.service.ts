@@ -43,6 +43,10 @@ export class AmplifyService {
         });
     });
 
+  /**
+   * Not in use
+   * @param provider
+   */
   federatedIdentityLogin = (provider: CognitoHostedUIIdentityProvider) => {
     Auth.federatedSignIn({ provider });
   };
@@ -50,6 +54,7 @@ export class AmplifyService {
   verifyUserSession = (user: ICognitoUser, otp: string) =>
     new Promise(async (resolve: (user?: ICognitoUser) => void) => {
       Auth.sendCustomChallengeAnswer(user, otp).then((user: ICognitoUser) => {
+        debugger
         resolve(user);
       });
     });

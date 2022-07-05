@@ -12,12 +12,13 @@ export function loginHook() {
     });
   };
 
-  const customLogin = async (user: ICustomLogin) => {
+  const customLogin = async (user: ISocialUser, accessToken: string) => {
     await fetch('/api/unauthenticatedUsers/add', {
       method: 'POST',
       headers: {
         Accept: 'application/json',
         'Content-Type': 'application/json',
+        Authorization: `Bearer ${accessToken}`,
       },
       body: JSON.stringify(user),
     });
