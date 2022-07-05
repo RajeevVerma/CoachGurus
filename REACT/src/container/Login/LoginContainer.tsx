@@ -1,5 +1,6 @@
 // Import modules
 import { useEffect, useState } from 'react';
+import OtpInput from 'react-otp-input';
 
 // Import components
 import {
@@ -54,23 +55,23 @@ const LoginContainer: React.FC<ContainerProps> = () => {
     if (user) {
       await verifyLogin(user, oneTimePasscode)
         .then((user) => {
-
           debugger;
           if (user?.signInUserSession?.accessToken) {
-            loginHook().customLogin(
-              {
-                email: 'anshui',
-                id: '2',
-                name: 'anshuld',
-                SignUpSourceType: UserSignUpSource.Unknown,
-                userType: UserType.Guru,
-              },
-              user?.signInUserSession?.accessToken.jwtToken
-            ).then(()=> {
-              history.push('/home');
-            });
+            loginHook()
+              .customLogin(
+                {
+                  email: 'anshui',
+                  id: '2',
+                  name: 'anshuld',
+                  SignUpSourceType: UserSignUpSource.Unknown,
+                  userType: UserType.Guru,
+                },
+                user?.signInUserSession?.accessToken.jwtToken
+              )
+              .then(() => {
+                history.push('/home');
+              });
           }
-         
         })
         .catch(() => {
           setMessage('Invalid otp');
@@ -79,52 +80,57 @@ const LoginContainer: React.FC<ContainerProps> = () => {
   };
 
   return (
-    <IonGrid className='login-grid'>
-      <IonRow className='login-grid-row'>
-        <IonCol
-          hidden={PlatFromUtility.isMobile()}
-          className='login-left-panel'>
-          {/* TODO: Web Content  */}
-        </IonCol>
-        <IonCol className='login-right-panel'>
-          <IonHeader className='login-right-panel-h1'>{message}</IonHeader>
-          <div className='login-action'>
-            <IonInput
-              type='text'
-              className='custom-login'
-              pattern='\d{3}[\-]\d{3}[\-]\d{4}'
-              value={phoneNumber}
-              onIonChange={(event) => setPhoneNumber(`${event.target.value}`)}
-            />
+    <div className='login-action'>
+      <IonInput
+        type='text'
+        className='custom-login'
+        pattern='\d{3}[\-]\d{3}[\-]\d{4}'
+        value={phoneNumber}
+        onIonChange={(event) => setPhoneNumber(`${event.target.value}`)}
+      />
 
-            <IonButton
-              expand='block'
-              className='login-custom-mail'
-              onClick={() => handleLoginEvent()}>
-              <IonIcon slot='start' icon={mailOutline}></IonIcon>
-              GET OTP
-            </IonButton>
+      <IonButton
+        expand='block'
+        className='login-custom-mail'
+        onClick={() => handleLoginEvent()}>
+        <IonIcon slot='start' icon={mailOutline}></IonIcon>
+        GET OTP
+      </IonButton>
 
-            <IonInput
-              type='text'
-              className='custom-login-otp'
-              value={oneTimePasscode}
-              onIonChange={(event) =>
-                setOneTimePasscode(`${event.target.value}`)
-              }
-            />
+      <OtpInput
+        className='login-passcode'
+        value={oneTimePasscode}
+        onChange={(otp: string) => {
+          setOneTimePasscode(otp);
+        }}
+        numInputs={4}
+        inputStyle={{
+          fontSize: '24px',
+          width: '36px',
+          height: '36px',
+          margin: '4px',
+          borderTop: '0px',
+          borderLeft: '0px',
+          borderRight: '0px',
+          outline: 'none',
+          borderColor: '#000a46',
+        }}
+        containerStyle={{
+          margin: '20px auto',
+          padding: '10px',
+          display: 'inline-flex',
+        }}
+        isInputNum
+      />
 
-            <IonButton
-              expand='block'
-              className='login-custom-mail'
-              onClick={() => handleVerifyLogin()}>
-              <IonIcon slot='start' icon={mailOutline}></IonIcon>
-              Verify OTP
-            </IonButton>
-          </div>
-        </IonCol>
-      </IonRow>
-    </IonGrid>
+      <IonButton
+        expand='block'
+        className='login-custom-mail'
+        onClick={() => handleVerifyLogin()}>
+        <IonIcon slot='start' icon={mailOutline}></IonIcon>
+        Verify OTP
+      </IonButton>
+    </div>
   );
 };
 
