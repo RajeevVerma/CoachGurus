@@ -9,7 +9,7 @@ import 'express-async-errors';
 import apiRouter from './routes/api';
 import logger from 'jet-logger';
 import { CustomError } from '@shared/errors';
-import authentication from './authetication';
+import authentication from './authentication';
 
 // Constants
 const app = express();
