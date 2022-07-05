@@ -6,6 +6,5 @@
   "exclude": [
     "spec",
     "src/**/*.mock.ts",
-    "src/public/"
   ]
 }
