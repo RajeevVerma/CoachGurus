@@ -11,7 +11,7 @@ export interface IUser {
   email?: string;
   name?: string;
   signUpSourceType: UserSignUpSource;
-  mobilePhone: string;
+  mobilePhone?: string;
   alternatePhone?: string;
   userType?: UserType;
 
