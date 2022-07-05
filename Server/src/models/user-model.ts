@@ -15,33 +15,36 @@ export interface IUser {
   alternatePhone?: string;
   userType?: UserType;
 
-	/** Auto set on backend */
+  /** Auto set on backend */
   signUpDate?: Date;
   lastLoginDate?: Date;
-	profilePicUrl?: string;
+  profilePicUrl?: string;
 
-	profileData?: {
-		shortBio?: string;
-		description?: string;
-		/**store | separeted if multiple */
-		certifications?: string; 
+  profileData?: {
+    shortBio?: string;
+    description?: string;
+    /**store | separeted if multiple */
+    certifications?: string;
 
-		/**coach qualifications | separated*/
-		qualifications?: string;
-		/**store | separeted if multiple */
-		coachingPhotos?: string;
-	}
+    /**coach qualifications | separated*/
+    qualifications?: string;
+    /**store | separeted if multiple */
+    coachingPhotos?: string;
+  };
 
-	/** To show any badge  */
-	isCoachGuruVerfied?: boolean; 
+  /** To show any badge  */
+  isCoachGuruVerfied?: boolean;
 
-  phoneOtpVerified?: boolean;  // TODO: Can be indexed
+  /* pipe separated */
+  locationids?: string;
+
+  phoneOtpVerified?: boolean; // TODO: Can be indexed
   emailOtpVerified?: boolean;
 
-	/**
-	 * Endeavour ids | separated
-	 */
-	coachingEndeavourIds: string; // 
+  /**
+   * Endeavour ids | separated
+   */
+  coachingEndeavourIds: string; //
   /** Should be sorted based on priority */
   // endeavourTypes?: EndeavourCategory[];
 }
@@ -59,7 +62,7 @@ function getNew(name: string, email: string): IUser {
     signUpSourceType: UserSignUpSource.Facebook,
     userType: UserType.Guru,
     signUpDate: new Date(),
-		coachingEndeavourIds: "1",
+    coachingEndeavourIds: "1",
   };
 }
 
