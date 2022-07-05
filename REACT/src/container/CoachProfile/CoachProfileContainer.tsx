@@ -1,23 +1,26 @@
-import {
-    IonCol,
-    IonContent,
-    IonGrid,
-    IonRow,
-    IonImg,
-    IonText,
-} from '@ionic/react';
 import React from 'react';
+import {
+    Box,
+    Grid,
+    Card,
+    CardMedia,
+    Container,
+    Rating,
+    Stack, 
+    Typography,
+} from '@mui/material';
 import { GoogleMap } from '@capacitor/google-maps';
 import { useRef } from 'react';
 
-// Import css
-import './CoachProfileContainer.css';
+// Import styles
+import './CoachProfileContainer.scss';
 
 // Import Image
 import {CoachProfile, CoachLocation} from '../../contents';
 
 // Import Components
-import { Header } from '../../components'
+import { Header } from '../../components';
+
 interface ContainerProps {
 }
 
@@ -32,7 +35,8 @@ const CoachProfileContainer: React.FC<ContainerProps> = () => {
         newMap = await GoogleMap.create({
         id: 'my-cool-map',
         element: mapRef.current,
-        apiKey: 'process.env.REACT_APP_YOUR_API_KEY_HERE',
+        /** Google Maps API Key is needed */
+        apiKey: 'process.env.REACT_APP_YOUR_API_KEY_HERE', 
         config: {
             center: {
             lat: 33.6,
@@ -46,48 +50,57 @@ const CoachProfileContainer: React.FC<ContainerProps> = () => {
     return (
         <>
             <Header />
-            <IonContent
-                className='main-container'
-                fullscreen={true}>
-                {/* <h1> Coach Profile Page</h1> */}
-                <IonGrid>
-                    <IonRow> 
-                        <IonCol size="12" size-sm size-md="8">
-                            <IonGrid>
-                                <IonRow>
-                                    <IonCol size="12" size-sm size-md="6">
-                                        <IonImg src={CoachProfile}/>
-                                        <IonText>
-                                        </IonText>
-                                    </IonCol>
-                                    <IonCol size="12" size-sm size-md="6">
-                                        <IonText>
-                                            <h1>Guru Name</h1>
-                                            <p>Rating Here</p>
-                                            <p>8 Years of Exp</p>
-                                            <p><b>Short Bio Here...</b></p>
-                                        </IonText>
-                                    </IonCol>
-                                </IonRow>
-                                <IonRow>
-                                <IonCol size="12" size-sm size-md="12">
-                                        <IonText>
-                                            <p><b>Achievements:</b></p>
-                                            <p><b>Currently Associated With:</b></p>
-                                            <p>Academy One</p>
-                                            <p>Academy Two</p>
-                                        </IonText>
-                                        <IonText>
-                                            <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</p>
-                                        </IonText>
-                                    </IonCol>
-                                </IonRow>
-                            </IonGrid>
-                        </IonCol>
-                        <IonCol size="12" size-sm size-md="4">
-                        <IonRow>
-                                <IonCol size="12" size-sm size-md="12">
+            <section className='mainContainer'>
+                <Container maxWidth="lg">
+                    <Box sx={{ flexGrow: 1 }}>
+                        <Grid className="gridContainer" container spacing={2}>
+                            <Grid item xs={12} md={8}>
+                                <Card className="coachProfileCard">
+                                    <Grid container>
+                                        <Grid item xs={12} md={6}>
+                                            <CardMedia 
+                                                component="img"
+                                                image={CoachProfile}
+                                                alt="Coach Profile"
+                                            />
+                                        </Grid>
+                                        <Grid style={{padding: '1rem'}} item xs={12} md={6}>
+                                            <Typography variant="body1">
+                                                <h1>Nithin Sharma</h1>
+                                                <Stack spacing={1}>
+                                                    <Rating name="half-rating" defaultValue={4.5} precision={0.5} />
+                                                </Stack>
+                                                <p>8 Years of Exp</p>
+                                                <p><b>Short Bio Here...</b> Lorem Ipsum is simply dummy text.</p>
+                                            </Typography>
+                                        </Grid>
+                                    </Grid>
+                                </Card>
+                                    <Grid style={{marginTop: '2rem'}} className="boxShadowContainer" container>
+                                        <Grid item xs={12} md={12}>
+                                            <div>
+                                                <p><b>Achievements:</b></p>
+                                                <ul>
+                                                    <li>Achievement One</li>
+                                                    <li>Achievement Two</li>
+                                                </ul>
+                                                <p><b>Currently Associated With:</b></p>
+                                                <ul>
+                                                    <li>Unique Academy</li>
+                                                    <li>Ace Academy</li>
+                                                </ul>
+                                            </div>
+                                            <div>
+                                                <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</p>
+                                            </div>
+                                            </Grid>
+                                        </Grid>
+                            </Grid>
+                            <Grid item xs={12} md={4}>
+                                <div className="boxShadowContainer">
                                     <p><b>Training Locations</b></p>
+                                    <img style={{borderRadius: '5px'}} src={CoachLocation} alt="Coach Locations"/>
+                                    {/** To Do for fetching Locations List */}
                                     {/* <div className="component-wrapper">
                                         <capacitor-google-map ref={mapRef} style={{
                                             display: 'inline-block',
@@ -97,13 +110,12 @@ const CoachProfileContainer: React.FC<ContainerProps> = () => {
 
                                         <button onClick={createMap}>Create Map</button>
                                     </div> */}
-                                    <IonImg src={CoachLocation}/>
-                                </IonCol>
-                            </IonRow>
-                        </IonCol>
-                    </IonRow>
-                </IonGrid>
-            </IonContent>
+                                </div>
+                            </Grid>
+                        </Grid>
+                    </Box>
+                </Container>
+            </section>
         </>
     );
 };
