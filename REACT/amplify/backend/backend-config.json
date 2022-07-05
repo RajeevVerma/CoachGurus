@@ -1,34 +1,34 @@
 {
   "function": {
-    "passwordlessCreateAuthChallenge": {
+    "CustomLoginCreateAuthChallenge": {
       "build": true,
       "providerPlugin": "awscloudformation",
       "service": "Lambda"
     },
-    "passwordlessDefineAuthChallenge": {
+    "CustomLoginDefineAuthChallenge": {
       "build": true,
       "providerPlugin": "awscloudformation",
       "service": "Lambda"
     },
-    "passwordlessPreSignup": {
+    "CustomLoginPreSignup": {
       "build": true,
       "providerPlugin": "awscloudformation",
       "service": "Lambda"
     },
-    "passwordlessVerifyAuthChallengeResponse": {
+    "CustomLoginVerifyAuthChallengeResponse": {
       "build": true,
       "providerPlugin": "awscloudformation",
       "service": "Lambda"
     }
   },
   "auth": {
-    "passwordless": {
+    "CustomLogin": {
       "service": "Cognito",
       "providerPlugin": "awscloudformation",
       "dependsOn": [
         {
           "category": "function",
-          "resourceName": "passwordlessCreateAuthChallenge",
+          "resourceName": "CustomLoginCreateAuthChallenge",
           "triggerProvider": "Cognito",
           "attributes": [
             "Arn",
@@ -37,7 +37,7 @@
         },
         {
           "category": "function",
-          "resourceName": "passwordlessDefineAuthChallenge",
+          "resourceName": "CustomLoginDefineAuthChallenge",
           "triggerProvider": "Cognito",
           "attributes": [
             "Arn",
@@ -46,7 +46,7 @@
         },
         {
           "category": "function",
-          "resourceName": "passwordlessPreSignup",
+          "resourceName": "CustomLoginPreSignup",
           "triggerProvider": "Cognito",
           "attributes": [
             "Arn",
@@ -55,7 +55,7 @@
         },
         {
           "category": "function",
-          "resourceName": "passwordlessVerifyAuthChallengeResponse",
+          "resourceName": "CustomLoginVerifyAuthChallengeResponse",
           "triggerProvider": "Cognito",
           "attributes": [
             "Arn",
@@ -67,11 +67,10 @@
       "frontendAuthConfig": {
         "socialProviders": [],
         "usernameAttributes": [
+          "EMAIL",
           "PHONE_NUMBER"
         ],
-        "signupAttributes": [
-          "PHONE_NUMBER"
-        ],
+        "signupAttributes": [],
         "passwordProtectionSettings": {
           "passwordPolicyMinLength": 8,
           "passwordPolicyCharacters": []

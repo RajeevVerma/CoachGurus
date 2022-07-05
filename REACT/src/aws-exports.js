@@ -3,18 +3,31 @@
 
 const awsmobile = {
     "aws_project_region": "us-east-1",
-    "aws_cognito_identity_pool_id": "us-east-1:0d107983-09e1-44dc-9846-785e1e3fa52e",
+    "aws_cognito_identity_pool_id": "us-east-1:2d5317ee-00d2-406f-b4d3-1b7a4ce783a0",
     "aws_cognito_region": "us-east-1",
-    "aws_user_pools_id": "us-east-1_k4vrsm49J",
-    "aws_user_pools_web_client_id": "42gfeui3pt3oukaa43v6vq807d",
-    "oauth": {},
+    "aws_user_pools_id": "us-east-1_qBPhYgAgj",
+    "aws_user_pools_web_client_id": "5h11rvg5ggo0f0mb3f22dkfpjq",
+    "oauth": {
+        "domain": "coachgurus-dev.auth.us-east-1.amazoncognito.com",
+        "scope": [
+            "email",
+            "openid",
+            "profile"
+        ],
+        "redirectSignIn": "http://localhost:8100/",
+        "redirectSignOut": "http://localhost:8100/",
+        "responseType": "code"
+    },
+    "federationTarget": "COGNITO_USER_POOLS",
     "aws_cognito_username_attributes": [
+        "EMAIL",
         "PHONE_NUMBER"
     ],
-    "aws_cognito_social_providers": [],
-    "aws_cognito_signup_attributes": [
-        "PHONE_NUMBER"
+    "aws_cognito_social_providers": [
+        "FACEBOOK",
+        "GOOGLE"
     ],
+    "aws_cognito_signup_attributes": [],
     "aws_cognito_mfa_configuration": "OFF",
     "aws_cognito_mfa_types": [
         "SMS"

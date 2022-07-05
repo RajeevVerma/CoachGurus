@@ -42,6 +42,7 @@
     "rxjs": "^7.5.5",
     "typescript": "^4.1.3",
     "util": "^0.12.4",
+    "uuid": "^8.3.2",
     "web-vitals": "^0.2.4",
     "workbox-background-sync": "^5.1.4",
     "workbox-broadcast-update": "^5.1.4",
@@ -56,7 +57,7 @@
     "workbox-strategies": "^5.1.4",
     "workbox-streams": "^5.1.4"
   },
-  "proxy": "http://localhost:3000",
+  "proxy": "http://localhost:8081",
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
@@ -83,6 +84,7 @@
   },
   "devDependencies": {
     "@capacitor/cli": "3.5.1",
+    "@types/uuid": "^8.3.4",
     "react-rating-stars-component": "^2.2.0"
   },
   "description": "An Ionic project"

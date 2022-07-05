@@ -55,3 +55,7 @@
     --background: #db4437;
     max-width: 220px;
 }
+
+.custom-login, .custom-login-otp { 
+    background-color: #000;
+}

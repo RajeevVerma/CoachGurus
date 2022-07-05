@@ -1,24 +1,24 @@
 export type AmplifyDependentResourcesAttributes = {
     "function": {
-        "passwordlessCreateAuthChallenge": {
+        "CustomLoginCreateAuthChallenge": {
             "Name": "string",
             "Arn": "string",
             "LambdaExecutionRole": "string",
             "Region": "string"
         },
-        "passwordlessDefineAuthChallenge": {
+        "CustomLoginDefineAuthChallenge": {
             "Name": "string",
             "Arn": "string",
             "LambdaExecutionRole": "string",
             "Region": "string"
         },
-        "passwordlessPreSignup": {
+        "CustomLoginPreSignup": {
             "Name": "string",
             "Arn": "string",
             "LambdaExecutionRole": "string",
             "Region": "string"
         },
-        "passwordlessVerifyAuthChallengeResponse": {
+        "CustomLoginVerifyAuthChallengeResponse": {
             "Name": "string",
             "Arn": "string",
             "LambdaExecutionRole": "string",
@@ -26,9 +26,11 @@ export type AmplifyDependentResourcesAttributes = {
         }
     },
     "auth": {
-        "passwordless": {
+        "CustomLogin": {
             "IdentityPoolId": "string",
             "IdentityPoolName": "string",
+            "HostedUIDomain": "string",
+            "OAuthMetadata": "string",
             "UserPoolId": "string",
             "UserPoolArn": "string",
             "UserPoolName": "string",
