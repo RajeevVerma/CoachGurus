@@ -1,7 +1,7 @@
 import { Grid } from '@mui/material';
 import SportCategory, { ISportCategoryProps } from "./SportCategory/SportCategory";
 
-import './SportCategories.css';
+import './SportCategories.scss';
 
 interface ISportCategoriesProps {
     categories: ISportCategoryProps[],
@@ -16,12 +16,13 @@ function SportCategories(props: ISportCategoriesProps): JSX.Element {
 
 
     return (
-        <div className={customClassName}>
+        <div className="sportsList">
+            {/* <h1 style={{padding:'5px 22px 22px'}}>What would you like to play?</h1> */}
             <Grid container spacing={2} >
                 {
                     categories.map((category, i) => {
                         return (
-                            <Grid item md={3}>
+                            <Grid item md={2}>
                                 <SportCategory
                                     imageUrl={category.imageUrl}
                                     category={category.category} />

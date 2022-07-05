@@ -1,4 +1,5 @@
-import { Avatar, Typography } from '@mui/material';
+import { Avatar, Typography, Card,CardMedia, } from '@mui/material';
+import '../SportCategories.scss';
 
 export interface ISportCategoryProps {
     category: string,
@@ -12,9 +13,9 @@ function SportCategory(props: ISportCategoryProps) {
     } = props;
 
     return (
-        <div>
-            <Avatar alt={category} src={imageUrl} />
-            <Typography>{category}</Typography>
+        <div className="sportCategory">
+            <img alt={category} src={imageUrl} />
+            <p>{category}</p>
         </div>
     );
 }

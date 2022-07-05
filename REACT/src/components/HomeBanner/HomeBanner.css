@@ -3,7 +3,7 @@
 }
 
 .banner-wrapper {
-  background-image: url("../../../public/assets/images/app-baner.jpg");
+  background-image: url("../../../public/assets/images/sports-imgs.jpg");
   background-repeat: no-repeat;
   background-size: 100%;
   box-shadow: inset 0 0 0 1000px rgba(0, 0, 0, 0.3);
@@ -21,13 +21,14 @@
   -webkit-box-align: center;
   -ms-flex-align: center;
   align-items: center;
+  background-position-y: bottom;
 }
 
 @media (min-width: 680px) {
   .banner-wrapper {
-    height: 80vh;
-    min-height: 650px;
-    max-height: 1300px;
+    height: 50vh;
+    /* min-height: 650px;
+    max-height: 1300px; */
   }
 }
 

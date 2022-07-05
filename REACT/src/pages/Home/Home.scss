@@ -1,0 +1,71 @@
+.home-main-container {
+    display: inline-block;
+    width: 100%;
+    font-size: 0;
+    line-height: 0;
+    vertical-align: middle;
+    background-size: 100%;
+    background-position: 50% 50%;
+    background-repeat: no-repeat;
+    height: 650px; /* this will move to media queries and vary for each of the screen.*/
+    background-image: url('../../../public/assets/images/app-baner.jpg');
+}
+
+ion-content {
+    --padding-bottom: 0px;
+    --padding-end: 0px;
+    --padding-start: 0px;
+    --padding-top: 0px;
+}
+
+.search-box-container {
+    margin-left: auto;
+    margin-right: auto;
+    padding-top: 200px;
+    width: 1250px;
+}
+
+.header-container {
+    padding: 0px 22px;
+}
+
+ion-icon {
+    color: var(--ion-color-medium-shade)
+}
+
+.main-header{
+    background: url(../../../public/assets/images/hero-bg.svg) center/cover no-repeat ,linear-gradient(180deg, hsla(13, 100%, 72%, 0.9), hsla(353, 100%, 62%, 0.9));
+    min-height:100vh;
+
+    .header{
+        border-bottom: 0.5px solid #FFF;
+        position: relative;
+
+        .ion-color-light {
+            color: #FFF;
+        }
+    }
+}
+
+.bannerContent {
+    padding-top: 10%;
+    text-align: center;
+
+    h2 {
+        color: #FFF;
+        font-family: 'Poppins', sans-serif;
+        font-weight: 600;
+    }
+}
+
+.search-container {
+    justify-content: center;
+    padding-top: 1rem;
+    div, input {
+        font-family: 'Poppins', sans-serif;
+    }
+    fieldset, form {
+        border-color: #FFF;
+        border-radius: 25px;
+    }
+}

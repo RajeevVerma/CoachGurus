@@ -35,7 +35,7 @@ function Header(props: IHeaderProps): JSX.Element {
                             </IonButton>
                         </IonMenuButton>
                     </IonButtons>
-                    <IonTitle slot='start'>Coach Guru</IonTitle>
+                    <IonTitle slot='start' style={{fontSize:'1.5rem'}}>Coach Guru</IonTitle>
 
                     <IonButtons slot='end'>
                         <ProfileAvatar />
@@ -50,21 +50,21 @@ function Header(props: IHeaderProps): JSX.Element {
                 </IonCol>
 
                 <IonCol size='6' class='ion-text-left header-item'>
-                    <IonButton fill='clear' color='dark' routerLink={"/home"}>
+                    <IonButton fill='clear' color='light' routerLink={"/home"}>
                         Home
                     </IonButton>
-                    <IonButton fill='clear' color='dark' routerLink={"/sports"}>
+                    <IonButton fill='clear' color='light' routerLink={"/sports"}>
                         Sports
                     </IonButton>
-                    <IonButton fill='clear' color='dark' routerLink={"/academics"}>
+                    <IonButton fill='clear' color='light' routerLink={"/academics"}>
                         Academics
                     </IonButton>
-                    <IonButton fill='clear' color='dark' routerLink={"/extra-curicullar"}>
+                    <IonButton fill='clear' color='light' routerLink={"/extra-curicullar"}>
                         Extra Curicullar
                     </IonButton>
                 </IonCol>
                 <IonCol size='3' className='ion-text-right header-item'>
-                    <IonButton fill='clear' color='dark' routerLink={'/login'}>
+                    <IonButton fill='clear' color='light' routerLink={'/login'}>
                         Join as Coach
                     </IonButton>
                     <ProfileAvatar />

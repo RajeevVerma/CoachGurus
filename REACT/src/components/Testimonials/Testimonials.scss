@@ -1,0 +1,33 @@
+ion-icon {
+    color: rgb(76, 144, 94);
+}
+
+.flex-item {
+    display: flex;
+    justify-content: space-between;
+
+    .coachDetailsButton {
+        background: #383a56;
+        border-radius: 25px;
+    }
+}
+
+.testimonialsWrap {
+    background-color: #f5f5f5;
+    padding: 3rem 6rem;
+
+    h1 {
+        padding-bottom: 1rem;
+    }
+
+    .boxShadowContainer {
+        background: #fff;
+        box-shadow: 0 39px 36px -29px #d5d3d3;
+        border-radius: 15px;
+        padding: 1rem;
+
+        img{
+            max-width: 45px;
+        }
+    }
+}

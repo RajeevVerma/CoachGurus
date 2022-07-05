@@ -1,0 +1,13 @@
+ion-icon {
+    color: rgb(76, 144, 94);
+}
+
+.flex-item {
+    display: flex;
+    justify-content: space-between;
+
+    .coachDetailsButton {
+        background: #383a56;
+        border-radius: 25px;
+    }
+}
