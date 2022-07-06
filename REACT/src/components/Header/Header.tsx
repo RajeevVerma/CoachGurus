@@ -10,6 +10,7 @@ import {
   IonCol,
 } from '@ionic/react';
 import { menu, personCircleOutline } from 'ionicons/icons';
+import { UserType } from '../../enums';
 import { ICognitoUser } from '../../models';
 import './Header.css';
 import ProfileAvatar from './ProfileAvatar/ProfileAvatar';
@@ -19,6 +20,7 @@ import ProfileAvatar from './ProfileAvatar/ProfileAvatar';
 export interface IHeaderProps {
   user?: ICognitoUser;
   logOutSession?: () => void;
+  onLoginClickEvent?: (showModal: boolean, userType?: UserType) => void;
 }
 
 /**
@@ -26,6 +28,8 @@ export interface IHeaderProps {
  * @param props
  */
 function Header(props: IHeaderProps): JSX.Element {
+  const { logOutSession, onLoginClickEvent, user } = props;
+
   return (
     <>
       {/* Mobile header */}
@@ -70,12 +74,18 @@ function Header(props: IHeaderProps): JSX.Element {
           </IonButton>
         </IonCol>
         <IonCol size='3' className='ion-text-right header-item'>
-          <IonButton fill='clear' color='dark' routerLink={'/login'}>
+          <IonButton
+            fill='clear'
+            color='dark'
+            onClick={() =>
+              onLoginClickEvent && onLoginClickEvent(true, UserType.Guru)
+            }>
             Join as Coach
           </IonButton>
           <ProfileAvatar
-            user={props.user}
-            logOutSession={props.logOutSession}
+            user={user}
+            logOutSession={logOutSession}
+            onLoginClickEvent={onLoginClickEvent}
           />
         </IonCol>
       </IonRow>

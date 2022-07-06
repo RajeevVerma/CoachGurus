@@ -3,18 +3,7 @@ import { useEffect, useState } from 'react';
 import OtpInput from 'react-otp-input';
 
 // Import components
-import {
-  IonButton,
-  IonCol,
-  IonGrid,
-  IonHeader,
-  IonIcon,
-  IonInput,
-  IonRow,
-} from '@ionic/react';
-
-// Import Utilities
-import { PlatFromUtility } from '../../utilities';
+import { IonButton, IonIcon, IonInput } from '@ionic/react';
 
 // Import Icons
 import { mailOutline } from 'ionicons/icons';
@@ -28,8 +17,12 @@ import { useHistory } from 'react-router';
 import { loginHook } from '../../hooks';
 import { UserSignUpSource, UserType } from '../../enums';
 
-interface ContainerProps {}
-const LoginContainer: React.FC<ContainerProps> = () => {
+interface IContainerProps {
+  userType: UserType;
+}
+const LoginContainer: React.FC<IContainerProps> = (props: IContainerProps) => {
+  const { userType } = props;
+
   const [message, setMessage] = useState<string>('');
   const [user, setUser] = useState<ICognitoUser | undefined>();
   const [phoneNumber, setPhoneNumber] = useState<string>('7387799822');
@@ -81,6 +74,8 @@ const LoginContainer: React.FC<ContainerProps> = () => {
 
   return (
     <div className='login-action'>
+      {UserType[userType]}
+
       <IonInput
         type='text'
         className='custom-login'

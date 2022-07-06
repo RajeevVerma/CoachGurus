@@ -2,8 +2,10 @@ import { IonCol, IonContent, IonGrid, IonRow } from '@ionic/react';
 import { useState, useEffect } from 'react';
 
 import { Header, Footer, GuruCard, HomeBanner } from '../../components';
+import { UserType } from '../../enums';
 import { LoginService } from '../../hooks/login.service';
 import { ICognitoUser } from '../../models';
+import LoginModal from '../Modals/Login/Login';
 
 import './Home.css';
 
@@ -11,7 +13,9 @@ const Home: React.FC = () => {
   const { getLoggedInUser, logOut } = LoginService();
 
   const [user, setUser] = useState<ICognitoUser | undefined>();
-  
+  const [showModal, setShowModal] = useState<boolean>(false);
+  const [userType, setUserType] = useState<UserType>(UserType.Trainee);
+
   const handleLogoutSession = () => logOut();
 
   useEffect(() => {
@@ -25,12 +29,22 @@ const Home: React.FC = () => {
         });
     };
     verifyUser();
-  }, [getLoggedInUser,user]);
+  }, [getLoggedInUser, user]);
 
+  const handleLoginClickEvent = (value = true, userType?: UserType) => {
+    setShowModal(value);
+    if (userType) {
+      setUserType(userType);
+    }
+  };
 
   return (
     <>
-      <Header user={user} logOutSession={handleLogoutSession} />
+      <Header
+        user={user}
+        logOutSession={handleLogoutSession}
+        onLoginClickEvent={handleLoginClickEvent}
+      />
       <IonContent fullscreen={true}>
         {/** Banner  */}
         <HomeBanner />
@@ -52,6 +66,12 @@ const Home: React.FC = () => {
         </IonGrid>
         <Footer />
       </IonContent>
+
+      <LoginModal
+        showModal={showModal}
+        onModalClosed={() => handleLoginClickEvent(false)}
+        userType={userType}
+      />
     </>
   );
 };
