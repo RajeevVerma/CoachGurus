@@ -1,7 +1,6 @@
 import userRepo from "@repos/user-repo";
-import { IUser } from "@models/user-model";
+import { getUserPk, IUser } from "@models/user-model";
 import { UserNotFoundError } from "@shared/errors";
-import { tableItemPrefexes } from "@shared/constants/table-item-prefix";
 
 /**
  * Get all users.
@@ -28,7 +27,7 @@ async function getAll(): Promise<IUser[]> {
  * @returns
  */
 const addOne = async (user: IUser): Promise<IUser> => {
-    const userId = getUserId(user);
+    const userId = getUserPk(user);
     user.pk = userId;
     const existingUser = await userRepo.getOne(userId);
     if (existingUser) {
@@ -65,14 +64,6 @@ async function deleteOne(id: string): Promise<void> {
     return userRepo.delete(id);
 }
 
-function getUserId(user: IUser): string {
-    if (user.phoneOtpVerified) {
-        return user.pk ?? tableItemPrefexes.VerifiedUserPrefix + user.email;
-    } else {
-        return user.pk ?? tableItemPrefexes.UnVerifiedUserPrefix + user.email;
-    }
-}
-
 // Export default
 export default {
     get,
@@ -81,3 +72,5 @@ export default {
     updateOne,
     delete: deleteOne,
 } as const;
+
+
