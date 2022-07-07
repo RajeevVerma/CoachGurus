@@ -7,5 +7,7 @@ export const tableItemPrefixes = {
 
     AcademyItemPrefix: "ACD-",
 
-    AddressItemPrefix: "AD-"
+    AddressItemPrefix: "AD-",
+
+    AddressUserMappingItemPrefix: 'ADVU-' // Assuming, we will only save the address of a verfied user. 
 }

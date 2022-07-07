@@ -1,5 +1,5 @@
-import { useEffect, useState } from 'react';
-import { IonRouterOutlet } from '@ionic/react';
+import { useContext, useEffect, useState } from 'react';
+import { IonRouterOutlet, NavContext } from '@ionic/react';
 import { IonReactRouter } from '@ionic/react-router';
 import { Route, Redirect } from 'react-router';
 
@@ -13,17 +13,23 @@ import {
   ExtraCurricularPage,
   HomePage,
   SportsPage,
+  UserProfileEditPage,
 } from 'pages';
 
 interface IContainerProps {}
 const HomeContainer: React.FC<IContainerProps> = () => {
+  const { navigate } = useContext(NavContext);
+
   const { getLoggedInUser, logOut } = LoginService();
 
   const [user, setUser] = useState<ICognitoUser | undefined>();
   const [showModal, setShowModal] = useState<boolean>(false);
   const [userType, setUserType] = useState<UserType>(UserType.Trainee);
 
-  const handleLogoutSession = () => logOut();
+  const handleLogoutSession = () =>
+    logOut().then(() => {
+      navigate('/home');
+    });
 
   useEffect(() => {
     const verifyUser = () => {
@@ -52,6 +58,7 @@ const HomeContainer: React.FC<IContainerProps> = () => {
         logOutSession={handleLogoutSession}
         onLoginClickEvent={handleLoginClickEvent}
       />
+
       <IonRouterOutlet>
         <Route path='/home' exact={true}>
           <HomePage />
@@ -64,6 +71,9 @@ const HomeContainer: React.FC<IContainerProps> = () => {
         </Route>
         <Route path='/extra-curricular' exact={true}>
           <ExtraCurricularPage />
+        </Route>
+        <Route path='/profile-edit' exact={true}>
+          <UserProfileEditPage user={user} userType={userType} />
         </Route>
         <Route exact path='/'>
           <Redirect to='/home' />

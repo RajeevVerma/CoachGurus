@@ -80,6 +80,7 @@ function Header(props: IHeaderProps): JSX.Element {
         </IonCol>
         <IonCol size='3' className='ion-text-right header-item'>
           <IonButton
+            hidden={user !== undefined}
             fill='clear'
             color='dark'
             onClick={() =>

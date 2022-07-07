@@ -10,17 +10,16 @@ export interface IAddress extends IdbItemBase {
     city: string,
     state: string,
     country: string,
-
-    geoPont?: GeoPoint,
-
+    lat: string,
+    long: string,
     //** Cannot be Null and can be initialized as empty string if no value present*/
     endeavourId: string
 }
 
-export const getAddressPk = (address: IAddress): string => {
-    return address.pk ?? uniqueIdGenerator(`${tableItemPrefixes.AddressItemPrefix}${address.country}|${address.state}|${address.city}`);
+export const getAddressPk = (address: IAddress, geoHash: string): string => {
+    return address.pk ?? `${tableItemPrefixes.AddressItemPrefix}${tableItemPrefixes.AddressItemPrefix}${address.country}|${address.state}|${address.city}|${geoHash}`;
 }
 
 export const getAddressSk = (address: IAddress): string => {
-    return address.sk ?? `${address.endeavourId}`;
+    return address.sk ?? uniqueIdGenerator(tableItemPrefixes.AddressItemPrefix);
 }
