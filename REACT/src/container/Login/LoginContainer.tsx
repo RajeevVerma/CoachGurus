@@ -1,5 +1,5 @@
 // Import modules
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useHistory } from 'react-router';
 import OtpInput from 'react-otp-input';
 
@@ -30,20 +30,14 @@ const LoginContainer: React.FC<IContainerProps> = (props: IContainerProps) => {
   const { addUnauthorizeCustomUser, verifyLogin, logOut } = LoginService();
   const { customLogin } = loginHook();
 
-  const handleLogout = () => logOut();
-
-  useEffect(() => {
-    handleLogout();
-  }, [handleLogout]);
-
   const handleLoginEvent = () => {
     addUnauthorizeCustomUser(phoneNumber).then((user?: ICognitoUser) => {
       setUser(user);
     });
   };
 
-  let history = useHistory();
-
+  const history = useHistory();
+  
   const insertUser = (jwtToken: string) => {
     customLogin(
       {
@@ -54,7 +48,7 @@ const LoginContainer: React.FC<IContainerProps> = (props: IContainerProps) => {
       jwtToken
     )
       .then(() => {
-        history.push('/home');
+        history.push('/profile-edit');
       })
       .catch(() => {
         setMessage('Failed to Verify User try Again.');
