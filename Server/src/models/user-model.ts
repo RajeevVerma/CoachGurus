@@ -4,10 +4,10 @@ import {
     UserSignUpSource,
     UserType,
 } from "./enums/enumTypes";
-import iBaseDbItem from "./shared/baseDbItem";
+import IdbItemBase from "./shared/baseDbItem";
 
 // User schema
-export interface IUser extends iBaseDbItem {
+export interface IUser extends IdbItemBase {
     email?: string;
     name?: string;
     city?: string;  // GSI

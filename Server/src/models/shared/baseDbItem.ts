@@ -1,4 +1,4 @@
-export default interface iBaseDbItem {
+export default interface IdbItemBase {
     pk: string,
     sk: string
 }

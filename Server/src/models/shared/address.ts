@@ -1,7 +1,7 @@
-import iBaseDbItem from "./baseDbItem"
+import IdbItemBase from "./baseDbItem"
 
 //** Id is will be formatted as '{country}|{state}|{city}'   sorty-key - 'endeavourId'* /
-export interface IAddress extends iBaseDbItem {
+export interface IAddress extends IdbItemBase {
     addr1: string,
     addr2?: string
     city: string,
