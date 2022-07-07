@@ -1,17 +1,13 @@
-import { IonContent } from "@ionic/react";
-import React from "react";
+import { IonContent, IonPage } from '@ionic/react';
 
-import { Header } from '../../components';
-
-function Sports(): JSX.Element {
-    return (
-        <>
-            <Header />
-            <IonContent>
-                <h1>Sports</h1>
-            </IonContent>
-        </>
-    )
+function SportsPage(): JSX.Element {
+  return (
+    <IonPage>
+      <IonContent>
+        <h1>Sports</h1>
+      </IonContent>
+    </IonPage>
+  );
 }
 
-export default Sports;
+export default SportsPage;

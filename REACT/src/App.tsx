@@ -1,11 +1,7 @@
-import { Redirect, Route } from 'react-router-dom';
-import { IonApp, IonRouterOutlet, setupIonicReact } from '@ionic/react';
-import { IonReactRouter } from '@ionic/react-router';
+import { IonApp, setupIonicReact } from '@ionic/react';
 // Import AWS Configuration
 import { Amplify } from 'aws-amplify';
 import awsconfig from './aws-exports';
-
-import { Home, Academics, Sports, ExtraCuricullar } from './pages';
 
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/react/css/core.css';
@@ -25,8 +21,7 @@ import '@ionic/react/css/display.css';
 
 /* Theme variables */
 import './theme/variables.css';
-import { MobileMenu } from './components';
-import { LoginContainer } from './container';
+import HomeContainer from 'container/Home/HomeContainer';
 
 setupIonicReact();
 
@@ -34,26 +29,7 @@ Amplify.configure(awsconfig);
 
 const App: React.FC = () => (
   <IonApp>
-    <IonReactRouter>
-      <MobileMenu />
-      <IonRouterOutlet id='menu-content'>
-        <Route exact path='/home'>
-          <Home />
-        </Route>
-        <Route exact path='/sports'>
-          <Sports />
-        </Route>
-        <Route exact path='/academics'>
-          <Academics />
-        </Route>
-        <Route exact path='/extra-curicullar'>
-          <ExtraCuricullar />
-        </Route>
-        <Route exact path='/'>
-          <Redirect to='/home' />
-        </Route>
-      </IonRouterOutlet>
-    </IonReactRouter>
+    <HomeContainer />
   </IonApp>
 );
 

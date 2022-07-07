@@ -8,8 +8,11 @@ import {
   IonIcon,
   IonRow,
   IonCol,
+  IonLabel,
+  IonItem,
 } from '@ionic/react';
 import { menu, personCircleOutline } from 'ionicons/icons';
+import { Redirect, useHistory, useLocation } from 'react-router';
 import { UserType } from '../../enums';
 import { ICognitoUser } from '../../models';
 import './Header.css';
@@ -29,6 +32,8 @@ export interface IHeaderProps {
  */
 function Header(props: IHeaderProps): JSX.Element {
   const { logOutSession, onLoginClickEvent, user } = props;
+
+  const history = useHistory();
 
   return (
     <>
@@ -69,8 +74,8 @@ function Header(props: IHeaderProps): JSX.Element {
           <IonButton fill='clear' color='dark' routerLink={'/academics'}>
             Academics
           </IonButton>
-          <IonButton fill='clear' color='dark' routerLink={'/extra-curicullar'}>
-            Extra Curicullar
+          <IonButton fill='clear' color='dark' routerLink={'/extra-curricular'}>
+            Extra Curricular
           </IonButton>
         </IonCol>
         <IonCol size='3' className='ion-text-right header-item'>
