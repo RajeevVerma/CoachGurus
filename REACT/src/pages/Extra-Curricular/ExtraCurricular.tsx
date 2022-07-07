@@ -1,13 +1,13 @@
 import { IonContent, IonPage } from '@ionic/react';
 
-function AcademicsPage(): JSX.Element {
+function ExtraCurricularPage(): JSX.Element {
   return (
     <IonPage>
       <IonContent>
-        <h1>Academics</h1>
+        <h1> Extra Curricular </h1>
       </IonContent>
     </IonPage>
   );
 }
 
-export default AcademicsPage;
+export default ExtraCurricularPage;
