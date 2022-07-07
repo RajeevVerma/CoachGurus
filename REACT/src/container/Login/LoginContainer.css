@@ -8,18 +8,6 @@
     height: 100%;
 }
 
-.login-left-panel {
-    background-image: url("../../contents/images/athlete.jpg");
-    background-color: #cccccc;
-    background-repeat: no-repeat;
-    background-size: 100%;
-}
-
-.login-right-panel {
-    background-color: #fff;
-    background-image: none;
-}
-
 .login-right-panel-h1 {
     color: red;
     font-weight: bold;
@@ -56,6 +44,7 @@
     max-width: 220px;
 }
 
-.custom-login, .custom-login-otp { 
+.custom-login,
+.custom-login-otp {
     background-color: #000;
 }
