@@ -7,19 +7,19 @@ console.log(serviceConfigOptions);
 AWS.config.update(serviceConfigOptions);
 
 const dbClient = new AWS.DynamoDB.DocumentClient();
-const TABLE_NAME: string = "Users";
+const TABLE_NAME: string = "coach-gurus-entities";
 
 /**
  * Get one user.
  * @param id
  * @returns
  */
-async function getOne(id: string): Promise<IUser> {
+async function getOne(pk: string): Promise<IUser> {
     var params = {
         ExpressionAttributeValues: {
-            ":e": id,
+            ":e": pk,
         },
-        KeyConditionExpression: "id= :e",
+        KeyConditionExpression: "pk= :e",
 
         TableName: TABLE_NAME,
     };
@@ -46,7 +46,7 @@ async function getOne(id: string): Promise<IUser> {
 async function persists(id: string): Promise<boolean> {
     const db = await orm.openDb();
     for (const user of db.users) {
-        if (user.id === id) {
+        if (user.pk === id) {
             return true;
         }
     }
@@ -104,7 +104,7 @@ const save = async (user: IUser): Promise<any> => {
                         {
                             TableName: TABLE_NAME,
                             Key: {
-                                email: user.email,
+                                pk: user.pk,
                             },
                         },
                         function (err, data) {

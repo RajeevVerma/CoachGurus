@@ -2,7 +2,8 @@
     "name": "code-gurus-server",
     "version": "0.0.0",
     "scripts": {
-        "create-db": "node dist/db-infra/db-creation/createUsers.js",
+        "create-db": "node dist/db-infra/db-creation/createUsers.js --env=prod",
+        "create-db-local": "node dist/db-infra/db-creation/createUsers.js --env=local",
         "drop-db": "node dist/db-infra/db-cleanup/dropAllTables.js",
         "build": "ts-node build.ts",
         "lint": "eslint . --ext .ts",
