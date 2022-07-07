@@ -5,7 +5,7 @@ import { endeavour } from './endeavour-model';
 export interface IAcademy {
 
     name: string,
-    id: number,
+    id: string,
 
     addr?: IAddress,
 

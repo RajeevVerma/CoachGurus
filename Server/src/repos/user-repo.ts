@@ -15,28 +15,28 @@ const TABLE_NAME: string = "Users";
  * @returns
  */
 async function getOne(id: string): Promise<IUser> {
-  var params = {
-    ExpressionAttributeValues: {
-      ":e": id,
-    },
-    KeyConditionExpression: "id= :e",
+    var params = {
+        ExpressionAttributeValues: {
+            ":e": id,
+        },
+        KeyConditionExpression: "id= :e",
 
-    TableName: TABLE_NAME,
-  };
+        TableName: TABLE_NAME,
+    };
 
-  let result: IUser | undefined;
-  return new Promise((resolve, error) => {
-    dbClient.query(params, function (err, data) {
-      if (err) {
-        console.error(err);
-        error(err);
-      } else {
-        result = data.Items?.[0] as IUser;
-        console.log("GetItem succeeded:", result);
-        resolve(result);
-      }
+    let result: IUser | undefined;
+    return new Promise((resolve, error) => {
+        dbClient.query(params, function (err, data) {
+            if (err) {
+                console.error(err);
+                error(err);
+            } else {
+                result = data.Items?.[0] as IUser;
+                console.log("GetItem succeeded:", result);
+                resolve(result);
+            }
+        });
     });
-  });
 }
 
 /**
@@ -44,13 +44,13 @@ async function getOne(id: string): Promise<IUser> {
  * @param id
  */
 async function persists(id: string): Promise<boolean> {
-  const db = await orm.openDb();
-  for (const user of db.users) {
-    if (user.id === id) {
-      return true;
+    const db = await orm.openDb();
+    for (const user of db.users) {
+        if (user.id === id) {
+            return true;
+        }
     }
-  }
-  return false;
+    return false;
 }
 
 /**
@@ -58,25 +58,25 @@ async function persists(id: string): Promise<boolean> {
  * @returns
  */
 async function getAll(): Promise<IUser[]> {
-  let result: IUser[] = [];
+    let result: IUser[] = [];
 
-  return new Promise((resolve, error) => {
-    dbClient.scan(
-      {
-        TableName: TABLE_NAME,
-      },
-      function (err, data) {
-        result = data as IUser[];
-        if (err) {
-          console.error(err);
-          error(err);
-        } else {
-          console.log("getAll succeeded:", data);
-          resolve(result);
-        }
-      }
-    );
-  });
+    return new Promise((resolve, error) => {
+        dbClient.scan(
+            {
+                TableName: TABLE_NAME,
+            },
+            function (err, data) {
+                result = data as IUser[];
+                if (err) {
+                    console.error(err);
+                    error(err);
+                } else {
+                    console.log("getAll succeeded:", data);
+                    resolve(result);
+                }
+            }
+        );
+    });
 }
 
 /**
@@ -85,45 +85,45 @@ async function getAll(): Promise<IUser[]> {
  * @returns
  */
 const save = async (user: IUser): Promise<any> => {
-  console.log("user-repo", user);
-  let result: IUser | null = null;
+    console.log("user-repo", user);
+    let result: IUser | null = null;
 
-  return new Promise((resolve, error) => {
-    dbClient.put(
-      {
-        TableName: TABLE_NAME,
-        Item: user,
-      },
-      async function (err, data) {
-        if (err) {
-          console.error(err);
-        } else {
-          console.log("PutItem succeeded:", data);
-
-          await dbClient.get(
+    return new Promise((resolve, error) => {
+        dbClient.put(
             {
-              TableName: TABLE_NAME,
-              Key: {
-                email: user.email,
-              },
+                TableName: TABLE_NAME,
+                Item: user,
             },
-            function (err, data) {
-              result = data as IUser;
-              if (err) {
-                console.error(err);
-                error(err);
-              } else {
-                console.log("GetItem succeeded:", data);
-                resolve(result);
-              }
-            }
-          );
-        }
-      }
-    );
+            async function (err, data) {
+                if (err) {
+                    console.error(err);
+                } else {
+                    console.log("PutItem succeeded:", data);
 
-    return result;
-  });
+                    await dbClient.get(
+                        {
+                            TableName: TABLE_NAME,
+                            Key: {
+                                email: user.email,
+                            },
+                        },
+                        function (err, data) {
+                            result = data as IUser;
+                            if (err) {
+                                console.error(err);
+                                error(err);
+                            } else {
+                                console.log("GetItem succeeded:", data);
+                                resolve(result);
+                            }
+                        }
+                    );
+                }
+            }
+        );
+
+        return result;
+    });
 };
 
 /**
@@ -133,13 +133,13 @@ const save = async (user: IUser): Promise<any> => {
  * @returns
  */
 async function update(user: IUser): Promise<void> {
-  const db = await orm.openDb();
-  for (let i = 0; i < db.users.length; i++) {
-    if (db.users[i].id === user.id) {
-      db.users[i] = user;
-      return orm.saveDb(db);
+    const db = await orm.openDb();
+    for (let i = 0; i < db.users.length; i++) {
+        if (db.users[i].pk === user.pk) {
+            db.users[i] = user;
+            return orm.saveDb(db);
+        }
     }
-  }
 }
 
 /**
@@ -149,21 +149,21 @@ async function update(user: IUser): Promise<void> {
  * @returns
  */
 async function deleteOne(id: string): Promise<void> {
-  const db = await orm.openDb();
-  for (let i = 0; i < db.users.length; i++) {
-    if (db.users[i].id === id) {
-      db.users.splice(i, 1);
-      return orm.saveDb(db);
+    const db = await orm.openDb();
+    for (let i = 0; i < db.users.length; i++) {
+        if (db.users[i].id === id) {
+            db.users.splice(i, 1);
+            return orm.saveDb(db);
+        }
     }
-  }
 }
 
 // Export default
 export default {
-  getOne,
-  persists,
-  getAll,
-  update,
-  delete: deleteOne,
-  save,
+    getOne,
+    persists,
+    getAll,
+    update,
+    delete: deleteOne,
+    save,
 } as const;
