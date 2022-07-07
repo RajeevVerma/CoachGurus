@@ -6,14 +6,16 @@ import { Menu, MenuItem } from '@mui/material';
 
 // import models
 import { ICognitoUser } from '../../../models';
+import { UserType } from '../../../enums';
 
 export interface IProfileAvatarProps {
   user?: ICognitoUser;
   logOutSession?: () => void;
+  onLoginClickEvent?: (showModal: boolean, userType: UserType) => void;
 }
 
 function ProfileAvatar(props: IProfileAvatarProps): JSX.Element {
-  const { user, logOutSession } = props;
+  const { user, logOutSession, onLoginClickEvent } = props;
 
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 
@@ -27,21 +29,14 @@ function ProfileAvatar(props: IProfileAvatarProps): JSX.Element {
 
   return !user?.signInUserSession ? (
     <>
-      <IonButton fill='clear' color='dark' onClick={handleClick}>
+      <IonButton
+        fill='clear'
+        color='dark'
+        onClick={() =>
+          onLoginClickEvent && onLoginClickEvent(true, UserType.Trainee)
+        }>
         <IonIcon icon={personCircleOutline} />
       </IonButton>
-      <Menu
-        anchorEl={anchorEl}
-        id='profile-menu'
-        open={anchorEl ? true : false}
-        onClose={handleClose}
-        onClick={handleClose}
-        transformOrigin={{ horizontal: 'right', vertical: 'top' }}
-        anchorOrigin={{ horizontal: 'left', vertical: 'bottom' }}>
-        <MenuItem>
-          <IonButton routerLink='/login'>Sign In</IonButton>
-        </MenuItem>
-      </Menu>
     </>
   ) : (
     <>

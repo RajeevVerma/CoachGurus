@@ -1,20 +1,10 @@
 // Import modules
 import { useEffect, useState } from 'react';
+import { useHistory } from 'react-router';
 import OtpInput from 'react-otp-input';
 
 // Import components
-import {
-  IonButton,
-  IonCol,
-  IonGrid,
-  IonHeader,
-  IonIcon,
-  IonInput,
-  IonRow,
-} from '@ionic/react';
-
-// Import Utilities
-import { PlatFromUtility } from '../../utilities';
+import { IonButton, IonIcon, IonInput } from '@ionic/react';
 
 // Import Icons
 import { mailOutline } from 'ionicons/icons';
@@ -22,20 +12,23 @@ import { mailOutline } from 'ionicons/icons';
 // Import css
 import './LoginContainer.css';
 
-import { LoginService } from '../../hooks/login.service';
 import { ICognitoUser } from '../../models';
-import { useHistory } from 'react-router';
-import { loginHook } from '../../hooks';
+import { loginHook, LoginService } from '../../hooks';
 import { UserSignUpSource, UserType } from '../../enums';
 
-interface ContainerProps {}
-const LoginContainer: React.FC<ContainerProps> = () => {
+interface IContainerProps {
+  userType: UserType;
+}
+const LoginContainer: React.FC<IContainerProps> = (props: IContainerProps) => {
+  const { userType } = props;
+
   const [message, setMessage] = useState<string>('');
   const [user, setUser] = useState<ICognitoUser | undefined>();
   const [phoneNumber, setPhoneNumber] = useState<string>('7387799822');
   const [oneTimePasscode, setOneTimePasscode] = useState('');
 
   const { addUnauthorizeCustomUser, verifyLogin, logOut } = LoginService();
+  const { customLogin } = loginHook();
 
   const handleLogout = () => logOut();
 
@@ -51,36 +44,45 @@ const LoginContainer: React.FC<ContainerProps> = () => {
 
   let history = useHistory();
 
+  const insertUser = (jwtToken: string) => {
+    customLogin(
+      {
+        phoneNumber: phoneNumber,
+        SignUpSourceType: UserSignUpSource.Phone,
+        userType: userType,
+      },
+      jwtToken
+    )
+      .then(() => {
+        history.push('/home');
+      })
+      .catch(() => {
+        setMessage('Failed to Verify User try Again.');
+      });
+  };
+
   const handleVerifyLogin = async () => {
     if (user) {
       await verifyLogin(user, oneTimePasscode)
-        .then((user) => {
-          debugger;
-          if (user?.signInUserSession?.accessToken) {
-            loginHook()
-              .customLogin(
-                {
-                  email: 'anshui',
-                  id: '2',
-                  name: 'anshuld',
-                  SignUpSourceType: UserSignUpSource.Unknown,
-                  userType: UserType.Guru,
-                },
-                user?.signInUserSession?.accessToken.jwtToken
-              )
-              .then(() => {
-                history.push('/home');
-              });
+        .then((authenticatedUser?: ICognitoUser) => {
+          if (authenticatedUser?.signInUserSession?.accessToken) {
+            insertUser(
+              authenticatedUser.signInUserSession.accessToken.jwtToken
+            );
+          } else {
+            setMessage('Failed to Verify User try Again.');
           }
         })
-        .catch(() => {
-          setMessage('Invalid otp');
-        });
+        .catch(() => setMessage('Invalid otp'));
     }
   };
 
   return (
     <div className='login-action'>
+      {UserType[userType]}
+
+      {message}
+
       <IonInput
         type='text'
         className='custom-login'

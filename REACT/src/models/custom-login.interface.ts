@@ -1,3 +1,8 @@
+// Import enums
+import { UserSignUpSource, UserType } from '../enums';
+
 export interface ICustomLogin {
-  phoneNumber: number;
+  phoneNumber: string;
+  SignUpSourceType: UserSignUpSource;
+  userType: UserType;
 }

@@ -49,9 +49,6 @@ const App: React.FC = () => (
         <Route exact path='/extra-curicullar'>
           <ExtraCuricullar />
         </Route>
-        <Route exact path='/login'>
-          <LoginContainer />
-        </Route>
         <Route exact path='/'>
           <Redirect to='/home' />
         </Route>
