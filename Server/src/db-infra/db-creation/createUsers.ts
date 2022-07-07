@@ -1,6 +1,23 @@
-import { serviceConfigOptions } from "../../shared/constants/aws-config";
+import { dbEndpoint, serviceConfigOptions, setProductionEndpoint } from "../../shared/constants/aws-config";
 import * as AWS from "aws-sdk";
+import commandLineArgs from "command-line-args";
 
+const options = commandLineArgs([
+    {
+        name: "env",
+        alias: "e",
+        defaultValue: "development",
+        type: String,
+    },
+]);
+
+console.log("options", options);
+
+if (options.env === "prod") {
+    setProductionEndpoint();
+    console.log("dbEndpoint set", dbEndpoint);
+}
+console.log('DynamoDb config.', serviceConfigOptions);
 AWS.config.update(serviceConfigOptions);
 
 var dynamodb = new AWS.DynamoDB();

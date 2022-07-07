@@ -1,25 +1,23 @@
 {
     "users": [
         {
-            "name": "Sean Maxwell",
-            "email": "sean.maxwell@gmail.com",
-            "pwdHash": "$2b$12$1mE2OI9hMS/rgH9Mi0s85OM2V5gzm7aF3gJIWH1y0S1MqVBueyjsy",
-            "role": 1,
-            "id": 159123164363
-        },
-        {
-            "name": "Gordan Freeman",
-            "email": "gordan.freeman@halflife.com",
-            "pwdHash": "$2b$12$1mE2OI9hMS/rgH9Mi0s85OM2V5gzm7aF3gJIWH1y0S1MqVBueyjsy",
-            "role": 0,
-            "id": 906524522143
-        },
-        {
-            "name": "John Smith",
-            "email": "jsmith@yahoo.com",
-            "pwdHash": "$2b$12$1mE2OI9hMS/rgH9Mi0s85OM2V5gzm7aF3gJIWH1y0S1MqVBueyjsy",
-            "role": 0,
-            "id": 357437875835
+            "firstName": "Rajeev",
+            "lastName": "Verma",
+            "email": "rajeev@gmal.com",
+            "signUpSourceType": "Facebook",
+            "userType": "coach",
+            "mobilePhone": "8983465716",
+            "signUpDate": "06-07-2022",
+            "profilePicUrl": "profile-Z6P_9233.jpg",
+            "bucketFolderName": "123456",
+            "profileData": {
+                "shortBio": "He is an amazing badminton coach. Very famous in Kharadi area and trainess look to him for intermediate to professional level training.",
+                "description": "Professional Badminton Coach",
+                "certifications": "PSM Level-3",
+                "coachingPhotos": "DSC_4186.jpg|DSC_4101.jpg"
+            },
+            "isCoachGuruVerfied": true,
+            "coachingEndeavourIds": "S-B-1"
         }
     ]
 }

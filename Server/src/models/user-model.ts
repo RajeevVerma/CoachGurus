@@ -62,6 +62,7 @@ export const getUserPk = (user: IUser): string => {
 
 export const getUserSk = (user: IUser): string => {
     return user.email ?? '';
+
 }
 
 /**
