@@ -4,7 +4,7 @@ import { IonReactRouter } from '@ionic/react-router';
 import { Route, Redirect } from 'react-router';
 import { createBrowserHistory } from 'history';
 
-import { Header } from 'components';
+import { Header, MobileMenu } from 'components';
 import { UserType } from 'enums';
 import { LoginService } from 'hooks';
 import { ICognitoUser } from 'models';
@@ -63,8 +63,9 @@ const HomeContainer: React.FC<IContainerProps> = () => {
         logOutSession={handleLogoutSession}
         onLoginClickEvent={handleLoginClickEvent}
       />
+      <MobileMenu />
 
-      <IonRouterOutlet onChange={() => handleLoginClickEvent(false)}>
+      <IonRouterOutlet id='menu-content'>
         <Route path='/home' exact={true}>
           <HomePage />
         </Route>

@@ -42,11 +42,12 @@ function Header(props: IHeaderProps): JSX.Element {
             </IonMenuButton>
           </IonButtons>
           <IonTitle slot='start'>Coach Guru</IonTitle>
-
+         
           <IonButtons slot='end'>
             <ProfileAvatar
-              user={props.user}
-              logOutSession={props.logOutSession}
+              user={user}
+              logOutSession={logOutSession}
+              onLoginClickEvent={onLoginClickEvent}
             />
           </IonButtons>
         </IonToolbar>
