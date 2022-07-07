@@ -1,11 +1,11 @@
-export const tableItemPrefexes = {
+export const tableItemPrefixes = {
 
-    VerifiedUserPrefix : "VU-",
+    VerifiedUserPrefix: "VU-",
     UnVerifiedUserPrefix: "UU-",
 
     ActivityItemPrefix: "ACT-",
 
     AcademyItemPrefix: "ACD-",
 
-    LocationItemPrefix: "LOC-"
+    AddressItemPrefix: "AD-"
 }

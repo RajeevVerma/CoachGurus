@@ -1,10 +1,11 @@
+import { tableItemPrefixes as tableItemPrefixes } from "@shared/constants/table-item-prefix";
 import { uniqueIdGenerator } from "@shared/utils";
 import {
     EndeavourCategory,
     UserSignUpSource,
     UserType,
 } from "./enums/enumTypes";
-import IdbItemBase from "./shared/baseDbItem";
+import IdbItemBase from "./shared/dbItemBase";
 
 // User schema
 export interface IUser extends IdbItemBase {
@@ -12,7 +13,7 @@ export interface IUser extends IdbItemBase {
     name?: string;
     city?: string;  // GSI
     signUpSourceType: UserSignUpSource;
-    mobilePhone?: string;
+    mobilePhone: string;
     alternatePhone?: string;
     userType?: UserType;
 
@@ -24,20 +25,20 @@ export interface IUser extends IdbItemBase {
     profileData?: {
         shortBio?: string;
         description?: string;
-        /**store | separeted if multiple */
+        /**store | separated if multiple */
         certifications?: string;
 
         /**coach qualifications | separated*/
         qualifications?: string;
-        /**store | separeted if multiple */
+        /**store | separated if multiple */
         coachingPhotos?: string;
     };
 
     /** To show any badge  */
-    isCoachGuruVerfied?: boolean;
+    isCoachGuruVerified?: boolean;
 
     /* pipe separated */
-    locationids?: string;
+    locationPks?: string;
 
     phoneOtpVerified?: boolean; // TODO: Can be indexed
     emailOtpVerified?: boolean;
@@ -45,9 +46,22 @@ export interface IUser extends IdbItemBase {
     /**
      * Endeavour ids | separated
      */
-    coachingEndeavourIds: string; //
+    coachingEndeavourPks: string;
     /** Should be sorted based on priority */
     // endeavourTypes?: EndeavourCategory[];
+}
+
+export const getUserPk = (user: IUser): string => {
+    if (user.phoneOtpVerified) {
+        return user.pk ?? tableItemPrefixes.VerifiedUserPrefix + user.mobilePhone;
+    } else {
+        // todo: do not save in DB but save in s3 file. client IP/User agent/Device Id
+        return user.pk ?? tableItemPrefixes.UnVerifiedUserPrefix + user.mobilePhone;
+    }
+}
+
+export const getUserSk = (user: IUser): string => {
+    return user.email ?? '';
 }
 
 /**
@@ -56,15 +70,17 @@ export interface IUser extends IdbItemBase {
  * @returns
  */
 function getNew(name: string, email: string): IUser {
+    const phone = '8983879384';
     return {
-        pk: 'U-' + email,
-        sk: '',
+        pk: tableItemPrefixes.VerifiedUserPrefix + phone,
+        sk: phone,
+        mobilePhone: phone,
         email,
         name,
         signUpSourceType: UserSignUpSource.Facebook,
         userType: UserType.Guru,
         signUpDate: new Date(),
-        coachingEndeavourIds: "1",
+        coachingEndeavourPks: "E-1",
     };
 }
 
