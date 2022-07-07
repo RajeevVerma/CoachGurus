@@ -1,52 +1,53 @@
 import { uniqueIdGenerator } from "@shared/utils";
 import {
-  EndeavourCategory,
-  UserSignUpSource,
-  UserType,
+    EndeavourCategory,
+    UserSignUpSource,
+    UserType,
 } from "./enums/enumTypes";
+import iBaseDbItem from "./shared/baseDbItem";
 
 // User schema
-export interface IUser {
-  id: string;
-  email?: string;
-  name?: string;
-  signUpSourceType: UserSignUpSource;
-  mobilePhone?: string;
-  alternatePhone?: string;
-  userType?: UserType;
+export interface IUser extends iBaseDbItem {
+    email?: string;
+    name?: string;
+    city?: string;  // GSI
+    signUpSourceType: UserSignUpSource;
+    mobilePhone?: string;
+    alternatePhone?: string;
+    userType?: UserType;
 
-  /** Auto set on backend */
-  signUpDate?: Date;
-  lastLoginDate?: Date;
-  profilePicUrl?: string;
+    /** Auto set on backend */
+    signUpDate?: Date;
+    lastLoginDate?: Date;
+    profilePicUrl?: string;
 
-  profileData?: {
-    shortBio?: string;
-    description?: string;
-    /**store | separeted if multiple */
-    certifications?: string;
+    profileData?: {
+        shortBio?: string;
+        description?: string;
+        /**store | separeted if multiple */
+        certifications?: string;
 
-    /**coach qualifications | separated*/
-    qualifications?: string;
-    /**store | separeted if multiple */
-    coachingPhotos?: string;
-  };
+        /**coach qualifications | separated*/
+        qualifications?: string;
+        /**store | separeted if multiple */
+        coachingPhotos?: string;
+    };
 
-  /** To show any badge  */
-  isCoachGuruVerfied?: boolean;
+    /** To show any badge  */
+    isCoachGuruVerfied?: boolean;
 
-  /* pipe separated */
-  locationids?: string;
+    /* pipe separated */
+    locationids?: string;
 
-  phoneOtpVerified?: boolean; // TODO: Can be indexed
-  emailOtpVerified?: boolean;
+    phoneOtpVerified?: boolean; // TODO: Can be indexed
+    emailOtpVerified?: boolean;
 
-  /**
-   * Endeavour ids | separated
-   */
-  coachingEndeavourIds: string; //
-  /** Should be sorted based on priority */
-  // endeavourTypes?: EndeavourCategory[];
+    /**
+     * Endeavour ids | separated
+     */
+    coachingEndeavourIds: string; //
+    /** Should be sorted based on priority */
+    // endeavourTypes?: EndeavourCategory[];
 }
 
 /**
@@ -55,15 +56,16 @@ export interface IUser {
  * @returns
  */
 function getNew(name: string, email: string): IUser {
-  return {
-    id: uniqueIdGenerator("user"),
-    email,
-    name,
-    signUpSourceType: UserSignUpSource.Facebook,
-    userType: UserType.Guru,
-    signUpDate: new Date(),
-    coachingEndeavourIds: "1",
-  };
+    return {
+        pk: 'U-' + email,
+        sk: '',
+        email,
+        name,
+        signUpSourceType: UserSignUpSource.Facebook,
+        userType: UserType.Guru,
+        signUpDate: new Date(),
+        coachingEndeavourIds: "1",
+    };
 }
 
 /**
@@ -73,11 +75,11 @@ function getNew(name: string, email: string): IUser {
  * @returns
  */
 function copy(user: IUser): IUser {
-  return { ...user };
+    return { ...user };
 }
 
 // Export default
 export default {
-  new: getNew,
-  copy,
+    new: getNew,
+    copy,
 };
