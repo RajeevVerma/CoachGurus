@@ -1,5 +1,5 @@
 import userRepo from "@repos/user-repo";
-import { getUserPk, getUserSk, IUser } from "@models/user-model";
+import { getGeneratedUserPk, getUserPk, getUserSk, IUser } from "@models/user-model";
 import { UserNotFoundError } from "@shared/errors";
 
 /**
@@ -7,8 +7,9 @@ import { UserNotFoundError } from "@shared/errors";
  *
  * @returns
  */
-async function get(email: string): Promise<IUser> {
-    return await userRepo.getOne(email);
+async function get(phone: string): Promise<IUser> {
+    const pk = getGeneratedUserPk(phone);
+    return await userRepo.getOne(pk);
 }
 
 /**
@@ -32,11 +33,11 @@ const addOne = async (user: IUser): Promise<IUser> => {
     console.log('user pk', userId);
 
     user.pk = userId;
-    const existingUser = await userRepo.getOne(userId);
+    const existingUser = 0//await userRepo.getOne(userId);
     if (existingUser) {
         return existingUser;
     }
-    user.sk = getUserSk(user);
+    user.sk = getUserSk(user.pk);
 
     return await userRepo.save(user);
 };

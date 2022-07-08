@@ -39,8 +39,8 @@ var params = {
             KeyType: "HASH"
         }, //Partition key
         {
-            "AttributeName": "sk",
-            "KeyType": "RANGE"
+            AttributeName: "sk",
+            KeyType: "RANGE"
         }
 
     ],
