@@ -9,6 +9,8 @@ import {
 import { UserType } from 'enums';
 import { ICognitoUser } from 'models';
 
+import './UserProfileEdit.css';
+
 interface IUserProfileEditPageProps {
   user?: ICognitoUser;
   userType: UserType;
@@ -16,8 +18,8 @@ interface IUserProfileEditPageProps {
 
 function UserProfileEditPage(props: IUserProfileEditPageProps): JSX.Element {
   return (
-    <IonPage>
-      <IonContent fullscreen={true}>
+    <IonPage className='user-profile'>
+      <IonContent fullscreen={false}>
         <IonItem>
           <IonLabel>Name</IonLabel>
           <IonInput type='text' id='user-name' />
@@ -37,10 +39,17 @@ function UserProfileEditPage(props: IUserProfileEditPageProps): JSX.Element {
           <IonLabel>User Type</IonLabel>
           <IonInput type='text' id='user-type' />
         </IonItem>
-
-        <IonChip>
-          <IonLabel>Default</IonLabel>
-        </IonChip>
+        <IonItem>
+          <IonChip>
+            <IonLabel>Sports</IonLabel>
+          </IonChip>
+          <IonChip>
+            <IonLabel>Academics</IonLabel>
+          </IonChip>
+          <IonChip>
+            <IonLabel>Extra Curricular</IonLabel>
+          </IonChip>
+        </IonItem>
       </IonContent>
     </IonPage>
   );

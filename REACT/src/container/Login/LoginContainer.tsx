@@ -27,7 +27,7 @@ const LoginContainer: React.FC<IContainerProps> = (props: IContainerProps) => {
   const [phoneNumber, setPhoneNumber] = useState<string>('7387799822');
   const [oneTimePasscode, setOneTimePasscode] = useState('');
 
-  const { addUnauthorizeCustomUser, verifyLogin, logOut } = LoginService();
+  const { addUnauthorizeCustomUser, verifyLogin } = LoginService();
   const { customLogin } = loginHook();
 
   const handleLoginEvent = () => {
@@ -37,7 +37,7 @@ const LoginContainer: React.FC<IContainerProps> = (props: IContainerProps) => {
   };
 
   const history = useHistory();
-  
+
   const insertUser = (jwtToken: string) => {
     customLogin(
       {

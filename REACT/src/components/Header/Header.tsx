@@ -8,11 +8,8 @@ import {
   IonIcon,
   IonRow,
   IonCol,
-  IonLabel,
-  IonItem,
 } from '@ionic/react';
-import { menu, personCircleOutline } from 'ionicons/icons';
-import { Redirect, useHistory, useLocation } from 'react-router';
+import { menu } from 'ionicons/icons';
 import { UserType } from '../../enums';
 import { ICognitoUser } from '../../models';
 import './Header.css';
@@ -32,9 +29,6 @@ export interface IHeaderProps {
  */
 function Header(props: IHeaderProps): JSX.Element {
   const { logOutSession, onLoginClickEvent, user } = props;
-
-  const history = useHistory();
-
   return (
     <>
       {/* Mobile header */}
@@ -48,11 +42,12 @@ function Header(props: IHeaderProps): JSX.Element {
             </IonMenuButton>
           </IonButtons>
           <IonTitle slot='start'>Coach Guru</IonTitle>
-
+         
           <IonButtons slot='end'>
             <ProfileAvatar
-              user={props.user}
-              logOutSession={props.logOutSession}
+              user={user}
+              logOutSession={logOutSession}
+              onLoginClickEvent={onLoginClickEvent}
             />
           </IonButtons>
         </IonToolbar>

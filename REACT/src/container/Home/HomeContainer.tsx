@@ -1,9 +1,10 @@
-import { useContext, useEffect, useState } from 'react';
-import { IonRouterOutlet, NavContext } from '@ionic/react';
+import { useEffect, useState } from 'react';
+import { IonRouterOutlet } from '@ionic/react';
 import { IonReactRouter } from '@ionic/react-router';
 import { Route, Redirect } from 'react-router';
+import { createBrowserHistory } from 'history';
 
-import { Header } from 'components';
+import { Header, MobileMenu } from 'components';
 import { UserType } from 'enums';
 import { LoginService } from 'hooks';
 import { ICognitoUser } from 'models';
@@ -16,10 +17,10 @@ import {
   UserProfileEditPage,
 } from 'pages';
 
+export const history = createBrowserHistory();
+
 interface IContainerProps {}
 const HomeContainer: React.FC<IContainerProps> = () => {
-  const { navigate } = useContext(NavContext);
-
   const { getLoggedInUser, logOut } = LoginService();
 
   const [user, setUser] = useState<ICognitoUser | undefined>();
@@ -28,8 +29,12 @@ const HomeContainer: React.FC<IContainerProps> = () => {
 
   const handleLogoutSession = () =>
     logOut().then(() => {
-      navigate('/home');
+      history.push('/home');
     });
+
+  history.listen(() => {
+    setShowModal(false);
+  });
 
   useEffect(() => {
     const verifyUser = () => {
@@ -42,7 +47,7 @@ const HomeContainer: React.FC<IContainerProps> = () => {
         });
     };
     verifyUser();
-  }, [getLoggedInUser, user]);
+  }, [getLoggedInUser]);
 
   const handleLoginClickEvent = (value = true, userType?: UserType) => {
     setShowModal(value);
@@ -52,14 +57,15 @@ const HomeContainer: React.FC<IContainerProps> = () => {
   };
 
   return (
-    <IonReactRouter>
+    <IonReactRouter history={history}>
       <Header
         user={user}
         logOutSession={handleLogoutSession}
         onLoginClickEvent={handleLoginClickEvent}
       />
+      <MobileMenu />
 
-      <IonRouterOutlet>
+      <IonRouterOutlet id='menu-content'>
         <Route path='/home' exact={true}>
           <HomePage />
         </Route>
