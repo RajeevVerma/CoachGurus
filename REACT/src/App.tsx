@@ -56,7 +56,7 @@ const App: React.FC = () => (
                     <CoachProfileContainer />
                 </Route>
                 <Route exact path="/">
-                    <Redirect to="/coach" />
+                    <Redirect to="/home" />
                 </Route>
             </IonRouterOutlet>
         </IonReactRouter>
