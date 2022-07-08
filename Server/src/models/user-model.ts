@@ -52,22 +52,24 @@ export interface IUser extends IdbItemBase {
 }
 
 export const getUserPk = (user: IUser): string => {
-    if (user.phoneOtpVerified) {
-        return user.pk ?? tableItemPrefixes.VerifiedUserPrefix + user.mobilePhone;
-    } else {
-        // todo: do not save in DB but save in s3 file. client IP/User agent/Device Id
-        return user.pk ?? tableItemPrefixes.UnVerifiedUserPrefix + user.mobilePhone;
-    }
+    //if (user.phoneOtpVerified) {
+    return user.pk ?? getGeneratedUserPk(user.mobilePhone);
+    // } else {
+    //     // todo: do not save in DB but save in s3 file. client IP/User agent/Device Id
+    //     return user.pk ?? getGeneratedUserPk(user.mobilePhone);
+    // }
 }
 
-export const getUserSk = (user: IUser): string => {
-    return user.email ?? '';
+export const getGeneratedUserPk = (phone: string): string => {
+    return `${tableItemPrefixes.VerifiedUserPrefix}${phone}`;
+}
 
+export const getUserSk = (pk: string): string => {
+    return getGeneratedUserPk(pk);
 }
 
 /**
- * Get a new User object.
- *
+ * Get a new User object. *
  * @returns
  */
 function getNew(name: string, email: string): IUser {
