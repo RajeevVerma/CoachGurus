@@ -49,7 +49,8 @@ function Header(props: IHeaderProps): JSX.Element {
                     Coach Guru
                 </IonCol>
 
-                <IonCol size='6' class='ion-text-left header-item'>
+
+                <IonCol size='9' class='ion-text-right header-item'>
                     <IonButton fill='clear' color='light' routerLink={"/home"}>
                         Home
                     </IonButton>
@@ -62,8 +63,6 @@ function Header(props: IHeaderProps): JSX.Element {
                     <IonButton fill='clear' color='light' routerLink={"/extra-curicullar"}>
                         Extra Curicullar
                     </IonButton>
-                </IonCol>
-                <IonCol size='3' className='ion-text-right header-item'>
                     <IonButton fill='clear' color='light' routerLink={'/login'}>
                         Join as Coach
                     </IonButton>

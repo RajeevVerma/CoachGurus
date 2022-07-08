@@ -9,7 +9,7 @@ import { Button, IconButton, InputBase, Paper, Typography } from '@mui/material'
 import { search } from 'ionicons/icons';
 import { Box, Container } from '@mui/system';
 import LocationPicker from '../../components/Header/LocationPicker/LocationPicker';
-import { Header, Footer, GuruCard, HomeBanner, Testimonials} from '../../components';
+import { BlogContent, Header, Footer, GuruCard, HomeBanner, Testimonials} from '../../components';
 import './Home.scss';
 
 const guruList = [
@@ -44,31 +44,33 @@ const Home: React.FC = () => {
     return (
         <>
             <IonContent>
-            <header className="main-header">
+            <header>
                 <Header />
-                <div className="bannerContent">
-                    <Typography variant="h2">Find the Best Gurus</Typography>
-                    <IonRow className='search-container'>
-                    <IonCol className='search-locaiton-container' size='2' sizeMd='2' sizeSm='6' sizeXs='6'>
-                        <LocationPicker />
-                    </IonCol>
+                <div className="main-header">
+                    <div className="bannerContent">
+                        <Typography variant="h2">Find <br />The Best Gurus</Typography>
+                        <IonRow className='search-container'>
+                        <IonCol className='search-item search-locaiton-container' size='2' sizeMd='2' sizeSm='6' sizeXs='6'>
+                            <LocationPicker />
+                        </IonCol>
 
-                    <IonCol size='8' sizeMd='6' sizeSm='6' sizeXs='6'>
-                        <Paper
-                            component="form"
-                            sx={{ p: '2px 4px', display: 'flex', alignItems: 'center' }}>
+                        <IonCol className='search-item search-guru' size='4' sizeMd='4' sizeSm='6' sizeXs='6'>
+                            <Paper
+                                component="form"
+                                sx={{ p: '2px 4px', display: 'flex', alignItems: 'center' }}>
 
-                            <InputBase
-                                sx={{ ml: 1, flex: 1 }}
-                                placeholder="Search Gurus"
-                                inputProps={{ 'aria-label': 'search gurus' }}
-                            />
-                            <IconButton type="submit" sx={{ p: '10px' }} aria-label="search">
-                                <IonIcon icon={search} />
-                            </IconButton>
-                        </Paper>
-                    </IonCol>
-                </IonRow>
+                                <InputBase
+                                    sx={{ ml: 1, flex: 1 }}
+                                    placeholder="Search Gurus"
+                                    inputProps={{ 'aria-label': 'search gurus' }}
+                                />
+                                <IconButton type="submit" sx={{ p: '10px' }} aria-label="search">
+                                    <IonIcon icon={search} />
+                                </IconButton>
+                            </Paper>
+                        </IonCol>
+                    </IonRow>
+                    </div>
                 </div>
             </header>
                 {/** Banner  */}
@@ -98,6 +100,7 @@ const Home: React.FC = () => {
                 </Container>
                             
                 <Testimonials />
+                <BlogContent />
                 <Footer />
 
             </IonContent>
