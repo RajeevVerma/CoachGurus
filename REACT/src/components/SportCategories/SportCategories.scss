@@ -1,0 +1,43 @@
+@media (min-width: 680px) {
+  .sport-categories {
+    margin-top: 2rem;
+    display: block;
+  }
+}
+
+@media (max-width: 680px) {
+  .sport-categories {
+    display: none;
+  }
+}
+
+.sportsList {
+  position: absolute;
+  bottom: 20px;
+  margin: 0 auto;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  max-width: 1400px;
+}
+
+.sportCategory {
+  text-align: center;
+
+   img {
+    max-width: 60px;
+    transition: transform .3s;
+    cursor: pointer;
+
+    &:hover{
+      transform: scale(1.15);
+    }
+
+   }
+
+   p {
+    font-weight: bold;
+    // color: #1d2029;
+    color: #FFF;
+   }
+}

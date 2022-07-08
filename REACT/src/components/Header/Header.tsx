@@ -59,36 +59,38 @@ function Header(props: IHeaderProps): JSX.Element {
           Coach Guru
         </IonCol>
 
-        <IonCol size='6' class='ion-text-left header-item'>
-          <IonButton fill='clear' color='dark' routerLink={'/home'}>
+        <IonCol size='9' class='ion-text-right header-item'>
+          <IonButton fill='clear' color='light' routerLink={'/home'}>
             Home
           </IonButton>
-          <IonButton fill='clear' color='dark' routerLink={'/sports'}>
+          <IonButton fill='clear' color='light' routerLink={'/sports'}>
             Sports
           </IonButton>
-          <IonButton fill='clear' color='dark' routerLink={'/academics'}>
+          <IonButton fill='clear' color='light' routerLink={'/academics'}>
             Academics
           </IonButton>
-          <IonButton fill='clear' color='dark' routerLink={'/extra-curricular'}>
+          <IonButton fill='clear' color='light' routerLink={'/extra-curricular'}>
             Extra Curricular
           </IonButton>
+            <IonButton
+                hidden={user !== undefined}
+                fill='clear'
+                color='light'
+                onClick={() =>
+                onLoginClickEvent && onLoginClickEvent(true, UserType.Guru)
+                }>
+                Join as Coach
+            </IonButton>
+            <IonButton>
+            <ProfileAvatar
+                user={user}
+                logOutSession={logOutSession}
+                onLoginClickEvent={onLoginClickEvent}
+            />
+            </IonButton>
         </IonCol>
-        <IonCol size='3' className='ion-text-right header-item'>
-          <IonButton
-            hidden={user !== undefined}
-            fill='clear'
-            color='dark'
-            onClick={() =>
-              onLoginClickEvent && onLoginClickEvent(true, UserType.Guru)
-            }>
-            Join as Coach
-          </IonButton>
-          <ProfileAvatar
-            user={user}
-            logOutSession={logOutSession}
-            onLoginClickEvent={onLoginClickEvent}
-          />
-        </IonCol>
+        {/* <IonCol size='3' className='ion-text-right header-item'>
+        </IonCol> */}
       </IonRow>
     </>
   );

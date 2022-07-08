@@ -5,10 +5,12 @@
   "dependencies": {
     "@awesome-cordova-plugins/core": "^5.43.0",
     "@awesome-cordova-plugins/geolocation": "^5.43.0",
+    "@aws-amplify/auth": "^4.5.8",
     "@capacitor-community/facebook-login": "^3.4.0",
     "@capacitor/android": "3.5.1",
     "@capacitor/app": "1.1.1",
     "@capacitor/core": "^3.5.1",
+    "@capacitor/google-maps": "^1.1.0",
     "@capacitor/haptics": "1.1.4",
     "@capacitor/ios": "^3.5.1",
     "@capacitor/keyboard": "1.2.2",
@@ -34,6 +36,7 @@
     "cordova-plugin-geolocation": "^4.1.0",
     "http-proxy-middleware": "^2.0.6",
     "ionicons": "^5.4.0",
+    "node-sass": "^7.0.1",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
     "react-otp-input": "^2.4.0",
@@ -86,6 +89,7 @@
   "devDependencies": {
     "@capacitor/cli": "3.5.1",
     "@types/uuid": "^8.3.4",
+    "@ionic/lab": "3.2.13",
     "react-rating-stars-component": "^2.2.0"
   },
   "description": "An Ionic project"

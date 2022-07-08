@@ -8,33 +8,40 @@ import SportCategories from '../SportCategories/SportCategories';
 
 const sportCategories = [
     {
-        imageUrl: `${process.env.PUBLIC_URL}/assets/images/tennis.jpg`,
-        category: 'badminton'
+        imageUrl: `${process.env.PUBLIC_URL}/assets/images/badminton.png`,
+        category: 'Badminton'
     },
     {
-        imageUrl: `${process.env.PUBLIC_URL}/assets/images/tennis.jpg`,
-        category: 'swimming'
+        imageUrl: `${process.env.PUBLIC_URL}/assets/images/swimming.png`,
+        category: 'Swimming'
     },
     {
-        imageUrl: `${process.env.PUBLIC_URL}/assets/images/tennis.jpg`,
-        category: 'tennis'
+        imageUrl: `${process.env.PUBLIC_URL}/assets/images/basketball.png`,
+        category: 'Basketball'
     },
     {
-        imageUrl: `${process.env.PUBLIC_URL}/assets/images/tennis.jpg`,
-        category: 'cricket'
+        imageUrl: `${process.env.PUBLIC_URL}/assets/images/chess.png`,
+        category: 'Chess'
+    },
+    {
+        imageUrl: `${process.env.PUBLIC_URL}/assets/images/cricket.png`,
+        category: 'Cricket'
+    },
+    {
+        imageUrl: `${process.env.PUBLIC_URL}/assets/images/tennis.png`,
+        category: 'Tennis'
     },
 ];
 
 export default function HomeBanner() {
     return (
-        <section className='banner-wrapper'>
             <Container
                 sx={{
                     mt: 3,
-                    mb: 14,
+                    mb: 3,
                     alignItems: 'center',
                 }}>
-                <Typography color="inherit" align="center" sx={{ typography: { sm: 'h2', xs: 'h4' } }}>
+                {/* <Typography color="inherit" align="center" sx={{ typography: { sm: 'h2', xs: 'h4' } }}>
                     Find the best gurus
                 </Typography>
                 <IonRow className='search-container'>
@@ -61,9 +68,7 @@ export default function HomeBanner() {
                     <IonCol size='2' sizeMd='2' sizeSm='6' sizeXs='6'>
                         <Button variant='contained' size='large' sx={{ height: 48 }}>Find Guru</Button>
                     </IonCol>
-                </IonRow>
-
-
+                </IonRow> */}
                 <Box
                     sx={{
                         position: 'absolute',
@@ -80,6 +85,5 @@ export default function HomeBanner() {
                 <SportCategories customClassName='sport-categories' categories={sportCategories} />
 
             </Container>
-        </section >
     );
 }

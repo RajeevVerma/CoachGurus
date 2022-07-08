@@ -29,8 +29,8 @@ function LocationPicker(): JSX.Element {
             sx={{
                 height: 50,
                 boder: "1px solid white",
-                color: '#fff', "&.MuiSVGIcon-root": {
-                    color: 'white',
+                color: '#000', "&.MuiSVGIcon-root": {
+                    color: 'black',
                 },
             }}
             onChange={handleLocationChange}>

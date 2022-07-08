@@ -22,6 +22,8 @@ import '@ionic/react/css/display.css';
 /* Theme variables */
 import './theme/variables.css';
 import HomeContainer from 'container/Home/HomeContainer';
+import { MobileMenu } from './components';
+import { LoginContainer, CoachProfileContainer } from './container';
 
 setupIonicReact();
 
