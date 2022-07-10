@@ -1,5 +1,5 @@
-import { useEffect, useState } from 'react';
-import { IonRouterOutlet } from '@ionic/react';
+import { useContext, useEffect, useState } from 'react';
+import { IonRouterOutlet, NavContext } from '@ionic/react';
 import { IonReactRouter } from '@ionic/react-router';
 import { Route, Redirect } from 'react-router';
 import { createBrowserHistory } from 'history';
@@ -21,6 +21,7 @@ export const history = createBrowserHistory();
 
 interface IContainerProps {}
 const HomeContainer: React.FC<IContainerProps> = () => {
+  const { navigate } = useContext(NavContext);
   const { getLoggedInUser, logOut } = LoginService();
 
   const [user, setUser] = useState<ICognitoUser | undefined>();
@@ -29,7 +30,7 @@ const HomeContainer: React.FC<IContainerProps> = () => {
 
   const handleLogoutSession = () =>
     logOut().then(() => {
-      history.push('/home');
+      navigate('/home');
     });
 
   history.listen(() => {

@@ -1,6 +1,9 @@
-export interface ICategories {
+export interface ISelectedCategories {
   value: string;
   key: string;
+}
+
+export interface ICategories extends ISelectedCategories {
   selected?: boolean;
   child?: ICategories[];
 }
