@@ -9,7 +9,7 @@ import {
 } from '@ionic/react';
 import { UserType } from 'enums';
 import { ICognitoUser } from 'models';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { ICategories, rootInterest } from './UserProfileEdit.Constants';
 
 import './UserProfileEdit.css';
@@ -21,6 +21,8 @@ interface IUserProfileEditPageProps {
 
 function UserProfileEditPage(props: IUserProfileEditPageProps): JSX.Element {
   let [categories, setCategories] = useState<ICategories[]>(rootInterest);
+
+  useEffect(() => {}, []);
 
   const handleCategoryClick = (category: ICategories) => {
     const categoryIndex = categories.findIndex((x) => x.key === category.key);
@@ -67,11 +69,6 @@ function UserProfileEditPage(props: IUserProfileEditPageProps): JSX.Element {
         <IonItem>
           <IonLabel>Email</IonLabel>
           <IonInput type='email' id='user-email' />
-        </IonItem>
-
-        <IonItem>
-          <IonLabel>User Type</IonLabel>
-          <IonInput type='text' id='user-type' />
         </IonItem>
 
         {categorySelection(categories)}

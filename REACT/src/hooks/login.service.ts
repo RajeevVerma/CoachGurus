@@ -1,8 +1,5 @@
 import { ICognitoUser } from '../models';
 import { AmplifyService } from './amplify.service';
-import { AwsServiceHook } from './aws-hooks';
-
-const { customLogin, socialLogin } = AwsServiceHook();
 
 const amplifyService = new AmplifyService();
 

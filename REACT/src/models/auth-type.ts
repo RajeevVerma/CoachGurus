@@ -102,3 +102,8 @@ export interface ISignInResult {
   data?: ICognitoUser;
   error?: ICognitoError;
 }
+
+export interface IUserAttributes {
+  email?: string;
+  phone_number?: string;
+}

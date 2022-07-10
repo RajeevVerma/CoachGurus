@@ -1,2 +1,2 @@
-export { AwsServiceHook } from './aws-hooks';
+export { ServerHooks } from './server-hooks';
 export { LoginService } from './login.service';
