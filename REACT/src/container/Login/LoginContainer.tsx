@@ -13,7 +13,7 @@ import { mailOutline } from 'ionicons/icons';
 import './LoginContainer.css';
 
 import { ICognitoUser } from '../../models';
-import { loginHook, LoginService } from '../../hooks';
+import { AwsServiceHook, LoginService } from '../../hooks';
 import { UserSignUpSource, UserType } from '../../enums';
 
 interface IContainerProps {
@@ -28,7 +28,7 @@ const LoginContainer: React.FC<IContainerProps> = (props: IContainerProps) => {
   const [oneTimePasscode, setOneTimePasscode] = useState('');
 
   const { addUnauthorizeCustomUser, verifyLogin } = LoginService();
-  const { customLogin } = loginHook();
+  const { customLogin } = AwsServiceHook();
 
   const handleLoginEvent = () => {
     addUnauthorizeCustomUser(phoneNumber).then((user?: ICognitoUser) => {

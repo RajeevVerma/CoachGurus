@@ -1,9 +1,8 @@
-import { UserSignUpSource, UserType } from '../enums';
 import { ICognitoUser } from '../models';
 import { AmplifyService } from './amplify.service';
-import { loginHook } from './login-hooks';
+import { AwsServiceHook } from './aws-hooks';
 
-const { customLogin, socialLogin } = loginHook();
+const { customLogin, socialLogin } = AwsServiceHook();
 
 const amplifyService = new AmplifyService();
 

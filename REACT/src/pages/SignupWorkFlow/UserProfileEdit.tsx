@@ -1,4 +1,5 @@
 import {
+  IonButton,
   IonChip,
   IonContent,
   IonInput,
@@ -9,6 +10,7 @@ import {
 import { UserType } from 'enums';
 import { ICognitoUser } from 'models';
 import { useState } from 'react';
+import { ICategories, rootInterest } from './UserProfileEdit.Constants';
 
 import './UserProfileEdit.css';
 
@@ -16,54 +18,6 @@ interface IUserProfileEditPageProps {
   user?: ICognitoUser;
   userType: UserType;
 }
-
-interface ICategories {
-  value: string;
-  key: string;
-  selected?: boolean;
-  child?: ICategories[];
-}
-
-const rootInterest: ICategories[] = [
-  {
-    key: 'S-1',
-    value: 'Sports',
-    child: [
-      {
-        key: 'S-1-1',
-        value: 'Cricket',
-      },
-      {
-        key: 'S-1-2',
-        value: 'Volleyball',
-      },
-      {
-        key: 'S-1-3',
-        value: 'Badminton',
-      },
-    ],
-  },
-  {
-    key: 'A-1',
-    value: 'Academics',
-    child: [
-      {
-        key: 'A-1-1',
-        value: 'Maths',
-        child: [
-          {
-            key: 'A-1-1-1',
-            value: 'Primary School',
-          },
-        ],
-      },
-    ],
-  },
-  {
-    key: 'E-1',
-    value: 'Extra-Curricular',
-  },
-];
 
 function UserProfileEditPage(props: IUserProfileEditPageProps): JSX.Element {
   let [categories, setCategories] = useState<ICategories[]>(rootInterest);
@@ -121,6 +75,10 @@ function UserProfileEditPage(props: IUserProfileEditPageProps): JSX.Element {
         </IonItem>
 
         {categorySelection(categories)}
+
+        <IonItem>
+          <IonButton>Submit</IonButton>
+        </IonItem>
       </IonContent>
     </IonPage>
   );

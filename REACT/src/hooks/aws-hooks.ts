@@ -1,6 +1,6 @@
 import { ICustomLogin, ISocialUser } from '../models';
 
-export function loginHook() {
+export function AwsServiceHook() {
   const socialLogin = async (user: ISocialUser) => {
     await fetch('/api/users/add', {
       method: 'POST',

@@ -1,10 +1,10 @@
 import { Auth } from '@aws-amplify/auth';
 import { CognitoHostedUIIdentityProvider } from '@aws-amplify/auth/lib/types/Auth';
-import { v4, v5 } from 'uuid';
+import { v4 } from 'uuid';
 import { ICognitoError, ICognitoUser } from '../models';
-import { loginHook } from './login-hooks';
+import { AwsServiceHook } from './aws-hooks';
 
-const { customLogin } = loginHook();
+const { customLogin } = AwsServiceHook();
 
 export class AmplifyService {
   /**
