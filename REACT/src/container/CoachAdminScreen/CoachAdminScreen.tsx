@@ -1,5 +1,6 @@
 import * as React from 'react';
 import {
+    Button,
     Card,
     Container,
     Typography,
@@ -118,9 +119,10 @@ const CoachAdminScreen: React.FC<CoachAdminScreenProps> = () => {
                                 <FormGroup className={styles.inputFormGroup}>
                                     <label>Upload your profile pic</label>
                                     <div>
-                                        <TextField 
-                                        style={{ minWidth: '100%' }}
-                                        size="small" className={styles.coachAdminInput}  placeholder="Headline"  id="headline" variant="outlined" />
+                                        <input type="file"
+                                            className={styles.coachAdminProfilePhoto}
+                                            name="profile"
+                                            accept="image/png, image/jpeg" />
                                     </div>
                                 </FormGroup>
                                 <FormGroup className={styles.inputFormGroup}>
@@ -137,18 +139,18 @@ const CoachAdminScreen: React.FC<CoachAdminScreenProps> = () => {
                                 <FormGroup className={styles.inputFormGroup}>
                                     <label>You in Action</label>
                                     <div>
-                                        <TextareaAutosize
-                                            style={{minWidth:'100%'}}
-                                            aria-label="minimum height"
-                                            minRows={3}
-                                            placeholder="Upload Photo/Video"
-                                            />
+                                        <input type="file"
+                                            className={styles.coachAdminProfilePhoto}
+                                            name="action-media"
+                                            multiple />
                                     </div>
                                 </FormGroup>
                             </div>
                         </Grid>
                     </Grid>
-
+                    <Grid style={{justifyContent:'flex-end'}}container>
+                        <Button style={{margin:'2rem'}} variant="contained">Save Profile</Button>
+                    </Grid>
                 </Container>
             </section>
         </>

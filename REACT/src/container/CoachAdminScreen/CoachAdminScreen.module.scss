@@ -60,3 +60,18 @@ textarea {
         margin: 0.5%;
     }
 }
+
+.coachAdminProfilePhoto{
+    margin: 0.5rem 1rem 1rem 0;
+    border-radius: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    color: #fff;
+    min-width: 100%;
+}
+.coachAdminProfilePhoto::file-selector-button {
+    font-weight: bold;
+    color: dodgerblue;
+    padding: 0.5em;
+    border: thin solid rgba(255, 255, 255, 0.5);
+    border-radius: 10px;
+}
