@@ -1,9 +1,10 @@
 import userRepo from "@repos/user-repo";
-import { 
-    getUserPk, 
-    getUserSk, 
+import {
+    getUserPk,
+    getUserSk,
     IUser,
-    IUserProfile } from "@models/index";
+    IUserProfile
+} from "@models/index";
 import { UserNotFoundError } from "@shared/errors";
 import addressService from "./address-service";
 
@@ -12,7 +13,7 @@ import addressService from "./address-service";
  * @param id 
  * @returns User
  */
-async function get(id: string): Promise<IUser> { 
+async function get(id: string): Promise<IUser> {
     return await userRepo.getOne(id);
 }
 
@@ -80,16 +81,17 @@ async function deleteOne(id: string): Promise<void> {
  * @param userProfile 
  * @returns 
  */
-async function updateUserProfile(userProfile: IUserProfile): Promise<void>  {
-    // udpate / add the user 
-    console.log('adding user');
-    const user = await addOne(userProfile.user);
-    userProfile.addresses.forEach(async (address, index, addrs) => {
-        const saveAddress = await addressService.addAddress(address);
-        await addressService.addAddressUserMapping(saveAddress, user.pk);
-    });
+async function updateUserProfile(userProfile: IUserProfile): Promise<void> {
 
-    return;
+    console.log('adding user');
+    return new Promise(async (resolve, error) => {
+        const user = await addOne(userProfile.user);
+        userProfile.addresses.forEach(async (address, index, addrs) => {
+            const saveAddress = await addressService.addAddress(address);
+            await addressService.addAddressUserMapping(saveAddress, user.pk);
+        });
+        resolve(); // returning void.
+    });
 }
 
 // Export default

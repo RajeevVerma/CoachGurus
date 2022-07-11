@@ -39,8 +39,45 @@ const save = async (address: IAddress): Promise<any> => {
     });
 };
 
+/**
+ * Get near by addresses  
+ */
+const getNearbyAddresses = (partitionKeys: string[]): Promise<IAddress[]> => {
+    let keyConditionExpression: string = '';
+    let expressionAttributeValue: any = {};
+    partitionKeys.forEach((key, index, partitionKeys) => {
+        if (index > 0) {
+            keyConditionExpression += ' OR ';
+        }
+        const attribute = `:pk${index}`;
+        keyConditionExpression += `pk=${attribute}`;
+        expressionAttributeValue[attribute] = { "S": key };
+    });
+    const params = {
+        TableName: TABLE_NAME,
+        KeyConditionExpression: keyConditionExpression,
+        ExpressionAttributeValues: expressionAttributeValue
+    };
+    console.log(params)
+    return new Promise((resolve, error) => {
+        dbClient.query(params,
+            (err, data) => {
+                if (err) {
+                    console.log(err);
+                    error(err);
+                } else {
+                    console.log(data.Items);
+                    const addrs = data.Items as IAddress[];
+                    resolve(addrs);
+                }
+            }
+        );
+    });
+}
+
 const addressRepo = {
-    save
+    save,
+    getNearbyAddresses
 };
 
 export default addressRepo;

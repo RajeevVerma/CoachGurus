@@ -16,4 +16,4 @@ Get Google Key
 keytool -exportcert -keystore C:\Users\Anshu\.android\debug.keystore -list -v
 
 CREATE TABLE IN DYNAMO DB
-ws dynamodb create-table --table-name coach-gurus-entities --attribute-definition AttributeName=pk,AttributeType=S AttributeName=sk,AttributeType=S --key-schema AttributeName=pk,KeyType=HASH AttributeName=sk,KeyType=RANGE --provisioned-throughput ReadCapacityUnits=5,WriteCapacityUnits=5 --endpoint http://localhost:8000
+aws dynamodb create-table --table-name coach-gurus-entities --attribute-definition AttributeName=pk,AttributeType=S AttributeName=sk,AttributeType=S --key-schema AttributeName=pk,KeyType=HASH AttributeName=sk,KeyType=RANGE --provisioned-throughput ReadCapacityUnits=5,WriteCapacityUnits=5 --endpoint http://localhost:8000

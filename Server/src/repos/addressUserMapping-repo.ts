@@ -37,6 +37,41 @@ const save = async (addressUserMapping: IAddressUserMapping): Promise<IAddressUs
     });
 };
 
+/**
+ * Get near by addresses  
+ */
+const getAddressMappedUserIds = (partitionKeys: string[]): Promise<IAddressUserMapping[]> => {
+    let keyConditionExpression: string = '';
+    let expressionAttributeValue: any = {};
+    partitionKeys.forEach((key, index, partitionKeys) => {
+        if (index > 0) {
+            keyConditionExpression += ' OR ';
+        }
+        const attribute = `:pk-${index}`;
+        keyConditionExpression += `PK=${attribute}`;
+        expressionAttributeValue.push({ attribute: { "S": key } });
+    });
+    const params = {
+        TableName: TABLE_NAME,
+        KeyConditionExpression: keyConditionExpression,
+        ExpressionAttributeValues: expressionAttributeValue
+    };
+
+    return new Promise((resolve, error) => {
+        dbClient.query(params,
+            (err, data) => {
+                if (err) {
+                    error(err);
+                } else {
+                    const addressUserMappings = data.Items as IAddressUserMapping[];
+                    resolve(addressUserMappings);
+                }
+            }
+        );
+    });
+}
+
 export default {
-    save
+    save,
+    getAddressMappedUserIds
 } as const;

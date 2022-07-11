@@ -5,13 +5,13 @@ import { IUser } from "./user-model";
 
 // User schema
 export interface IAddressUserMapping extends IdbItemBase {
-    
+
 }
 
 export const getAddressUserPk = (address: IAddress): string => {
     return `${tableItemPrefixes.AddressUserMappingItemPrefix}${address.pk}-${address.sk}`;
-}   
+}
 
 export const getAddressUserSk = (userPk: string): string => {
-    return `${tableItemPrefixes.VerifiedUserPrefix}${userPk}`;
+    return `${userPk}`;
 }
