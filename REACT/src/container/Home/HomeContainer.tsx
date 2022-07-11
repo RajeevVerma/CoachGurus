@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from 'react';
-import { IonRouterOutlet, NavContext } from '@ionic/react';
+import { IonRouterOutlet, NavContext, useIonRouter } from '@ionic/react';
 import { IonReactRouter } from '@ionic/react-router';
 import { Route, Redirect } from 'react-router';
 import { createBrowserHistory } from 'history';
@@ -16,13 +16,16 @@ import {
   SportsPage,
   UserProfileEditPage,
 } from 'pages';
+import CoachProfileContainer from 'container/CoachProfile/CoachProfileContainer';
+
 
 export const history = createBrowserHistory();
 
 interface IContainerProps {}
 const HomeContainer: React.FC<IContainerProps> = () => {
-  const { navigate } = useContext(NavContext);
+  const { navigate, routeInfo } = useContext(NavContext);
   const { getLoggedInUser, logOut } = LoginService();
+  const router = useIonRouter();
 
   const [user, setUser] = useState<ICognitoUser | undefined>();
   const [showModal, setShowModal] = useState<boolean>(false);
@@ -33,22 +36,20 @@ const HomeContainer: React.FC<IContainerProps> = () => {
       navigate('/home');
     });
 
-  history.listen(() => {
-    setShowModal(false);
-  });
+    history.listen(() => {
+      setShowModal(false);
+    });
 
   useEffect(() => {
-    const verifyUser = () => {
-      getLoggedInUser()
-        .then((user: ICognitoUser) => {
-          setUser(user);
-        })
-        .catch(() => {
-          setUser(undefined);
-        });
-    };
-    verifyUser();
-  }, [getLoggedInUser]);
+    setShowModal(false);
+    getLoggedInUser()
+      .then(async (user: ICognitoUser) => {
+        setUser(user);
+      })
+      .catch(() => {
+        setUser(undefined);
+      });
+  }, [window.location.pathname]);
 
   const handleLoginClickEvent = (value = true, userType?: UserType) => {
     setShowModal(value);
@@ -79,9 +80,12 @@ const HomeContainer: React.FC<IContainerProps> = () => {
         <Route path='/extra-curricular' exact={true}>
           <ExtraCurricularPage />
         </Route>
-        <Route path='/profile-edit' exact={true}>
-          <UserProfileEditPage user={user} userType={userType} />
+        <Route path='/coach-profile' exact={true}>
+          <CoachProfileContainer />
         </Route>
+        <Route path='/profile-edit' exact={true}>
+          <UserProfileEditPage user={user} />
+        </Route>        
         <Route exact path='/'>
           <Redirect to='/home' />
         </Route>
