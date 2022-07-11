@@ -33,6 +33,7 @@
     "@types/react-router-dom": "^5.1.7",
     "aws-amplify": "^4.3.26",
     "aws-sdk": "^2.1152.0",
+    "classnames": "^2.3.1",
     "cordova-plugin-geolocation": "^4.1.0",
     "http-proxy-middleware": "^2.0.6",
     "ionicons": "^5.4.0",

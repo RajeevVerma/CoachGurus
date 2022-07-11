@@ -7,7 +7,7 @@ import {
   IonLabel,
   IonPage,
 } from '@ionic/react';
-import { UserSignUpSource } from 'enums';
+import classNames from 'classnames';
 import { ServerHooks } from 'hooks';
 import { ICognitoUser, IUser } from 'models';
 import { useEffect, useState } from 'react';
@@ -25,13 +25,35 @@ function UserProfileEditPage(props: IUserProfileEditPageProps): JSX.Element {
 
   const history = useHistory();
   const { updateUser, getUser } = ServerHooks();
-  const [categories, setCategories] = useState<ICategories[]>(rootInterest);
+  const [categories, setCategories] = useState<ICategories[]>(
+    rootInterest.filter((c) => c.parentKey === null)
+  );
   const [userProfile, setUserProfile] = useState<IUser | undefined>();
 
   useEffect(() => {
     if (user) {
       getUser(user.username).then((data) => {
         setUserProfile(data.Item);
+
+        let updatedCategories: ICategories[] = [
+          ...categories,
+          ...rootInterest.filter(
+            (x) =>
+              x.parentKey !== null &&
+              data.Item.coachingEndeavourPks
+                .split('|')
+                .some((c) => c.includes(x.parentKey ?? ''))
+          ),
+        ];
+
+        updatedCategories = updatedCategories.map((x) => {
+          x.selected = data.Item.coachingEndeavourPks
+            .split('|')
+            .some((c) => c === x.key);
+          return x;
+        });
+
+        setCategories(updatedCategories);
       });
     }
   }, [user]);
@@ -41,42 +63,46 @@ function UserProfileEditPage(props: IUserProfileEditPageProps): JSX.Element {
       await updateUser(userProfile);
 
       history.push('/coach-profile');
-      
     }
   };
 
   const handleCategoryClick = (category: ICategories) => {
-    let updateUserProfile = userProfile;
-    let updateCategories = [...categories];
-    const categoryIndex = updateCategories.findIndex(
-      (x) => x.key === category.key
+    let updatedCategories: ICategories[] = [...categories];
+
+    const hasChildOpened = categories.some((x) => x.parentKey === category.key);
+    const isLeastCategory = rootInterest.some(
+      (x) => x.parentKey === category.key
     );
 
-    if (categoryIndex > -1 && Array.isArray(category.child)) {
-      if (updateCategories[categoryIndex].selected) {
-        updateCategories[categoryIndex].selected = false;
-        updateCategories = updateCategories.filter(
-          (x) => !x.key.startsWith(`${category.key}-`)
-        );
-      } else {
-        updateCategories[categoryIndex].selected = true;
-        updateCategories = [...updateCategories, ...category.child];
-      }
-      let coachingEndeavourPks: string[] = [];
+    if (hasChildOpened) {
+      updatedCategories = updatedCategories.filter(
+        (x) => x.parentKey === null || !x.key.startsWith(`${category.key}-`)
+      );
+    } else {
+      updatedCategories = [
+        ...updatedCategories,
+        ...rootInterest.filter((x) => x.parentKey === category.key),
+      ];
+    }
 
-      updateCategories.forEach((categories) => {
-        if (updateUserProfile !== undefined) {
-          coachingEndeavourPks.push(categories.key);
+    let coachingEndeavourPks: string[] = [];
+
+    if (!isLeastCategory) {
+      updatedCategories = updatedCategories.map((x) => {
+        x.selected = category.key === x.key;
+        if (x.selected) {
+          coachingEndeavourPks.push(x.key);
         }
+        return x;
       });
+    }
+    setCategories(updatedCategories);
+
+    if (userProfile) {
       setUserProfile({
         ...userProfile,
-        mobilePhone: '',
-        signUpSourceType: UserSignUpSource.Phone,
         coachingEndeavourPks: coachingEndeavourPks.join('|'),
       });
-
-      setCategories(updateCategories);
     }
   };
 
@@ -84,6 +110,9 @@ function UserProfileEditPage(props: IUserProfileEditPageProps): JSX.Element {
     <IonItem>
       {categories.map((category: ICategories) => (
         <IonChip
+          className={classNames({
+            'selected-category': category.selected,
+          })}
           key={category.key}
           onClick={() => handleCategoryClick(category)}>
           <IonLabel>{category.value}</IonLabel>
