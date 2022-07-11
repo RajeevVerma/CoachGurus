@@ -1,126 +1,165 @@
 import {
-  IonButton,
-  IonChip,
-  IonContent,
-  IonInput,
-  IonItem,
-  IonLabel,
-  IonPage,
+    IonButton,
+    IonChip,
+    IonContent,
+    IonInput,
+    IonItem,
+    IonLabel,
+    IonPage,
 } from '@ionic/react';
-import { UserType } from 'enums';
-import { ICognitoUser } from 'models';
+import classNames from 'classnames';
+import { ServerHooks } from 'hooks';
+import { ICognitoUser, IUser } from 'models';
 import { useEffect, useState } from 'react';
-import {
-  ICategories,
-  ISelectedCategories,
-  rootInterest,
-} from './UserProfileEdit.Constants';
+import { useHistory } from 'react-router-dom';
+import { ICategories, rootInterest } from './UserProfileEdit.Constants';
 
 import './UserProfileEdit.css';
 
 interface IUserProfileEditPageProps {
-  user?: ICognitoUser;
-  userType: UserType;
-}
-
-interface IUserProfile {
-  name?: string;
-  email?: string;
-  categories?: ISelectedCategories[];
+    user?: ICognitoUser;
 }
 
 function UserProfileEditPage(props: IUserProfileEditPageProps): JSX.Element {
-  const [categories, setCategories] = useState<ICategories[]>(rootInterest);
-  const [userProfile, setUserProfile] = useState<IUserProfile>();
+    const { user } = props;
 
-  const handleProfileSubmit = () => {
-    
-  };
+    const history = useHistory();
+    const { updateUser, getUser } = ServerHooks();
+    const [categories, setCategories] = useState<ICategories[]>(
+        rootInterest.filter((c) => c.parentKey === null)
+    );
+    const [userProfile, setUserProfile] = useState<IUser | undefined>();
 
-  const handleCategoryClick = (category: ICategories) => {
-    let updateUserProfile = userProfile;
-    let updateCategories = [...categories];
-    const categoryIndex = updateCategories.findIndex(
-      (x) => x.key === category.key
+    useEffect(() => {
+        if (user) {
+            getUser(user.username).then((data) => {
+                setUserProfile(data.Item);
+
+                let updatedCategories: ICategories[] = [
+                    ...categories,
+                    ...rootInterest.filter(
+                        (x) =>
+                            x.parentKey !== null &&
+                            data.Item.coachingEndeavourPks
+                                .split('|')
+                                .some((c) => c.includes(x.parentKey ?? ''))
+                    ),
+                ];
+
+                updatedCategories = updatedCategories.map((x) => {
+                    x.selected = data.Item.coachingEndeavourPks
+                        .split('|')
+                        .some((c) => c === x.key);
+                    return x;
+                });
+
+                setCategories(updatedCategories);
+            });
+        }
+    }, [user]);
+
+    const handleProfileSubmit = async () => {
+        if (userProfile) {
+            await updateUser(userProfile);
+
+            history.push('/coach-profile');
+        }
+    };
+
+    const handleCategoryClick = (category: ICategories) => {
+        let updatedCategories: ICategories[] = [...categories];
+
+        const hasChildOpened = categories.some((x) => x.parentKey === category.key);
+        const isLeastCategory = rootInterest.some(
+            (x) => x.parentKey === category.key
+        );
+
+        if (hasChildOpened) {
+            updatedCategories = updatedCategories.filter(
+                (x) => x.parentKey === null || !x.key.startsWith(`${category.key}-`)
+            );
+        } else {
+            updatedCategories = [
+                ...updatedCategories,
+                ...rootInterest.filter((x) => x.parentKey === category.key),
+            ];
+        }
+
+        let coachingEndeavourPks: string[] = [];
+
+        if (!isLeastCategory) {
+            updatedCategories = updatedCategories.map((x) => {
+                x.selected = category.key === x.key;
+                if (x.selected) {
+                    coachingEndeavourPks.push(x.key);
+                }
+                return x;
+            });
+        }
+        setCategories(updatedCategories);
+
+        if (userProfile) {
+            setUserProfile({
+                ...userProfile,
+                coachingEndeavourPks: coachingEndeavourPks.join('|'),
+            });
+        }
+    };
+
+    const categorySelection = (categories: ICategories[]) => (
+        <IonItem>
+            {categories.map((category: ICategories) => (
+                <IonChip
+                    className={classNames({
+                        'selected-category': category.selected,
+                    })}
+                    key={category.key}
+                    onClick={() => handleCategoryClick(category)}>
+                    <IonLabel>{category.value}</IonLabel>
+                </IonChip>
+            ))}
+        </IonItem>
     );
 
-    if (categoryIndex > -1 && Array.isArray(category.child)) {
-      if (updateCategories[categoryIndex].selected) {
-        updateCategories[categoryIndex].selected = false;
-        updateCategories = updateCategories.filter(
-          (x) => !x.key.startsWith(`${category.key}-`)
-        );
-      } else {
-        updateCategories[categoryIndex].selected = true;
-        updateCategories = [...updateCategories, ...category.child];
-      }
+    return (
+        <IonPage className='user-profile'>
+            <IonContent fullscreen={false}>
+                {userProfile?.mobilePhone}
 
-      if (updateUserProfile !== undefined) {
-        updateUserProfile.categories = [];
+                <IonItem>
+                    <IonLabel>Name</IonLabel>
+                    <IonInput
+                        value={userProfile?.name}
+                        type='text'
+                        id='user-name'
+                        onIonChange={(e) =>
+                            userProfile &&
+                            setUserProfile({ ...userProfile, name: `${e.target.value}` })
+                        }
+                    />
+                </IonItem>
 
-        updateCategories.forEach((categories) => {
-          updateUserProfile?.categories?.push({
-            key: categories.key,
-            value: categories.value,
-          });
-        });
-        setUserProfile({
-          ...userProfile,
-          categories: updateCategories,
-        });
-      }
+                <IonItem>
+                    <IonLabel>Email</IonLabel>
+                    <IonInput
+                        value={userProfile?.email}
+                        type='email'
+                        id='user-email'
+                        onIonChange={(e) =>
+                            userProfile &&
+                            setUserProfile({ ...userProfile, email: `${e.target.value}` })
+                        }
+                    />
+                </IonItem>
 
-      setCategories(updateCategories);
-    }
-  };
+                {categorySelection(categories)}
 
-  const categorySelection = (categories: ICategories[]) => (
-    <IonItem>
-      {categories.map((category: ICategories) => (
-        <IonChip
-          key={category.key}
-          onClick={() => handleCategoryClick(category)}>
-          <IonLabel>{category.value}</IonLabel>
-        </IonChip>
-      ))}
-    </IonItem>
-  );
-
-  return (
-    <IonPage className='user-profile'>
-      <IonContent fullscreen={false}>
-        <IonItem>
-          <IonLabel>Name</IonLabel>
-          <IonInput
-            value={userProfile?.name}
-            type='text'
-            id='user-name'
-            onIonChange={(e) =>
-              setUserProfile({ ...userProfile, name: `${e.target.value}` })
-            }
-          />
-        </IonItem>
-
-        <IonItem>
-          <IonLabel>Email</IonLabel>
-          <IonInput
-            value={userProfile?.email}
-            type='email'
-            id='user-email'
-            onIonChange={(e) =>
-              setUserProfile({ ...userProfile, email: `${e.target.value}` })
-            }
-          />
-        </IonItem>
-
-        {categorySelection(categories)}
-
-        <IonItem>
-          <IonButton onClick={() => handleProfileSubmit()}>Submit</IonButton>
-        </IonItem>
-      </IonContent>
-    </IonPage>
-  );
+                <IonItem>
+                    <IonButton onClick={() => handleProfileSubmit()}>Submit</IonButton>
+                </IonItem>
+            </IonContent>
+        </IonPage>
+    );
 }
 
 export default UserProfileEditPage;

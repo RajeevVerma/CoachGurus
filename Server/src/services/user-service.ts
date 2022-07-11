@@ -33,8 +33,8 @@ const addOne = async (user: IUser): Promise<IUser> => {
     console.log('user pk', userId);
 
     user.pk = userId;
-    const existingUser = 0//await userRepo.getOne(userId);
-    if (existingUser) {
+    const existingUser = await userRepo.getOne(userId);
+    if (existingUser && existingUser.pk) {
         return existingUser;
     }
     user.sk = getUserSk(user.pk);
