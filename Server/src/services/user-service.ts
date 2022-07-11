@@ -34,7 +34,7 @@ const addOne = async (user: IUser): Promise<IUser> => {
 
     user.pk = userId;
     const existingUser = await userRepo.getOne(userId);
-    if (existingUser) {
+    if (existingUser && existingUser.pk) {
         return existingUser;
     }
     user.sk = getUserSk(user.pk);
