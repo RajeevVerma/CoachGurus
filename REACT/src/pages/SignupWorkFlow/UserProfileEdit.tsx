@@ -11,6 +11,7 @@ import { UserSignUpSource } from 'enums';
 import { ServerHooks } from 'hooks';
 import { ICognitoUser, IUser } from 'models';
 import { useEffect, useState } from 'react';
+import { useHistory } from 'react-router-dom';
 import { ICategories, rootInterest } from './UserProfileEdit.Constants';
 
 import './UserProfileEdit.css';
@@ -22,6 +23,7 @@ interface IUserProfileEditPageProps {
 function UserProfileEditPage(props: IUserProfileEditPageProps): JSX.Element {
   const { user } = props;
 
+  const history = useHistory();
   const { updateUser, getUser } = ServerHooks();
   const [categories, setCategories] = useState<ICategories[]>(rootInterest);
   const [userProfile, setUserProfile] = useState<IUser | undefined>();
@@ -34,9 +36,12 @@ function UserProfileEditPage(props: IUserProfileEditPageProps): JSX.Element {
     }
   }, [user]);
 
-  const handleProfileSubmit = () => {
+  const handleProfileSubmit = async () => {
     if (userProfile) {
-      updateUser(userProfile);
+      await updateUser(userProfile);
+
+      history.push('/coach-profile');
+      
     }
   };
 

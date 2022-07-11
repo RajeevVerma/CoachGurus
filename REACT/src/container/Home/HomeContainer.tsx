@@ -16,6 +16,7 @@ import {
   SportsPage,
   UserProfileEditPage,
 } from 'pages';
+import CoachProfileContainer from 'container/CoachProfile/CoachProfileContainer';
 
 
 export const history = createBrowserHistory();
@@ -79,9 +80,12 @@ const HomeContainer: React.FC<IContainerProps> = () => {
         <Route path='/extra-curricular' exact={true}>
           <ExtraCurricularPage />
         </Route>
+        <Route path='/coach-profile' exact={true}>
+          <CoachProfileContainer />
+        </Route>
         <Route path='/profile-edit' exact={true}>
           <UserProfileEditPage user={user} />
-        </Route>
+        </Route>        
         <Route exact path='/'>
           <Redirect to='/home' />
         </Route>
