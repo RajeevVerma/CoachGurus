@@ -7,34 +7,37 @@ import {
   IonLabel,
   IonPage,
 } from '@ionic/react';
-import { UserType } from 'enums';
-import { ICognitoUser } from 'models';
+import { UserSignUpSource } from 'enums';
+import { ServerHooks } from 'hooks';
+import { ICognitoUser, IUser } from 'models';
 import { useEffect, useState } from 'react';
-import {
-  ICategories,
-  ISelectedCategories,
-  rootInterest,
-} from './UserProfileEdit.Constants';
+import { ICategories, rootInterest } from './UserProfileEdit.Constants';
 
 import './UserProfileEdit.css';
 
 interface IUserProfileEditPageProps {
   user?: ICognitoUser;
-  userType: UserType;
-}
-
-interface IUserProfile {
-  name?: string;
-  email?: string;
-  categories?: ISelectedCategories[];
 }
 
 function UserProfileEditPage(props: IUserProfileEditPageProps): JSX.Element {
+  const { user } = props;
+
+  const { updateUser, getUser } = ServerHooks();
   const [categories, setCategories] = useState<ICategories[]>(rootInterest);
-  const [userProfile, setUserProfile] = useState<IUserProfile>();
+  const [userProfile, setUserProfile] = useState<IUser | undefined>();
+
+  useEffect(() => {
+    if (user) {
+      getUser(user.username).then((data) => {
+        setUserProfile(data.Item);
+      });
+    }
+  }, [user]);
 
   const handleProfileSubmit = () => {
-    
+    if (userProfile) {
+      updateUser(userProfile);
+    }
   };
 
   const handleCategoryClick = (category: ICategories) => {
@@ -54,21 +57,19 @@ function UserProfileEditPage(props: IUserProfileEditPageProps): JSX.Element {
         updateCategories[categoryIndex].selected = true;
         updateCategories = [...updateCategories, ...category.child];
       }
+      let coachingEndeavourPks: string[] = [];
 
-      if (updateUserProfile !== undefined) {
-        updateUserProfile.categories = [];
-
-        updateCategories.forEach((categories) => {
-          updateUserProfile?.categories?.push({
-            key: categories.key,
-            value: categories.value,
-          });
-        });
-        setUserProfile({
-          ...userProfile,
-          categories: updateCategories,
-        });
-      }
+      updateCategories.forEach((categories) => {
+        if (updateUserProfile !== undefined) {
+          coachingEndeavourPks.push(categories.key);
+        }
+      });
+      setUserProfile({
+        ...userProfile,
+        mobilePhone: '',
+        signUpSourceType: UserSignUpSource.Phone,
+        coachingEndeavourPks: coachingEndeavourPks.join('|'),
+      });
 
       setCategories(updateCategories);
     }
@@ -89,6 +90,8 @@ function UserProfileEditPage(props: IUserProfileEditPageProps): JSX.Element {
   return (
     <IonPage className='user-profile'>
       <IonContent fullscreen={false}>
+        {userProfile?.mobilePhone}
+
         <IonItem>
           <IonLabel>Name</IonLabel>
           <IonInput
@@ -96,6 +99,7 @@ function UserProfileEditPage(props: IUserProfileEditPageProps): JSX.Element {
             type='text'
             id='user-name'
             onIonChange={(e) =>
+              userProfile &&
               setUserProfile({ ...userProfile, name: `${e.target.value}` })
             }
           />
@@ -108,6 +112,7 @@ function UserProfileEditPage(props: IUserProfileEditPageProps): JSX.Element {
             type='email'
             id='user-email'
             onIonChange={(e) =>
+              userProfile &&
               setUserProfile({ ...userProfile, email: `${e.target.value}` })
             }
           />
