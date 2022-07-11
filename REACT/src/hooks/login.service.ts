@@ -1,9 +1,5 @@
-import { UserSignUpSource, UserType } from '../enums';
 import { ICognitoUser } from '../models';
 import { AmplifyService } from './amplify.service';
-import { loginHook } from './login-hooks';
-
-const { customLogin, socialLogin } = loginHook();
 
 const amplifyService = new AmplifyService();
 

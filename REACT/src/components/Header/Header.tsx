@@ -42,7 +42,7 @@ function Header(props: IHeaderProps): JSX.Element {
             </IonMenuButton>
           </IonButtons>
           <IonTitle slot='start'>Coach Guru</IonTitle>
-         
+
           <IonButtons slot='end'>
             <ProfileAvatar
               user={user}
@@ -69,25 +69,28 @@ function Header(props: IHeaderProps): JSX.Element {
           <IonButton fill='clear' color='light' routerLink={'/academics'}>
             Academics
           </IonButton>
-          <IonButton fill='clear' color='light' routerLink={'/extra-curricular'}>
+          <IonButton
+            fill='clear'
+            color='light'
+            routerLink={'/extra-curricular'}>
             Extra Curricular
           </IonButton>
-            <IonButton
-                hidden={user !== undefined}
-                fill='clear'
-                color='light'
-                onClick={() =>
-                onLoginClickEvent && onLoginClickEvent(true, UserType.Guru)
-                }>
-                Join as Coach
-            </IonButton>
-            <IonButton>
+          <IonButton
+            hidden={user !== undefined}
+            fill='clear'
+            color='light'
+            onClick={() =>
+              onLoginClickEvent && onLoginClickEvent(true, UserType.Guru)
+            }>
+            Join as Coach
+          </IonButton>
+          <IonButton>
             <ProfileAvatar
-                user={user}
-                logOutSession={logOutSession}
-                onLoginClickEvent={onLoginClickEvent}
+              user={user}
+              logOutSession={logOutSession}
+              onLoginClickEvent={onLoginClickEvent}
             />
-            </IonButton>
+          </IonButton>
         </IonCol>
         {/* <IonCol size='3' className='ion-text-right header-item'>
         </IonCol> */}

@@ -1,10 +1,7 @@
 import { Auth } from '@aws-amplify/auth';
 import { CognitoHostedUIIdentityProvider } from '@aws-amplify/auth/lib/types/Auth';
-import { v4, v5 } from 'uuid';
-import { ICognitoError, ICognitoUser } from '../models';
-import { loginHook } from './login-hooks';
-
-const { customLogin } = loginHook();
+import { v4 } from 'uuid';
+import { ICognitoError, ICognitoUser, IUserAttributes } from '../models';
 
 export class AmplifyService {
   /**
@@ -54,13 +51,15 @@ export class AmplifyService {
   verifyUserSession = (user: ICognitoUser, otp: string) =>
     new Promise(async (resolve: (user?: ICognitoUser) => void) => {
       Auth.sendCustomChallengeAnswer(user, otp).then((user: ICognitoUser) => {
-        debugger
         resolve(user);
       });
     });
 
   getLoggedInUser = async (): Promise<ICognitoUser> =>
     await Auth.currentAuthenticatedUser();
+
+  updateAttributes = async (user: ICognitoUser, attributes: IUserAttributes) =>
+    await Auth.updateUserAttributes(user, attributes);
 
   logOut = () => Auth.signOut();
 }
