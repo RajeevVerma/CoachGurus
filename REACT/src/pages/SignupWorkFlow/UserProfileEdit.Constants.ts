@@ -1,50 +1,49 @@
-export interface ISelectedCategories {
+export interface ICategories {
+  parentKey: string | null;
   value: string;
   key: string;
-}
-
-export interface ICategories extends ISelectedCategories {
   selected?: boolean;
-  child?: ICategories[];
 }
 
 export const rootInterest: ICategories[] = [
   {
+    parentKey: null,
     key: 'S-1',
     value: 'Sports',
-    child: [
-      {
-        key: 'S-1-1',
-        value: 'Cricket',
-      },
-      {
-        key: 'S-1-2',
-        value: 'Volleyball',
-      },
-      {
-        key: 'S-1-3',
-        value: 'Badminton',
-      },
-    ],
   },
   {
+    parentKey: null,
     key: 'A-1',
     value: 'Academics',
-    child: [
-      {
-        key: 'A-1-1',
-        value: 'Maths',
-        child: [
-          {
-            key: 'A-1-1-1',
-            value: 'Primary School',
-          },
-        ],
-      },
-    ],
   },
   {
+    parentKey: null,
     key: 'E-1',
     value: 'Extra-Curricular',
+  },
+  {
+    parentKey: 'S-1',
+    key: 'S-1-1',
+    value: 'Cricket',
+  },
+  {
+    parentKey: 'S-1',
+    key: 'S-1-2',
+    value: 'Badminton',
+  },
+  {
+    parentKey: 'S-1',
+    key: 'S-1-3',
+    value: 'Hockey',
+  },
+  {
+    parentKey: 'A-1',
+    key: 'A-1-1',
+    value: 'Maths',
+  },
+  {
+    parentKey: 'A-1-1',
+    key: 'A-1-1-1',
+    value: 'Primary Maths',
   },
 ];
