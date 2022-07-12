@@ -18,8 +18,9 @@ const searchGurus = async (endeavour: string, lat: string, long: string): Promis
     let geoHashes: string[] = [];
     geoHashes.push(geoHash.encode(lat, long, hashPrecision));
     geoHashes = geoHashes.concat(geoHash.neighbors(geoHashes[0]));
+    const hashKeys = geoHashes.map((hash, i, arr) => `AD-India-Maharashtra-Pune-${hash}`);
     return new Promise(async (resolve, error) => {
-        const nearByAddresses = await addressRepo.getNearbyAddresses(geoHashes);
+        const nearByAddresses = await addressRepo.getNearbyAddresses(hashKeys[0]);
         const addressUserMaps = await addressUserMappingRepo.getAddressMappedUserIds(
             nearByAddresses.map(
                 (address, index, arr) => getAddressUserPk(address)));
