@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
     Box,
     Grid,
@@ -10,7 +10,7 @@ import {
     Typography,
 } from '@mui/material';
 import { GoogleMap } from '@capacitor/google-maps';
-import { useRef } from 'react';
+import { useRef, useEffect } from 'react';
 import * as qs from 'query-string';
 
 // Import styles
@@ -21,6 +21,8 @@ import { CoachProfile, CoachLocation } from '../../contents';
 
 // Import Components
 import { Header } from '../../components';
+import { useDispatch } from 'react-redux';
+import { getCoachProfile } from './coachProfile.actions';
 
 interface ContainerProps {
 }
@@ -30,7 +32,16 @@ const CoachProfileContainer: React.FC<ContainerProps> = (props: any) => {
     const mapRef = useRef<HTMLElement>();
     let newMap: GoogleMap;
     const parsed = qs.parse(window.location.search);
-    console.log('props pk', parsed.pk);
+    console.debug('props pk', parsed.pk);
+
+    const dispatch = useDispatch();
+
+    const [userPk, setUserPk] = useState(parsed.pk);
+    const [guru, setGuru] = useState({});
+
+    useEffect(() => {
+        dispatch(getCoachProfile(userPk));
+    }, [dispatch, userPk]);
 
     async function createMap() {
         if (!mapRef.current) return;

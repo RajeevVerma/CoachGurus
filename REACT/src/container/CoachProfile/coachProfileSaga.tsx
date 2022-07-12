@@ -1,11 +1,10 @@
-
 import { getBaseUrl, requestData } from 'data/data';
 import { ApiUrls } from 'data/data.constants';
 import { IUser } from 'models/user.interface';
 import * as SagaEffects from 'redux-saga/effects';
+import { setCoachProfileOnError, setCoachProfileOnSuccess } from './coachProfile.actions';
 import { coachProfileActionConstants } from './coachProfile.constants';
 import { IGetCoachProfileAction } from './coachProfile.types';
-
 
 /**
  * Root saga for Coach profile page.
@@ -13,7 +12,7 @@ import { IGetCoachProfileAction } from './coachProfile.types';
 export function* root(): Generator<SagaEffects.AllEffect<SagaEffects.ForkEffect<never>>, void, unknown> {
     try {
         yield SagaEffects.all([
-            SagaEffects.takeEvery(coachProfileActionConstants.Get_Coach_Profile, getCoachProfile),
+            SagaEffects.takeEvery(coachProfileActionConstants.Get_Guru_Profile, getCoachProfile),
 
         ]);
     } catch (ex) {
@@ -33,9 +32,10 @@ function* getCoachProfile(profileAction: IGetCoachProfileAction) {
             throw new Error('No results received.');
         }
 
-        //  yield SagaEffects.put(Actions.getCoachProfileSuccess(result));
+        yield SagaEffects.put(setCoachProfileOnSuccess(result));
     } catch (ex) {
-        console.debug('Error in coach profile API: ', ex);
+        console.error('Error in coach profile API: ', ex);
+        yield SagaEffects.put(setCoachProfileOnError('There was an error while loading coach profile!'));
 
     }
 }

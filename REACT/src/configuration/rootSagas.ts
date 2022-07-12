@@ -1,6 +1,6 @@
 // Import packages
 import * as SagaEffects from 'redux-saga/effects';
-
+import * as coachProfileSaga from '../container/CoachProfile/coachProfileSaga'
 // Import project items
 //import * as AppSaga from '../containers/App/App.sagas';
 /* Insert new saga imports above - DO NOT REMOVE */
@@ -9,7 +9,7 @@ import * as SagaEffects from 'redux-saga/effects';
 export default function* root(): Generator<SagaEffects.AllEffect<SagaEffects.ForkEffect<void>>, void, unknown> {
     // Start up all sagas
     yield SagaEffects.all([
-        // SagaEffects.fork(AppSaga.root),
+        SagaEffects.fork(coachProfileSaga.root),
         /* Insert new saga root above - DO NOT REMOVE */
     ]);
 }
