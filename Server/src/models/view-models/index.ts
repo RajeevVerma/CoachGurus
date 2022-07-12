@@ -1,0 +1,1 @@
+export * from '@models/view-models/userProfile-model';

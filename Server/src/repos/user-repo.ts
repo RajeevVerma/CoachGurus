@@ -141,6 +141,41 @@ async function deleteOne(id: string): Promise<void> {
     }
 }
 
+/**
+ * Get near by addresses  
+ */
+const getUsers = (userIds: string[]): Promise<IUser[]> => {
+    let keyConditionExpression: string = '';
+    let expressionAttributeValue: any = {};
+    userIds.forEach((key, index, partitionKeys) => {
+        if (index > 0) {
+            keyConditionExpression += ' OR ';
+        }
+        const attribute = `:pk-${index}`;
+        keyConditionExpression += `PK=${attribute}`;
+        expressionAttributeValue.push({ attribute: { "S": key } });
+    });
+    //TODO: Add filter for the endeavour id (Think of creating a secondary index).
+    const params = {
+        TableName: TABLE_NAME,
+        KeyConditionExpression: keyConditionExpression,
+        ExpressionAttributeValues: expressionAttributeValue,
+    };
+
+    return new Promise((resolve, error) => {
+        dbClient.query(params,
+            (err, data) => {
+                if (err) {
+                    error(err);
+                } else {
+                    const users = data.Items as IUser[];
+                    resolve(users);
+                }
+            }
+        );
+    });
+}
+
 // Export default
 export default {
     getOne,
@@ -149,4 +184,5 @@ export default {
     update,
     delete: deleteOne,
     save,
+    getUsers
 } as const;
