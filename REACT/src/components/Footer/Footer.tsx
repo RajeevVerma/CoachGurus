@@ -9,7 +9,7 @@ function Copyright() {
     return (
         <React.Fragment>
             {'© '}
-            <Link color="inherit" href="https://coachguru.in/">
+            <Link style={{color: '#FFF'}} href="https://coachguru.in/">
                 Coach Guru
             </Link>{' '}
             {new Date().getFullYear()}
@@ -21,7 +21,7 @@ export default function Footer() {
     return (
         <Typography
             component="footer"
-            sx={{ display: 'flex', bgcolor: 'darkgrey' }}>
+            sx={{ display: 'flex', bgcolor: '#383a56', color: '#FFF' }}>
             <Container sx={{ my: 12, display: 'flex' }}>
                 <Grid container spacing={10}>
                     <Grid item xs={6} sm={4} md={3}>
@@ -42,23 +42,10 @@ export default function Footer() {
                         </Typography>
                         <Box component="ul" sx={{ m: 0, listStyle: 'none', p: 0 }}>
                             <Box component="li" sx={{ py: 0.5 }}>
-                                <Link href="/premium-themes/onepirate/terms/">About Us</Link>
+                                <Link style={{color: '#FFF'}} href="/premium-themes/onepirate/terms/">About Us</Link>
                             </Box>
                             <Box component="li" sx={{ py: 0.5 }}>
-                                <Link href="/premium-themes/onepirate/privacy/">Contact Us</Link>
-                            </Box>
-                        </Box>
-                    </Grid>
-                    <Grid item xs={6} sm={4} md={3}>
-                        <Typography variant="h6" gutterBottom>
-                            Legal
-                        </Typography>
-                        <Box component="ul" sx={{ m: 0, listStyle: 'none', p: 0 }}>
-                            <Box component="li" sx={{ py: 0.5 }}>
-                                <Link href="/premium-themes/onepirate/terms/">Terms</Link>
-                            </Box>
-                            <Box component="li" sx={{ py: 0.5 }}>
-                                <Link href="/premium-themes/onepirate/privacy/">Privacy</Link>
+                                <Link style={{color: '#FFF'}} href="/premium-themes/onepirate/privacy/">Contact Us</Link>
                             </Box>
                         </Box>
                     </Grid>
@@ -68,10 +55,23 @@ export default function Footer() {
                         </Typography>
                         <Box component="ul" sx={{ m: 0, listStyle: 'none', p: 0 }}>
                             <Box component="li" sx={{ py: 0.5 }}>
-                                <Link href="/premium-themes/onepirate/terms/">Terms</Link>
+                                <Link style={{color: '#FFF'}} href="/premium-themes/onepirate/terms/">Terms</Link>
                             </Box>
                             <Box component="li" sx={{ py: 0.5 }}>
-                                <Link href="/premium-themes/onepirate/privacy/">Privacy</Link>
+                                <Link style={{color: '#FFF'}} href="/premium-themes/onepirate/privacy/">Privacy</Link>
+                            </Box>
+                        </Box>
+                    </Grid>
+                    <Grid item xs={6} sm={4} md={3}>
+                        <Typography variant="h6" gutterBottom>
+                            Legal
+                        </Typography>
+                        <Box component="ul" sx={{ m: 0, listStyle: 'none', p: 0 }}>
+                            <Box component="li" sx={{ py: 0.5 }}>
+                                <Link style={{color: '#FFF'}} href="/premium-themes/onepirate/terms/">Terms</Link>
+                            </Box>
+                            <Box component="li" sx={{ py: 0.5 }}>
+                                <Link style={{color: '#FFF'}} href="/premium-themes/onepirate/privacy/">Privacy</Link>
                             </Box>
                         </Box>
                     </Grid>

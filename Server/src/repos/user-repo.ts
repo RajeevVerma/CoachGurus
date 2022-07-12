@@ -1,4 +1,4 @@
-import { IUser } from "@models/user-model";
+import { getUserSk, IUser } from "@models/user-model";
 import orm from "./mock-orm";
 import AWS from "aws-sdk";
 import { serviceConfigOptions } from "@shared/constants/aws-config";
@@ -15,27 +15,27 @@ const TABLE_NAME: string = "coach-gurus-entities";
  * @returns
  */
 async function getOne(pk: string): Promise<IUser> {
-    var params = {
-        ExpressionAttributeValues: {
-            ":e": pk,
-        },
-        KeyConditionExpression: "pk= :e",
-
-        TableName: TABLE_NAME,
-    };
+    console.log('Users getOne pk', pk);
 
     let result: IUser | undefined;
     return new Promise((resolve, error) => {
-        dbClient.query(params, function (err, data) {
-            if (err) {
-                console.error(err);
-                error(err);
-            } else {
-                result = data.Items?.[0] as IUser;
-                console.log("GetItem succeeded:", result);
-                resolve(result);
-            }
-        });
+        dbClient.get(
+            {
+                TableName: TABLE_NAME,
+                Key: {
+                    pk: pk,
+                    sk: getUserSk(pk)
+                },
+            }, function (err, data) {
+                result = data as IUser;
+                if (err) {
+                    console.error(err);
+                    error(err);
+                } else {
+                    console.log("GetItem succeeded:", data);
+                    resolve(result);
+                }
+            });
     });
 }
 
@@ -97,27 +97,10 @@ const save = async (user: IUser): Promise<any> => {
             async function (err, data) {
                 if (err) {
                     console.error(err);
+                    error(err);
                 } else {
-                    console.log("PutItem succeeded:", data);
-
-                    await dbClient.get(
-                        {
-                            TableName: TABLE_NAME,
-                            Key: {
-                                pk: user.pk,
-                            },
-                        },
-                        function (err, data) {
-                            result = data as IUser;
-                            if (err) {
-                                console.error(err);
-                                error(err);
-                            } else {
-                                console.log("GetItem succeeded:", data);
-                                resolve(result);
-                            }
-                        }
-                    );
+                    console.debug("PutItem succeeded:", data);
+                    resolve(user);
                 }
             }
         );

@@ -1,10 +1,10 @@
 // Import modules
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import { useHistory } from 'react-router';
 import OtpInput from 'react-otp-input';
 
 // Import components
-import { IonButton, IonIcon, IonInput } from '@ionic/react';
+import { IonButton, IonIcon, IonInput, NavContext } from '@ionic/react';
 
 // Import Icons
 import { mailOutline } from 'ionicons/icons';
@@ -13,7 +13,7 @@ import { mailOutline } from 'ionicons/icons';
 import './LoginContainer.css';
 
 import { ICognitoUser } from '../../models';
-import { loginHook, LoginService } from '../../hooks';
+import { ServerHooks, LoginService } from '../../hooks';
 import { UserSignUpSource, UserType } from '../../enums';
 
 interface IContainerProps {
@@ -22,13 +22,14 @@ interface IContainerProps {
 const LoginContainer: React.FC<IContainerProps> = (props: IContainerProps) => {
   const { userType } = props;
 
+  const { navigate } = useContext(NavContext);
   const [message, setMessage] = useState<string>('');
   const [user, setUser] = useState<ICognitoUser | undefined>();
   const [phoneNumber, setPhoneNumber] = useState<string>('7387799822');
   const [oneTimePasscode, setOneTimePasscode] = useState('');
 
   const { addUnauthorizeCustomUser, verifyLogin } = LoginService();
-  const { customLogin } = loginHook();
+  const { updateUser } = ServerHooks();
 
   const handleLoginEvent = () => {
     addUnauthorizeCustomUser(phoneNumber).then((user?: ICognitoUser) => {
@@ -38,17 +39,16 @@ const LoginContainer: React.FC<IContainerProps> = (props: IContainerProps) => {
 
   const history = useHistory();
 
-  const insertUser = (jwtToken: string) => {
-    customLogin(
-      {
-        phoneNumber: phoneNumber,
-        SignUpSourceType: UserSignUpSource.Phone,
-        userType: userType,
-      },
-      jwtToken
-    )
+  const insertUser = () => {
+    updateUser({
+      mobilePhone: phoneNumber,
+      coachingEndeavourPks: '',
+      signUpSourceType: UserSignUpSource.Phone,
+      userType: userType,
+      phoneOtpVerified: true,
+    })
       .then(() => {
-        history.push('/profile-edit');
+        navigate('/profile-edit');
       })
       .catch(() => {
         setMessage('Failed to Verify User try Again.');
@@ -60,9 +60,7 @@ const LoginContainer: React.FC<IContainerProps> = (props: IContainerProps) => {
       await verifyLogin(user, oneTimePasscode)
         .then((authenticatedUser?: ICognitoUser) => {
           if (authenticatedUser?.signInUserSession?.accessToken) {
-            insertUser(
-              authenticatedUser.signInUserSession.accessToken.jwtToken
-            );
+            insertUser();
           } else {
             setMessage('Failed to Verify User try Again.');
           }

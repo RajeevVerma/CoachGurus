@@ -3,3 +3,8 @@
     left: 11%;
     width: 50%;
 }
+
+.selected-category {
+    color: red;
+    background-color: darkblue;
+}

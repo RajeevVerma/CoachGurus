@@ -9,7 +9,7 @@ const { CREATED, OK } = StatusCodes;
 
 // Paths
 export const paths = {
-    get: '/get/:email',
+    get: '/get/:pk',
     getAll: '/all',
     add: '/add',
     update: '/update',
@@ -21,10 +21,9 @@ export const paths = {
  * Get all users.
  */
 router.get(paths.get, async (req: Request, res: Response) => {
-    const { email } = req.params;
-    console.log('email', email);
-    debugger;
-    const users = await userService.get(email);
+    const { pk } = req.params;
+    console.log('pk', pk);
+    const users = await userService.get(pk);
 
     return res.status(OK).json(users);
 });
