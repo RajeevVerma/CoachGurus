@@ -40,10 +40,11 @@ const save = async (address: IAddress): Promise<any> => {
 };
 
 /**
- * Get near by addresses  
+ * Get address.
+ * @param partitionKey 
+ * @returns 
  */
-const getNearbyAddresses = (partitionKey: string): Promise<IAddress[]> => {
-    let addresses: IAddress[] = [];
+async function get(partitionKey: string): Promise<IAddress[]> {
     return new Promise((resolve, error) => {
         const params = {
             TableName: TABLE_NAME,
@@ -53,18 +54,15 @@ const getNearbyAddresses = (partitionKey: string): Promise<IAddress[]> => {
             }
         };
 
-        console.log(params);
-
         dbClient.query(params,
             (err, data) => {
                 if (err) {
                     console.log(err);
+                    error(err);
                 } else {
-                    console.log(data.Items);
-                    const addrs = data.Items as IAddress[];
-                    addresses = addresses.concat(addrs);
+                    console.log('Get address success:', data.Items);
+                    const addresses = data.Items as IAddress[]
                     resolve(addresses);
-
                 }
             }
         );
@@ -73,7 +71,7 @@ const getNearbyAddresses = (partitionKey: string): Promise<IAddress[]> => {
 
 const addressRepo = {
     save,
-    getNearbyAddresses
+    get
 };
 
 export default addressRepo;

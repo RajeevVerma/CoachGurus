@@ -38,32 +38,27 @@ const save = async (addressUserMapping: IAddressUserMapping): Promise<IAddressUs
 };
 
 /**
- * Get near by addresses  
+ * Get address user map.
+ * @param partitionKey 
+ * @returns 
  */
-const getAddressMappedUserIds = (partitionKeys: string[]): Promise<IAddressUserMapping[]> => {
-    let keyConditionExpression: string = '';
-    let expressionAttributeValue: any = {};
-    partitionKeys.forEach((key, index, partitionKeys) => {
-        if (index > 0) {
-            keyConditionExpression += ' OR ';
-        }
-        const attribute = `:pk-${index}`;
-        keyConditionExpression += `PK=${attribute}`;
-        expressionAttributeValue.push({ attribute: { "S": key } });
-    });
+const getAddressUserMappings = (partitionKey: string): Promise<IAddressUserMapping[]> => {
+
     const params = {
         TableName: TABLE_NAME,
-        KeyConditionExpression: keyConditionExpression,
-        ExpressionAttributeValues: expressionAttributeValue
+        KeyConditionExpression: 'pk=:pk',
+        ExpressionAttributeValues: { ':pk': partitionKey }
     };
 
     return new Promise((resolve, error) => {
         dbClient.query(params,
             (err, data) => {
                 if (err) {
+                    console.log(err);
                     error(err);
                 } else {
                     const addressUserMappings = data.Items as IAddressUserMapping[];
+                    console.log(addressUserMappings);
                     resolve(addressUserMappings);
                 }
             }
@@ -73,5 +68,5 @@ const getAddressMappedUserIds = (partitionKeys: string[]): Promise<IAddressUserM
 
 export default {
     save,
-    getAddressMappedUserIds
+    getAddressUserMappings
 } as const;
