@@ -1,6 +1,5 @@
 import StatusCodes from 'http-status-codes';
 import { Request, Response, Router } from 'express';
-
 import userService from '@services/user-service';
 import { ParamMissingError } from '@shared/errors';
 
@@ -15,6 +14,7 @@ export const paths = {
     add: '/add',
     update: '/update',
     delete: '/delete/:id',
+    updateUserProfile: '/updateprofile'
 } as const;
 
 /**
@@ -77,6 +77,17 @@ router.delete(paths.delete, async (req: Request, res: Response) => {
     }
     // Fetch data
     await userService.delete(id);
+    return res.status(OK).end();
+});
+
+/**
+ * Update user profile
+ */
+router.post(paths.updateUserProfile, async (req: Request, res: Response) => {
+    const userProfile = req.body;
+    console.log(userProfile);
+    
+    await userService.updateUserProfile(userProfile)
     return res.status(OK).end();
 });
 

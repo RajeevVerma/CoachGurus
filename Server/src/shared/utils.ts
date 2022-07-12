@@ -1,6 +1,6 @@
 
-import uuid from "uuid";
+import { v1 } from "uuid";
 
 export const uniqueIdGenerator = (prefix: string): string => {
-    return `${prefix}-${uuid.v1()}`;
+    return `${prefix}-${v1()}`;
 }
