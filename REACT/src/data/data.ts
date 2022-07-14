@@ -129,7 +129,7 @@ export function getErrorFromResponse(error: { res: Response; toString: () => str
 export const getBaseUrl = (): string => {
     // const { protocol, hostname, port } = window.location;
 
-    return 'http://localhost:8081'; //`${protocol}//${hostname}${port ? UriStrings.PORT_DELIMITER + port : ''}`;
+    return '/'; //`${protocol}//${hostname}${port ? UriStrings.PORT_DELIMITER + port : ''}`;
 };
 
 /**

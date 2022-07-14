@@ -1,13 +1,13 @@
-import { IAppState } from "./AppState.type";
-import { Reducer } from 'redux';
+import { initialAppState } from "container/CoachProfile/coachProfile.types";
+import { Reducer } from "redux";
+import { IApplicationState } from "store";
 
-
-
-export const initialState: IAppState = {
+export const initialState: IApplicationState = {
+    App: initialAppState
 }
 
 
-export const AppReducer: Reducer<IAppState> = (state: IAppState = initialState, action: any): IAppState => {
+export const AppReducer: Reducer<IApplicationState> = (state: IApplicationState = initialState, action: any): IApplicationState => {
 
-    return initialState;
+    return state;
 }
