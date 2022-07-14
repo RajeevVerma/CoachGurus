@@ -1,5 +1,4 @@
 import * as React from 'react';
-import { Input, List } from 'antd';
 import GooglePlacesAutocomplete from 'react-google-places-autocomplete';
 import {
   Button,
@@ -9,9 +8,6 @@ import {
   Grid,
   TextareaAutosize,
 } from '@mui/material';
-import usePlacesService from 'react-google-autocomplete/lib/usePlacesAutocompleteService';
-import Autocomplete from 'react-google-autocomplete';
-import useGoogle from 'react-google-autocomplete/lib/usePlacesAutocompleteService';
 
 import TextField from '@mui/material/TextField';
 import MenuItem from '@mui/material/MenuItem';
@@ -20,19 +16,14 @@ import Checkbox from '@mui/material/Checkbox';
 
 // Import styles
 import styles from './CoachAdminScreen.module.scss';
-import { useEffect, useState } from 'react';
-import { IonSearchbar, IonToolbar } from '@ionic/react';
+import { useState } from 'react';
 
 interface CoachAdminScreenProps {}
 
 const CoachAdminScreen: React.FC<CoachAdminScreenProps> = () => {
   const [coaching, setCoaching] = React.useState('sports');
-
-  const { placePredictions, getPlacePredictions, isPlacePredictionsLoading } =
-    useGoogle({
-      apiKey: 'AIzaSyCZ2tJfShJZfqBzIRXHpPYW1cmZ5A8ODKo',
-    });
-  const [value, setValue] = useState('');
+  const [location1, setLocation1] = useState('');
+  const [location2, setLocation2] = useState('');
 
   const handleChange = (event: SelectChangeEvent) => {
     setCoaching(event.target.value as string);
@@ -127,11 +118,11 @@ const CoachAdminScreen: React.FC<CoachAdminScreenProps> = () => {
                 <FormGroup className={styles.inputFormGroup}>
                   <label>Academy Location 1</label>
                   <div>
-                  <GooglePlacesAutocomplete
+                    <GooglePlacesAutocomplete
                       apiKey={'AIzaSyCZ2tJfShJZfqBzIRXHpPYW1cmZ5A8ODKo'}
                       selectProps={{
-                        value,
-                        onChange: setValue,
+                        location1,
+                        onChange: setLocation1,
                       }}
                       autocompletionRequest={{
                         componentRestrictions: {
@@ -154,8 +145,8 @@ const CoachAdminScreen: React.FC<CoachAdminScreenProps> = () => {
                     <GooglePlacesAutocomplete
                       apiKey={'AIzaSyCZ2tJfShJZfqBzIRXHpPYW1cmZ5A8ODKo'}
                       selectProps={{
-                        value,
-                        onChange: setValue,
+                        location2,
+                        onChange: setLocation2,
                       }}
                       autocompletionRequest={{
                         componentRestrictions: {
