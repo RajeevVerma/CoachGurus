@@ -86,7 +86,7 @@ router.delete(paths.delete, async (req: Request, res: Response) => {
 router.post(paths.updateUserProfile, async (req: Request, res: Response) => {
     const userProfile = req.body;
     console.log(userProfile);
-    
+
     await userService.updateUserProfile(userProfile)
     return res.status(OK).end();
 });

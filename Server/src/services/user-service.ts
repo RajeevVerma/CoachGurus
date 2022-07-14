@@ -1,8 +1,9 @@
 import userRepo from "@repos/user-repo";
-import { getGeneratedUserPk, getUserPk, getUserSk, IUser } from "@models/user-model";
+import { getGeneratedUserPk, getUserHashKey, getUserPk, getUserSk, IUser } from "@models/user-model";
 import { UserNotFoundError } from "@shared/errors";
 import addressService from "./address-service";
 import { IUserProfile } from "@models/view-models";
+import randomNumberTimeBased from './../shared/constants/randomGenerator.utility';
 
 /**
  * Get user.
@@ -35,6 +36,9 @@ const addOne = async (user: IUser): Promise<IUser> => {
     console.log('user pk', userId);
 
     user.pk = userId;
+    if (!user.bucketFolderName)
+        user.bucketFolderName = randomNumberTimeBased(user.pk);
+
     const existingUser = await userRepo.getOne(userId);
     if (existingUser && existingUser.pk) {
         return existingUser;

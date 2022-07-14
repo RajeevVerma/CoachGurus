@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import {
     Box,
     Grid,
@@ -9,8 +9,7 @@ import {
     Stack,
     Typography,
 } from '@mui/material';
-import { GoogleMap } from '@capacitor/google-maps';
-import { useRef, useEffect } from 'react';
+import { useEffect } from 'react';
 import * as qs from 'query-string';
 
 // Import styles
@@ -21,45 +20,45 @@ import { CoachProfile, CoachLocation } from '../../contents';
 
 // Import Components
 import { Header } from '../../components';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { getCoachProfile } from './coachProfile.actions';
+import { IApplicationState } from 'store';
+import awsConstants from 'models/shared/aws-constants';
 
 interface ContainerProps {
 }
 
-const CoachProfileContainer: React.FC<ContainerProps> = (props: any) => {
+const CoachProfileContainer: React.FC<ContainerProps> = () => {
 
-    const mapRef = useRef<HTMLElement>();
-    let newMap: GoogleMap;
     const parsed = qs.parse(window.location.search);
     console.debug('props pk', parsed.pk);
 
     const dispatch = useDispatch();
+    const guru = useSelector((state: IApplicationState) => state.App.guruProfile);
 
-    const [userPk, setUserPk] = useState(parsed.pk);
-    const [guru, setGuru] = useState({});
+    const userPk = parsed.pk;
 
     useEffect(() => {
         dispatch(getCoachProfile(userPk));
     }, [dispatch, userPk]);
 
-    async function createMap() {
-        if (!mapRef.current) return;
+    // async function createMap() {
+    //     if (!mapRef.current) return;
 
-        newMap = await GoogleMap.create({
-            id: 'my-cool-map',
-            element: mapRef.current,
-            /** Google Maps API Key is needed */
-            apiKey: 'process.env.REACT_APP_YOUR_API_KEY_HERE',
-            config: {
-                center: {
-                    lat: 33.6,
-                    lng: -117.9
-                },
-                zoom: 8
-            }
-        })
-    }
+    //     newMap = await GoogleMap.create({
+    //         id: 'my-cool-map',
+    //         element: mapRef.current,
+    //         /** Google Maps API Key is needed */
+    //         apiKey: 'process.env.REACT_APP_YOUR_API_KEY_HERE',
+    //         config: {
+    //             center: {
+    //                 lat: 33.6,
+    //                 lng: -117.9
+    //             },
+    //             zoom: 8
+    //         }
+    //     })
+    // }
 
     return (
         <>
@@ -74,18 +73,18 @@ const CoachProfileContainer: React.FC<ContainerProps> = (props: any) => {
                                         <Grid item xs={12} md={6}>
                                             <CardMedia
                                                 component="img"
-                                                image={CoachProfile}
+                                                image={awsConstants.getUserProfilePictureBaseUri(guru?.bucketFolderName, guru?.profilePicUrl)}
                                                 alt="Coach Profile"
                                             />
                                         </Grid>
                                         <Grid style={{ padding: '1rem' }} item xs={12} md={6}>
                                             <Typography variant="body1">
-                                                <h1>Nithin Sharma</h1>
+                                                <h1>{guru?.firstName + ' ' + guru?.lastName}</h1>
                                                 <Stack spacing={1}>
                                                     <Rating name="half-rating" defaultValue={4.5} precision={0.5} />
                                                 </Stack>
                                                 <p>8 Years of Exp</p>
-                                                <p><b>Short Bio Here...</b> Lorem Ipsum is simply dummy text.</p>
+                                                <p><b>Short Bio...</b> {guru?.profileData?.shortBio}</p>
                                             </Typography>
                                         </Grid>
                                     </Grid>
@@ -95,8 +94,7 @@ const CoachProfileContainer: React.FC<ContainerProps> = (props: any) => {
                                         <div>
                                             <p><b>Achievements:</b></p>
                                             <ul>
-                                                <li>Achievement One</li>
-                                                <li>Achievement Two</li>
+                                                <li>{guru?.profileData?.qualifications}</li>
                                             </ul>
                                             <p><b>Currently Associated With:</b></p>
                                             <ul>
@@ -105,7 +103,7 @@ const CoachProfileContainer: React.FC<ContainerProps> = (props: any) => {
                                             </ul>
                                         </div>
                                         <div>
-                                            <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</p>
+                                            <p>{guru?.profileData?.description}</p>
                                         </div>
                                     </Grid>
                                 </Grid>

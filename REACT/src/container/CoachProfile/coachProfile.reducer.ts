@@ -26,6 +26,9 @@ const guruProfileReducerSlice = (state: IAppState, action: allGuruProfileActions
         }
 
         case coachProfileActionConstants.Set_Guru_Profile_On_Success: {
+            console.log('state', state);
+            console.log('action.payload.guruProfile', action.payload.guruProfile);
+
             return {
                 ...state,
                 message: null,

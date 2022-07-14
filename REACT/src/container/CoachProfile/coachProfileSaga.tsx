@@ -26,7 +26,11 @@ function* getCoachProfile(profileAction: IGetCoachProfileAction) {
         // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
         const result: IUser = yield requestData(
             `${getBaseUrl()}${ApiUrls.Get_Url_Root}${ApiUrls.Get_Coach_Url}${profileAction.payload.pk}`,
+            undefined,
+            transformResponseToUserModel
         );
+
+        console.debug("Parsed user response", result);
 
         if (!result) {
             throw new Error('No results received.');
@@ -39,3 +43,5 @@ function* getCoachProfile(profileAction: IGetCoachProfileAction) {
 
     }
 }
+
+const transformResponseToUserModel = (transformResponseToUserModel: any): IUser => transformResponseToUserModel.Item as IUser;
