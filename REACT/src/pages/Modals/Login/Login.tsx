@@ -7,6 +7,9 @@ import { LoginContainer } from '../../../container';
 // Import enums
 import { UserType } from '../../../enums';
 
+// Import styles
+import './Login.scss';
+
 interface ILoginModalProps {
   userType: UserType;
   showModal: boolean;

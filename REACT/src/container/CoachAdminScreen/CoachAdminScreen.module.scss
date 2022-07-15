@@ -31,7 +31,7 @@ body, html,:host, .ion-page, .menu-content {
     padding-bottom: 3rem;
     background-color: #1d2029;
     color: #fff;
-    background: url(../../../public/assets/images/bg-pattern-circles.svg) repeat center, #1d2029;
+    background: url(../../../public/assets/images/bg-pattern-circles.svg) no-repeat center, #1d2029;
     @media (min-width:769px) {
         padding-top: 4.5rem;
     }
@@ -43,6 +43,7 @@ body, html,:host, .ion-page, .menu-content {
         border-radius: 15px;
         padding: 1rem;
         color: #fff;
+        width: 100%;
     }
 }
 

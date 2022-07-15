@@ -2,6 +2,7 @@
     height: 100%;
     display: flex;
     flex-flow: column;
+    
 }
 
 .login-grid-row {
@@ -40,11 +41,45 @@
 }
 
 .login-custom-mail {
-    --background: #db4437;
-    max-width: 220px;
+    border-radius: 15px;
+    text-decoration: none;
+    --background: #2ab9c6;
+    box-shadow: 0px 2px 4px -1px rgb(0 0 0 / 20%), 0px 4px 5px 0px rgb(0 0 0 / 14%), 0px 1px 10px 0px rgb(0 0 0 / 12%);
+    max-width: 275px;
+    margin: 1rem 0;
+    --border-radius: 15px;
 }
 
 .custom-login,
 .custom-login-otp {
-    background-color: #000;
+    background-color: transparent;
+    max-width: 275px;
+    border: 1px solid #ccc;
+    border-radius: 15px;
+    box-shadow: 0 1px 6px 0  rgba(32, 33, 36, .28);
+}
+
+.login-header {
+    padding: 2rem;
+    /* background-color: #fff; */
+}
+
+ion-icon{
+    color: #fff;
+}
+
+.otpImageWrap {
+    max-width: 75px;
+    max-height: 75px;
+    padding: 1rem;
+    border-radius: 50%;
+    background-color: #232e4d;
+}
+
+.loginFormSection {
+    padding: 2rem 0;
+    color: #fff;
+    background-color: #232e4d;
+    border-top-left-radius: 30px;
+    border-top-right-radius: 30px;
 }

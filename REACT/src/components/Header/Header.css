@@ -41,3 +41,12 @@
     z-index: 11;
     font-size: 1.75rem;
 }
+
+.signInButton {
+    --padding-start: 0;
+}
+
+.signInButton ion-button {
+    --padding-start: 0.5rem;
+    --padding-end: 0.5rem;
+}

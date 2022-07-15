@@ -7,7 +7,7 @@ import OtpInput from 'react-otp-input';
 import { IonButton, IonIcon, IonInput, NavContext } from '@ionic/react';
 
 // Import Icons
-import { mailOutline } from 'ionicons/icons';
+import { phonePortraitOutline } from 'ionicons/icons';
 
 // Import css
 import './LoginContainer.css';
@@ -69,61 +69,72 @@ const LoginContainer: React.FC<IContainerProps> = (props: IContainerProps) => {
     }
   };
 
+  const otpImage =  `${process.env.PUBLIC_URL}/assets/images/mobile-otp.png`;
+
   return (
     <div className='login-action'>
-      {UserType[userType]}
+      <div className="login-header">
+        <div className="otpImageWrap">
+          <img src={otpImage}  alt="otp-image" />
+        </div>
+        <h1 className="login-title">Sign-In</h1>
+        {UserType[userType]}
+      </div>
 
-      {message}
+      <div className="loginFormSection">
+        {message}
 
-      <IonInput
-        type='text'
-        className='custom-login'
-        pattern='\d{3}[\-]\d{3}[\-]\d{4}'
-        value={phoneNumber}
-        onIonChange={(event) => setPhoneNumber(`${event.target.value}`)}
-      />
+        <IonInput
+          type='text'
+          className='custom-login'
+          pattern='\d{3}[\-]\d{3}[\-]\d{4}'
+          value={phoneNumber}
+          onIonChange={(event) => setPhoneNumber(`${event.target.value}`)}
+        />
 
-      <IonButton
-        expand='block'
-        className='login-custom-mail'
-        onClick={() => handleLoginEvent()}>
-        <IonIcon slot='start' icon={mailOutline}></IonIcon>
-        GET OTP
-      </IonButton>
+        <IonButton
+          expand='block'
+          className='login-custom-mail'
+          onClick={() => handleLoginEvent()}>
+          <IonIcon slot='start' icon={phonePortraitOutline}></IonIcon>
+          GET OTP
+        </IonButton>
 
-      <OtpInput
-        className='login-passcode'
-        value={oneTimePasscode}
-        onChange={(otp: string) => {
-          setOneTimePasscode(otp);
-        }}
-        numInputs={4}
-        inputStyle={{
-          fontSize: '24px',
-          width: '36px',
-          height: '36px',
-          margin: '4px',
-          borderTop: '0px',
-          borderLeft: '0px',
-          borderRight: '0px',
-          outline: 'none',
-          borderColor: '#000a46',
-        }}
-        containerStyle={{
-          margin: '20px auto',
-          padding: '10px',
-          display: 'inline-flex',
-        }}
-        isInputNum
-      />
+        <OtpInput
+          className='login-passcode'
+          value={oneTimePasscode}
+          onChange={(otp: string) => {
+            setOneTimePasscode(otp);
+          }}
+          numInputs={4}
+          inputStyle={{
+            fontSize: '24px',
+            width: '36px',
+            height: '36px',
+            margin: '4px',
+            borderTop: '0px',
+            borderLeft: '0px',
+            borderRight: '0px',
+            outline: 'none',
+            borderColor: '#FFF',
+            backgroundColor: 'transparent'
+          }}
+          containerStyle={{
+            padding: '10px',
+            display: 'inline-flex',
+          }}
+          isInputNum
+        />
 
-      <IonButton
-        expand='block'
-        className='login-custom-mail'
-        onClick={() => handleVerifyLogin()}>
-        <IonIcon slot='start' icon={mailOutline}></IonIcon>
-        Verify OTP
-      </IonButton>
+        <IonButton
+          expand='block'
+          className='login-custom-mail'
+          onClick={() => handleVerifyLogin()}>
+          <IonIcon slot='start' icon={phonePortraitOutline}></IonIcon>
+          Verify OTP
+        </IonButton>
+       
+      </div>
     </div>
   );
 };

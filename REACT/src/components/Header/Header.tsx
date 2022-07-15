@@ -84,12 +84,13 @@ function Header(props: IHeaderProps): JSX.Element {
             }>
             Join as Coach
           </IonButton>
-          <IonButton>
+          <IonButton 
+            className="signInButton">
             <ProfileAvatar
-              user={user}
               logOutSession={logOutSession}
               onLoginClickEvent={onLoginClickEvent}
-            />
+              user={user}
+            />Sign In
           </IonButton>
         </IonCol>
         {/* <IonCol size='3' className='ion-text-right header-item'>
