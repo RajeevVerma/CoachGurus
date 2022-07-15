@@ -121,7 +121,7 @@ const LoginContainer: React.FC<IContainerProps> = (props: IContainerProps) => {
                       backgroundColor: 'transparent'
                   }}
                   containerStyle={{
-                      margin: '20px auto',
+                      margin: '0 20px auto',
                       padding: '10px',
                       display: 'inline-flex',
                   }}

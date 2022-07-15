@@ -41,9 +41,12 @@ function GuruCard(props: IGuruCardProps): JSX.Element {
             <img alt={'guru-card'} src={guru.imageUrl} />
             <IonCardHeader>
                 <IonCardSubtitle>{guru.location}</IonCardSubtitle>
-                <IonCardTitle className='flex-item'>{guru.name} <span><IonIcon icon={star} /> {guru.rating}</span> </IonCardTitle>
+                <IonCardTitle className='flexItem gutuTitle'>
+                    {guru.name}
+                    <span><IonIcon icon={star} /> {guru.rating}</span> 
+                </IonCardTitle>
             </IonCardHeader>
-            <IonCardContent className="flex-item">
+            <IonCardContent className="flexItem mobileFlex">
                 <div>
                     <IonText>
                         <h3>{guru.category}</h3>

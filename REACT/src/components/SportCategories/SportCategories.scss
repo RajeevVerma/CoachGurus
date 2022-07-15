@@ -11,14 +11,16 @@
   }
 }
 
-.sportsList {
-  position: absolute;
-  bottom: 20px;
-  margin: 0 auto;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 100%;
-  max-width: 1400px;
+@media (min-width: 769px) {
+  .sportsList {
+    position: absolute;
+    bottom: 20px;
+    margin: 0 auto;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100%;
+    max-width: 1400px;
+  }
 }
 
 .sportCategory {
@@ -40,4 +42,20 @@
     // color: #1d2029;
     color: #FFF;
    }
+}
+@media (max-width: 767px) { 
+  .sportCategory {
+    text-align: center;
+  
+     img {
+      max-width: 60px;
+      transition: transform .3s;
+      cursor: pointer;
+     }
+  
+     p {
+      font-weight: bold;
+      color: #1d2029;
+     }
+  }
 }
