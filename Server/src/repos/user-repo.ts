@@ -2,6 +2,7 @@ import { getUserSk, IUser } from "@models/user-model";
 import orm from "./mock-orm";
 import AWS from "aws-sdk";
 import { serviceConfigOptions } from "@shared/constants/aws-config";
+import { IAddress } from "@models/shared";
 
 console.log(serviceConfigOptions);
 AWS.config.update(serviceConfigOptions);
@@ -176,6 +177,33 @@ const getUsers = (userIds: string[]): Promise<IUser[]> => {
     });
 }
 
+const addUserAddress = async (userPk: string, address: IAddress): Promise<void> => {
+    console.log("add user address - user-repo", userPk);
+    return new Promise((resolve, error) => {
+        dbClient.update(
+            {
+                TableName: TABLE_NAME,
+                Key: { "pk": userPk, "sk": userPk },
+                UpdateExpression: "SET #addresses = list_append(#addresses, :address)",
+                ExpressionAttributeNames: {
+                    "#addresses": "addresses",
+                },
+                ExpressionAttributeValues: {
+                    ":address": [address]
+                }
+            }, function (err, data) {
+                if (err) {
+                    console.error(err);
+                    error(err);
+                } else {
+                    console.debug("PutItem succeeded:", data);
+                    resolve();
+                }
+            }
+        );
+    });
+}
+
 // Export default
 export default {
     getOne,
@@ -184,5 +212,6 @@ export default {
     update,
     delete: deleteOne,
     save,
-    getUsers
+    getUsers,
+    addUserAddress
 } as const;
