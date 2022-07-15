@@ -62,7 +62,7 @@ const CoachAdminScreen: React.FC<CoachAdminScreenProps> = () => {
     <>
       <section className={styles.mainContainer}>
         <Container maxWidth='lg'>
-          <Grid container spacing={3} className={styles.profileWrapper}>
+          <Grid container className={styles.profileWrapper}>
             <Grid
               className={styles.boxShadowContainer}
               item
@@ -255,7 +255,7 @@ const CoachAdminScreen: React.FC<CoachAdminScreenProps> = () => {
                       ) : (
                         <div className={styles.fileUploadBtn}>
                           <IonIcon slot='start' icon={cloudUpload}></IonIcon>
-                          Upload Profile Picture
+                          <span>Upload Profile Picture</span>
                         </div>
                       )}
                     </Files>
@@ -299,7 +299,7 @@ const CoachAdminScreen: React.FC<CoachAdminScreenProps> = () => {
                       ) : (
                         <div className={styles.fileUploadBtn}>
                           <IonIcon slot='start' icon={cloudUpload}></IonIcon>
-                          Upload Activity Picture (Max 8 Allowed)
+                          <span>Upload Activity Picture (Max 8 Allowed)</span>
                         </div>
                       )}
                     </Files>
@@ -309,7 +309,7 @@ const CoachAdminScreen: React.FC<CoachAdminScreenProps> = () => {
             </Grid>
           </Grid>
           <Grid style={{ justifyContent: 'flex-end' }} container>
-            <Button style={{ margin: '2rem', background: '#2ab9c6'
+            <Button style={{ margin: '1rem 0', background: '#2ab9c6'
 }} variant='contained'>
               Save Profile
             </Button>

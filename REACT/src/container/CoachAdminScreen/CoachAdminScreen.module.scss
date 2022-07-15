@@ -32,18 +32,19 @@ body, html,:host, .ion-page, .menu-content {
     background-color: #1d2029;
     color: #fff;
     background: url(../../../public/assets/images/bg-pattern-circles.svg) no-repeat center, #1d2029;
+
     @media (min-width:769px) {
         padding-top: 4.5rem;
     }
-
 
     .boxShadowContainer {
         background: #232e4d;
         box-shadow: none;
         border-radius: 15px;
-        padding: 1rem;
+        padding: 1rem 0.5rem;
         color: #fff;
         width: 100%;
+        margin-bottom: 1rem;
     }
 }
 
@@ -55,26 +56,13 @@ textarea {
     background-color: transparent;
 }
 
-@media(min-width:769px){
-    .profileWrapper .boxShadowContainer {
-        max-width: 48%;
-        margin: 0.5%;
+@media(min-width:769px) {
+    .mainContainer {        
+        .profileWrapper {
+            flex-wrap: nowrap;
+            gap: 10px;
+        }
     }
-}
-
-.coachAdminProfilePhoto{
-    margin: 0.5rem 1rem 1rem 0;
-    border-radius: 10px;
-    border: 1px solid rgba(255, 255, 255, 0.5);
-    color: #fff;
-    min-width: 100%;
-}
-.coachAdminProfilePhoto::file-selector-button {
-    font-weight: bold;
-    color: dodgerblue;
-    padding: 0.5em;
-    border: thin solid rgba(255, 255, 255, 0.5);
-    border-radius: 10px;
 }
 
 .fileUploadBtn {
@@ -100,12 +88,20 @@ textarea {
     
     > div > div {
         display: flex;
-        flex-wrap: wrap;
         gap: 8px;
+        flex-direction: row;
     }
-    
+
     img {
         border-radius: 10px;
         max-width: 110px;
     }
+}
+
+@media(max-width: 767px){
+    .inputFormGroup {
+        .coachAdminInput {
+            min-width: 100%;
+        }
+    } 
 }
