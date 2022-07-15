@@ -24,6 +24,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getCoachProfile } from './coachProfile.actions';
 import { IApplicationState } from 'store';
 import awsConstants from 'models/shared/aws-constants';
+import { IonContent, IonSlide, IonSlides } from '@ionic/react';
 
 interface ContainerProps {
 }
@@ -36,11 +37,26 @@ const CoachProfileContainer: React.FC<ContainerProps> = () => {
     const dispatch = useDispatch();
     const guru = useSelector((state: IApplicationState) => state.App.guruProfile);
 
-    const userPk = parsed.pk;
+    const userPk = parsed.pk as string;
 
     useEffect(() => {
         dispatch(getCoachProfile(userPk));
     }, [dispatch, userPk]);
+
+    useEffect(() => {
+        if (userPk) {
+            // getGuruLocations(userPk);
+        }
+    }, [userPk]);
+
+    /** To load guru locations */
+    // const getGuruLocations = (userPk: string) => {
+    //     const result: IAddress[] = requestData(
+    //         `${getBaseUrl()}${ApiUrls.Get_Url_Root}${ApiUrls.Get_Coach_Url}${profileAction.payload.pk}`,
+    //         undefined,
+    //         (response) => response.Item as IAddress[]
+    //     );
+    // }
 
     // async function createMap() {
     //     if (!mapRef.current) return;
@@ -59,6 +75,12 @@ const CoachProfileContainer: React.FC<ContainerProps> = () => {
     //         }
     //     })
     // }
+
+    const slideOpts = {
+        initialSlide: 2,
+        speed: 400
+    };
+
 
     return (
         <>
@@ -79,22 +101,23 @@ const CoachProfileContainer: React.FC<ContainerProps> = () => {
                                         </Grid>
                                         <Grid style={{ padding: '1rem' }} item xs={12} md={6}>
                                             <Typography variant="body1">
-                                                <h1>{guru?.firstName + ' ' + guru?.lastName}</h1>
+                                                <h1>{`${guru?.firstName} ${guru?.lastName}`}</h1>
                                                 <Stack spacing={1}>
-                                                    <Rating name="half-rating" defaultValue={4.5} precision={0.5} />
+                                                    <Rating name="half-rating" value={guru?.profileData?.finalRatings} defaultValue={4.5} precision={0.5} />
                                                 </Stack>
                                                 <p>8 Years of Exp</p>
+                                                <p>{guru?.profileData?.description}</p>
                                                 <p><b>Short Bio...</b> {guru?.profileData?.shortBio}</p>
                                             </Typography>
                                         </Grid>
                                     </Grid>
                                 </Card>
-                                <Grid style={{ marginTop: '2rem' }} className="boxShadowContainer" container>
+                                <Grid style={{ marginTop: '2rem', color: 'black' }} className="boxShadowContainer" container>
                                     <Grid item xs={12} md={12}>
                                         <div>
                                             <p><b>Achievements:</b></p>
                                             <ul>
-                                                <li>{guru?.profileData?.qualifications}</li>
+                                                <li>{guru?.profileData?.certifications}</li>
                                             </ul>
                                             <p><b>Currently Associated With:</b></p>
                                             <ul>
@@ -107,6 +130,19 @@ const CoachProfileContainer: React.FC<ContainerProps> = () => {
                                         </div>
                                     </Grid>
                                 </Grid>
+                                <Card>
+                                    <IonSlides pager={true} options={slideOpts}>
+                                        <IonSlide>
+                                            <h1>Slide 1</h1>
+                                        </IonSlide>
+                                        <IonSlide>
+                                            <h1>Slide 2</h1>
+                                        </IonSlide>
+                                        <IonSlide>
+                                            <h1>Slide 3</h1>
+                                        </IonSlide>
+                                    </IonSlides>
+                                </Card>
                             </Grid>
                             <Grid item xs={12} md={4}>
                                 <div className="boxShadowContainer">
@@ -133,3 +169,4 @@ const CoachProfileContainer: React.FC<ContainerProps> = () => {
 };
 
 export default CoachProfileContainer;
+

@@ -85,7 +85,7 @@ async function deleteOne(id: string): Promise<void> {
  */
 async function updateUserProfile(userProfile: IUserProfile): Promise<void> {
 
-    console.log('adding user');
+    console.log('adding user', userProfile);
     return new Promise(async (resolve, error) => {
         userProfile.user.addresses = userProfile.addresses;
         const user = await addOne(userProfile.user);
