@@ -66,5 +66,8 @@ export enum UriStrings {
 
 export const ApiUrls = {
     Get_Url_Root: 'api/',
-    Get_Coach_Url: 'users/get/'
+    Get_Coach_Url: 'users/get/',
+
+    //Location Apis
+    Get_Addresses_By_Guru_Id: ''
 }

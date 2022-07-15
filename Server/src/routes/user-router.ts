@@ -2,6 +2,7 @@ import StatusCodes from 'http-status-codes';
 import { Request, Response, Router } from 'express';
 import userService from '@services/user-service';
 import { ParamMissingError } from '@shared/errors';
+import addressService from '@services/address-service';
 
 // Constants
 const router = Router();
@@ -14,7 +15,8 @@ export const paths = {
     add: '/add',
     update: '/update',
     delete: '/delete/:id',
-    updateUserProfile: '/updateprofile'
+    updateUserProfile: '/updateprofile',
+    getUserAddresses: '/getUserAddresses/:userPk'
 } as const;
 
 /**
@@ -89,6 +91,19 @@ router.post(paths.updateUserProfile, async (req: Request, res: Response) => {
 
     await userService.updateUserProfile(userProfile)
     return res.status(OK).end();
+});
+
+/**
+ * Get User Location addresses
+ */
+router.get(paths.getUserAddresses, async (req: Request, res: Response) => {
+    const { userPk } = req.params;
+    // Check param
+    if (!userPk) {
+        throw new ParamMissingError();
+    }
+
+    await addressService.getUserAddresses(userPk);
 });
 
 // Export default
