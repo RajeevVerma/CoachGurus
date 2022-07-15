@@ -9,7 +9,10 @@ import {
   Grid,
   TextareaAutosize,
 } from '@mui/material';
-
+import { cloudUpload } from 'ionicons/icons';
+import {
+  IonIcon,
+} from '@ionic/react';
 import TextField from '@mui/material/TextField';
 import MenuItem from '@mui/material/MenuItem';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
@@ -224,8 +227,10 @@ const CoachAdminScreen: React.FC<CoachAdminScreenProps> = () => {
                   </div>
                 </FormGroup>
                 <FormGroup className={styles.inputFormGroup}>
-                  <label>Upload your profile pic</label>
-                  <div>
+                  <label>
+                    Upload your profile picture
+                  </label>
+                  <div className={styles.fileUploadContainer}>
                     <Files
                       key={'profile_pic'}
                       onChange={onProfilePictureFilesChange}
@@ -240,6 +245,7 @@ const CoachAdminScreen: React.FC<CoachAdminScreenProps> = () => {
                         <div className='files-gallery'>
                           {profilePicture.map((pic: any) => (
                             <img
+                              alt="profile-pic"
                               className='files-gallery-item'
                               src={pic?.preview?.url}
                               key={pic?.id}
@@ -247,7 +253,10 @@ const CoachAdminScreen: React.FC<CoachAdminScreenProps> = () => {
                           ))}
                         </div>
                       ) : (
-                        <div>Upload Profile Picture</div>
+                        <div className={styles.fileUploadBtn}>
+                          <IonIcon slot='start' icon={cloudUpload}></IonIcon>
+                          Upload Profile Picture
+                        </div>
                       )}
                     </Files>
                   </div>
@@ -265,7 +274,7 @@ const CoachAdminScreen: React.FC<CoachAdminScreenProps> = () => {
                 </FormGroup>
                 <FormGroup className={styles.inputFormGroup}>
                   <label>You in Action</label>
-                  <div>
+                  <div className={styles.fileUploadContainer}>
                   <Files
                       key={'activity_pic'}
                       onChange={onActivityPictureFilesChange}
@@ -280,6 +289,7 @@ const CoachAdminScreen: React.FC<CoachAdminScreenProps> = () => {
                         <div className='files-gallery'>
                           {activityPicture.map((pic: any) => (
                             <img
+                              alt="action-gallery-item"
                               className='files-gallery-item'
                               src={pic?.preview?.url}
                               key={pic?.id}
@@ -287,7 +297,10 @@ const CoachAdminScreen: React.FC<CoachAdminScreenProps> = () => {
                           ))}
                         </div>
                       ) : (
-                        <div>Upload Activity Picture (Max 8 Allowed)</div>
+                        <div className={styles.fileUploadBtn}>
+                          <IonIcon slot='start' icon={cloudUpload}></IonIcon>
+                          Upload Activity Picture (Max 8 Allowed)
+                        </div>
                       )}
                     </Files>
                   </div>
@@ -296,7 +309,8 @@ const CoachAdminScreen: React.FC<CoachAdminScreenProps> = () => {
             </Grid>
           </Grid>
           <Grid style={{ justifyContent: 'flex-end' }} container>
-            <Button style={{ margin: '2rem' }} variant='contained'>
+            <Button style={{ margin: '2rem', background: '#2ab9c6'
+}} variant='contained'>
               Save Profile
             </Button>
           </Grid>
