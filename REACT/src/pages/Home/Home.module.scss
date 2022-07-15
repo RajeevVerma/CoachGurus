@@ -1,0 +1,125 @@
+ion-content {
+    --padding-bottom: 0px;
+    --padding-end: 0px;
+    --padding-start: 0px;
+    --padding-top: 0px;
+}
+
+ion-icon {
+    color: var(--ion-color-medium-shade)
+}
+
+.headerContainer {
+    padding: 0px 22px;
+}
+
+header {
+    background-color: #1d2029;
+    .ion-color-light {
+        --ion-color-base: #FFF;
+    }
+}
+.mainHeader {
+    background-image: url(../../../public/assets/images/bg-vector-dark-gray.jpg);
+    background-color: transparent;
+    background-position: right 10%;
+    background-repeat: no-repeat;
+    min-height:100vh;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.bannerContent {
+    padding-top: 10%;
+    padding-left: 1rem;
+    max-width: 1400px;
+    margin: 0 auto;
+
+    h2 {
+        color: #fbb35F;
+        font-family: 'Poppins', sans-serif;
+        font-weight: 600;
+        padding-left: 1rem;
+    }
+}
+
+.searchContainer {
+    padding-left: 1rem;
+    padding-top: 1rem;
+    div, input {
+        font-family: 'Poppins', sans-serif;
+    }
+    fieldset, form {
+        border-radius: 25px;
+        border: 1px solid #71747b;
+        background-color: transparent;
+        box-shadow: none;
+    }
+
+    .searchLocaitonContainer {
+        border-top-left-radius: 30px;
+        border-bottom-left-radius: 30px;
+        background-color: #dfe8ed;
+        padding: 1rem;
+    }
+    .searchGuru {
+        border-top-right-radius: 30px;
+        border-bottom-right-radius: 30px;
+        background-color: #dfe8ed;
+        padding: 1rem;
+    }
+}
+@media(max-width:767px){
+
+    .mainHeader {
+        background-size: 350px;
+        background-position: bottom;
+    }
+
+    .bannerContent {
+        padding-left: 0;
+
+        .bannerTitle {
+            font-size: 2rem;
+            padding-top: 4rem;
+            text-align: center;
+            padding-left: 0;
+        }
+    }
+
+    .searchContainer {
+        padding-left: 0.25rem;
+        padding-top: 0.25rem;
+
+        .searchLocaitonContainer,
+        .searchGuru {
+            padding: 0.5rem;
+            margin-bottom: 0.5rem;
+            border-radius: 30px;
+        }
+    }
+
+    .homeContentContainer {
+        padding: 0;
+    }
+}
+
+// .home-main-container {
+//     display: inline-block;
+//     width: 100%;
+//     font-size: 0;
+//     line-height: 0;
+//     vertical-align: middle;
+//     background-size: 100%;
+//     background-position: 50% 50%;
+//     background-repeat: no-repeat;
+//     height: 650px; /* this will move to media queries and vary for each of the screen.*/
+//     background-image: url('../../../public/assets/images/app-baner.jpg');
+// }
+
+// .search-box-container {
+//     margin-left: auto;
+//     margin-right: auto;
+//     padding-top: 200px;
+//     width: 1250px;
+// }

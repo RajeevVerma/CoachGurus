@@ -1,0 +1,19 @@
+@media (max-width: 767px) {
+    div.footerContainer {
+        margin: 2rem 0 5rem 0;
+
+        .MuiGrid-item {
+            padding-top: 2rem;
+        }
+
+        ul.MuiBox-root {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+
+            a {
+                text-decoration: none;
+            }
+        }
+    }
+}

@@ -31,6 +31,12 @@
     .header {
         display: none;
     }
+    ion-toolbar {
+        --background: #1d2029;
+    }
+    .title-default {
+        color : #fff;
+    }
 }
 
 .active-item {

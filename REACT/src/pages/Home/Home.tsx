@@ -1,3 +1,4 @@
+/** Import ionic-react components */
 import {
     IonCol,
     IonContent,
@@ -5,12 +6,29 @@ import {
     IonRow,
     IonIcon,
 } from '@ionic/react';
-import { Button, IconButton, InputBase, Paper, Typography } from '@mui/material';
+
+/** Import material-react components */
+import { 
+    IconButton, 
+    InputBase, 
+    Paper, 
+    Typography 
+} from '@mui/material';
+import { Container } from '@mui/system';
 import { search } from 'ionicons/icons';
-import { Box, Container } from '@mui/system';
+
+/** Import Components */
+import { 
+    BlogContent, 
+    Footer, 
+    GuruCard, 
+    HomeBanner, 
+    Testimonials
+} from '../../components';
 import LocationPicker from '../../components/Header/LocationPicker/LocationPicker';
-import { BlogContent, Header, Footer, GuruCard, HomeBanner, Testimonials} from '../../components';
-import './Home.scss';
+
+/** Import Styles */
+import styles from './Home.module.scss';
 
 const guruList = [
     {
@@ -44,44 +62,49 @@ const Home: React.FC = () => {
     return (
         <>
             <IonContent>
-            <header>
-                {/* <Header /> */}
-                <div className="main-header">
-                    <div className="bannerContent">
-                        <Typography variant="h2">Find <br />The Best Gurus</Typography>
-                        <IonRow className='search-container'>
-                        <IonCol className='search-item search-locaiton-container' size='2' sizeMd='2' sizeSm='6' sizeXs='6'>
-                            <LocationPicker />
-                        </IonCol>
+                <header>
+                    {/* <Header /> */}
+                    <div className={styles.mainHeader}>
+                        <div className={styles.bannerContent}>
+                            <Typography className={styles.bannerTitle} variant="h2">Find <br />The Best Gurus</Typography>
+                            <IonRow className={styles.searchContainer}>
+                            <IonCol className={styles.searchLocaitonContainer} size='2' sizeMd='2' sizeSm='6' sizeXs='12'>
+                                <LocationPicker />
+                            </IonCol>
 
-                        <IonCol className='search-item search-guru' size='4' sizeMd='4' sizeSm='6' sizeXs='6'>
-                            <Paper
-                                component="form"
-                                sx={{ p: '2px 4px', display: 'flex', alignItems: 'center' }}>
+                            <IonCol className={styles.searchGuru} size='4' sizeMd='4' sizeSm='6' sizeXs='12'>
+                                <Paper
+                                    component="form"
+                                    sx={{ p: '2px 4px', display: 'flex', alignItems: 'center' }}>
 
-                                <InputBase
-                                    sx={{ ml: 1, flex: 1 }}
-                                    placeholder="Search Gurus"
-                                    inputProps={{ 'aria-label': 'search gurus' }}
-                                />
-                                <IconButton type="submit" sx={{ p: '10px' }} aria-label="search">
-                                    <IonIcon icon={search} />
-                                </IconButton>
-                            </Paper>
-                        </IonCol>
-                    </IonRow>
+                                    <InputBase
+                                        sx={{ ml: 1, flex: 1 }}
+                                        placeholder="Search Gurus"
+                                        inputProps={{ 'aria-label': 'search gurus' }}
+                                    />
+                                    <IconButton type="submit" sx={{ p: '10px' }} aria-label="search">
+                                        <IonIcon icon={search} />
+                                    </IconButton>
+                                </Paper>
+                            </IonCol>
+                        </IonRow>
+                        </div>
                     </div>
-                </div>
-            </header>
+                </header>
+
                 {/** Banner  */}
                 <HomeBanner />
+
+                {/** Featured Gurus  */}
                 <Container
-                sx={{
-                    mt: 6,
-                    mb: 6,
-                    alignItems: 'center',
-                }}>
-                    <div className="header-container">
+                    className={styles.homeContentContainer}
+                    sx={{
+                        mt: 6,
+                        mb: 6,
+                        p:0,
+                        alignItems: 'center',
+                    }}>
+                    <div className={styles.headerContainer}>
                         <h1>Featured Gurus</h1>
                     </div>
                     <IonGrid>
@@ -98,13 +121,17 @@ const Home: React.FC = () => {
                         </IonRow>
                     </IonGrid>
                 </Container>
-                            
+                
+                {/* Testimonials Component */}
                 <Testimonials />
+
+                {/* Blog Component */}
                 <BlogContent />
+
+                {/* Footer */}
                 <Footer />
 
             </IonContent>
-
         </>
     );
 };
