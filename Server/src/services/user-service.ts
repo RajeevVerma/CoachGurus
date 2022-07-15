@@ -1,11 +1,14 @@
 import userRepo from "@repos/user-repo";
-import { getGeneratedUserPk, getUserPk, getUserSk, IUser } from "@models/user-model";
+import { getGeneratedUserPk, getUserHashKey, getUserPk, getUserSk, IUser } from "@models/user-model";
 import { UserNotFoundError } from "@shared/errors";
+import addressService from "./address-service";
+import { IUserProfile } from "@models/view-models";
+import randomNumberTimeBased from './../shared/constants/randomGenerator.utility';
 
 /**
- * Get all users.
- *
- * @returns
+ * Get user.
+ * @param id 
+ * @returns User
  */
 async function get(phone: string): Promise<IUser> {
     const pk = getGeneratedUserPk(phone);
@@ -15,7 +18,7 @@ async function get(phone: string): Promise<IUser> {
 /**
  * Get all users.
  *
- * @returns
+ * @returns Users 
  */
 async function getAll(): Promise<IUser[]> {
     return await userRepo.getAll();
@@ -33,6 +36,9 @@ const addOne = async (user: IUser): Promise<IUser> => {
     console.log('user pk', userId);
 
     user.pk = userId;
+    if (!user.bucketFolderName)
+        user.bucketFolderName = randomNumberTimeBased(user.pk);
+
     const existingUser = await userRepo.getOne(userId);
     if (existingUser && existingUser.pk) {
         return existingUser;
@@ -70,6 +76,25 @@ async function deleteOne(id: string): Promise<void> {
     return userRepo.delete(id);
 }
 
+/**
+ * Update user profile
+ * 
+ * @param userProfile 
+ * @returns 
+ */
+async function updateUserProfile(userProfile: IUserProfile): Promise<void> {
+
+    console.log('adding user');
+    return new Promise(async (resolve, error) => {
+        const user = await addOne(userProfile.user);
+        userProfile.addresses.forEach(async (address, index, addrs) => {
+            const saveAddress = await addressService.addAddress(address);
+            await addressService.addAddressUserMapping(saveAddress, user.pk);
+        });
+        resolve(); // returning void.
+    });
+}
+
 // Export default
 export default {
     get,
@@ -77,6 +102,7 @@ export default {
     addOne,
     updateOne,
     delete: deleteOne,
+    updateUserProfile,
 } as const;
 
 

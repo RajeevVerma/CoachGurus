@@ -6,6 +6,7 @@ import {
     UserType,
 } from "./enums/enumTypes";
 import IdbItemBase from "./shared/dbItemBase";
+import randomNumberTimeBased from './../shared/constants/randomGenerator.utility';
 
 // User schema
 export interface IUser extends IdbItemBase {
@@ -21,6 +22,7 @@ export interface IUser extends IdbItemBase {
     signUpDate?: Date;
     lastLoginDate?: Date;
     profilePicUrl?: string;
+    bucketFolderName: string;
 
     profileData?: {
         shortBio?: string;
@@ -32,7 +34,10 @@ export interface IUser extends IdbItemBase {
         qualifications?: string;
         /**store | separated if multiple */
         coachingPhotos?: string;
+        finalRatings?: number;
+        yearsOfExperience?: number;
     };
+
 
     /** To show any badge  */
     isCoachGuruVerified?: boolean;
@@ -43,12 +48,33 @@ export interface IUser extends IdbItemBase {
     phoneOtpVerified?: boolean; // TODO: Can be indexed
     emailOtpVerified?: boolean;
 
+    hashKey?: string;
+
     /**
      * Endeavour ids | separated
      */
     coachingEndeavourPks: string;
     /** Should be sorted based on priority */
     // endeavourTypes?: EndeavourCategory[];
+}
+
+function stringToHash(data: string): string {
+
+    var hash = 0;
+
+    if (data.length == 0) return hash.toString();
+
+    for (let i = 0; i < data.length; i++) {
+        const char = data.charCodeAt(i);
+        hash = ((hash << 3) - hash) + char;
+        hash = hash & hash;
+    }
+
+    return hash.toString();
+}
+
+export const getUserHashKey = (dataKey: string) => {
+    return stringToHash(dataKey);
 }
 
 export const getUserPk = (user: IUser): string => {
@@ -65,7 +91,7 @@ export const getGeneratedUserPk = (phone: string): string => {
 }
 
 export const getUserSk = (pk: string): string => {
-    return getGeneratedUserPk(pk);
+    return pk;
 }
 
 /**
@@ -84,6 +110,7 @@ function getNew(name: string, email: string): IUser {
         userType: UserType.Guru,
         signUpDate: new Date(),
         coachingEndeavourPks: "E-1",
+        bucketFolderName: randomNumberTimeBased(tableItemPrefixes.VerifiedUserPrefix + phone).toString()
     };
 }
 

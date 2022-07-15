@@ -6,44 +6,49 @@ export interface IResponse {
 
 
 export interface IUser {
-  email?: string;
-  name?: string;
-  city?: string; // GSI
-  signUpSourceType: UserSignUpSource;
-  mobilePhone: string;
-  alternatePhone?: string;
-  userType?: UserType;
+    email?: string;
+    firstName?: string;
+    lastName?: string;
 
-  /** Auto set on backend */
-  signUpDate?: Date;
-  lastLoginDate?: Date;
-  profilePicUrl?: string;
+    city?: string; // GSI
+    signUpSourceType: UserSignUpSource;
+    mobilePhone: string;
+    alternatePhone?: string;
+    userType?: UserType;
 
-  profileData?: {
-    shortBio?: string;
-    description?: string;
-    /**store | separated if multiple */
-    certifications?: string;
+    /** Auto set on backend */
+    signUpDate?: Date;
+    lastLoginDate?: Date;
+    profilePicUrl?: string;
+    bucketFolderName: string;
 
-    /**coach qualifications | separated*/
-    qualifications?: string;
-    /**store | separated if multiple */
-    coachingPhotos?: string;
-  };
+    profileData?: {
+        shortBio?: string;
+        description?: string;
+        /**store | separated if multiple */
+        certifications?: string;
 
-  /** To show any badge  */
-  isCoachGuruVerified?: boolean;
+        /**coach qualifications | separated*/
+        qualifications?: string;
+        /**store | separated if multiple */
+        coachingPhotos?: string;
+        finalRatings?: number;
+        yearsOfExperience?: number;
+    };
 
-  /* pipe separated */
-  locationPks?: string;
+    /** To show any badge  */
+    isCoachGuruVerified?: boolean;
 
-  phoneOtpVerified?: boolean; // TODO: Can be indexed
-  emailOtpVerified?: boolean;
+    /* pipe separated */
+    locationPks?: string;
 
-  /**
-   * Endeavour ids | separated
-   */
-  coachingEndeavourPks: string;
-  /** Should be sorted based on priority */
-  // endeavourTypes?: EndeavourCategory[];
+    phoneOtpVerified?: boolean; // TODO: Can be indexed
+    emailOtpVerified?: boolean;
+
+    /**
+     * Endeavour ids | separated
+     */
+    coachingEndeavourPks: string;
+    /** Should be sorted based on priority */
+    // endeavourTypes?: EndeavourCategory[];
 }

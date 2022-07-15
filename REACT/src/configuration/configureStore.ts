@@ -4,16 +4,12 @@ import { composeWithDevTools } from 'redux-devtools-extension';
 import createSagaMiddleware from 'redux-saga';
 import { ApplicationReducers, IApplicationState } from 'store';
 import sagas from './rootSagas';
-
-
 // Initialize initial Redux state from the window object.
 const initialReduxState = (window as any).initialReduxState as IApplicationState;
-
 
 // Set up exports
 export const history = createHashHistory();
 export const store = configureStore(initialReduxState);
-
 
 function configureStore(initialState: IApplicationState): Store<IApplicationState> {
     // create the composing function for our middleware

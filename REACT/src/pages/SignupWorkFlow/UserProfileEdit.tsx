@@ -8,6 +8,7 @@ import {
     IonPage,
 } from '@ionic/react';
 import classNames from 'classnames';
+import { UserType } from 'enums';
 import { ServerHooks } from 'hooks';
 import { ICognitoUser, IUser } from 'models';
 import { useEffect, useState } from 'react';
@@ -18,10 +19,11 @@ import './UserProfileEdit.css';
 
 interface IUserProfileEditPageProps {
     user?: ICognitoUser;
+    userType: UserType;
 }
 
 function UserProfileEditPage(props: IUserProfileEditPageProps): JSX.Element {
-    const { user } = props;
+    const { user, userType } = props;
 
     const history = useHistory();
     const { updateUser, getUser } = ServerHooks();
@@ -129,12 +131,12 @@ function UserProfileEditPage(props: IUserProfileEditPageProps): JSX.Element {
                 <IonItem>
                     <IonLabel>Name</IonLabel>
                     <IonInput
-                        value={userProfile?.name}
+                        value={userProfile?.firstName}
                         type='text'
                         id='user-name'
                         onIonChange={(e) =>
                             userProfile &&
-                            setUserProfile({ ...userProfile, name: `${e.target.value}` })
+                            setUserProfile({ ...userProfile, firstName: `${e.target.value}` })
                         }
                     />
                 </IonItem>
@@ -152,7 +154,7 @@ function UserProfileEditPage(props: IUserProfileEditPageProps): JSX.Element {
                     />
                 </IonItem>
 
-                {categorySelection(categories)}
+                {userType === UserType.Guru && categorySelection(categories)}
 
                 <IonItem>
                     <IonButton onClick={() => handleProfileSubmit()}>Submit</IonButton>
