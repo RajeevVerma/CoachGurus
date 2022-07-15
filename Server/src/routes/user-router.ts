@@ -100,7 +100,7 @@ router.post(paths.addAddress, async (req: Request, res: Response) => {
     }
 
     await userService.addAddressForUser(userPk, address);
-    return res.status(ok).end();
+    return res.status(OK).end();
 });
 
 // Export default
