@@ -135,7 +135,7 @@ const CoachProfileContainer: React.FC<ContainerProps> = () => {
                                         </div>
                                     </Grid>
                                 </Grid>
-                                <Card>
+                                <Grid style={{ marginTop: '2rem', color: 'black' }} className="boxShadowContainer" container>
                                     <IonSlides pager={true} options={slideOpts}>
                                         <IonSlide>
                                             <h1>Slide 1</h1>
@@ -147,7 +147,7 @@ const CoachProfileContainer: React.FC<ContainerProps> = () => {
                                             <h1>Slide 3</h1>
                                         </IonSlide>
                                     </IonSlides>
-                                </Card>
+                                </Grid>
                             </Grid>
                             <Grid item xs={12} md={4}>
                                 <div className="boxShadowContainer">
