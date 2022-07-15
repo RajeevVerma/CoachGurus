@@ -36,3 +36,28 @@ html,
 ion-slides {
     height: 100%;
 }
+
+.trainingLocationsWrap {
+
+    ion-icon{
+        color: #f46954;
+        font-size: 2rem;
+        padding-top: 5px;
+    }
+    p {
+        font-family: 'Poppins', sans-serif;
+        color: #2ab9c6;
+    }
+    a {
+        display: flex;
+        text-decoration: none;
+        cursor: pointer;
+        align-items: baseline;        
+
+        .locationTitle {
+            font-size: 1.25rem;
+            display: block;
+            font-weight: 500;
+        }
+    }
+}

@@ -8,9 +8,14 @@ import {
     Rating,
     Stack,
     Typography,
+    List,
+    ListItem,
+    Link,
 } from '@mui/material';
 import { useEffect } from 'react';
 import * as qs from 'query-string';
+
+import { pin } from 'ionicons/icons';
 
 // Import styles
 import './CoachProfileContainer.scss';
@@ -24,7 +29,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getCoachProfile } from './coachProfile.actions';
 import { IApplicationState } from 'store';
 import awsConstants from 'models/shared/aws-constants';
-import { IonContent, IonSlide, IonSlides } from '@ionic/react';
+import { IonContent, IonIcon, IonSlide, IonSlides } from '@ionic/react';
 
 interface ContainerProps {
 }
@@ -146,8 +151,34 @@ const CoachProfileContainer: React.FC<ContainerProps> = () => {
                             </Grid>
                             <Grid item xs={12} md={4}>
                                 <div className="boxShadowContainer">
-                                    <p><b>Training Locations</b></p>
-                                    <img style={{ borderRadius: '5px' }} src={CoachLocation} alt="Coach Locations" />
+                                    <h3>Training Locations</h3>
+                                    <List className="trainingLocationsWrap">
+                                        <ListItem sx={{p:0}} className="trainingLocation">
+                                            <Link className="">
+                                                <IonIcon icon={pin}></IonIcon>
+                                                <Typography>
+                                                    <span className="locationTitle">
+                                                        The Pune Academy
+                                                    </span>
+                                                    <span>Lavale, Pune</span>
+                                                </Typography>
+                                            </Link>
+                                        </ListItem>
+
+                                        <ListItem sx={{p:0}} className="trainingLocation">
+                                            <Link className="">
+                                                <IonIcon icon={pin}></IonIcon>
+                                                <Typography>
+                                                    <span className="locationTitle">
+                                                        The Great Cricket Academy
+                                                    </span>
+                                                    <span>Yerawada, Pune</span>
+                                                </Typography>
+                                            </Link>
+                                        </ListItem>
+
+                                    </List>
+                                    {/* <img style={{ borderRadius: '5px' }} src={CoachLocation} alt="Coach Locations" /> */}
                                     {/** To Do for fetching Locations List */}
                                     {/* <div className="component-wrapper">
                                         <capacitor-google-map ref={mapRef} style={{
