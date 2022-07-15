@@ -1,0 +1,61 @@
+ion-button ion-icon {
+    color: #fff;
+}
+
+.loginAction {
+    text-align: center;
+    
+    .loginHeader {
+        padding: 2rem;
+        
+        .otpImageWrap {
+            max-width: 75px;
+            max-height: 75px;
+            padding: 1rem;
+            border-radius: 50%;
+            background-color: #232e4d;
+            margin: 0 auto;
+        }
+    }
+    
+    .loginFormSection {
+        padding: 2rem 0;
+        color: #fff;
+        background-color: #232e4d;
+        border-top-left-radius: 30px;
+        border-top-right-radius: 30px;
+
+        .loginCustomBtn {
+            border-radius: 15px;
+            text-decoration: none;
+            --background: #2ab9c6;
+            box-shadow: 0px 2px 4px -1px #00000033, 0px 4px 5px 0px #00000024, 0px 1px 10px 0px #0000001f;
+            max-width: 275px;
+            margin: 1rem auto;
+            --border-radius: 15px;
+        }
+        
+        .loginCustomInput {
+            background-color: transparent;
+            max-width: 275px;
+            border: 1px solid #ccc;
+            border-radius: 15px;
+            box-shadow: 0 1px 6px 0  #20212447;
+            margin: 0 auto;
+        }
+    }
+}
+
+/** For Future Use of Social Logins */
+/* .login-apple {
+    --background: #000;
+}
+
+.login-google {
+    --background: #ffffff;
+    color: #757575;
+}
+
+.login-facebook {
+    --background: #3b5998;
+} */

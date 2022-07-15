@@ -10,7 +10,7 @@ import { IonButton, IonIcon, IonInput, NavContext } from '@ionic/react';
 import { phonePortraitOutline } from 'ionicons/icons';
 
 // Import css
-import './LoginContainer.css';
+import styles from './LoginContainer.module.scss';
 
 import { ICognitoUser } from '../../models';
 import { ServerHooks, LoginService } from '../../hooks';
@@ -74,21 +74,21 @@ const LoginContainer: React.FC<IContainerProps> = (props: IContainerProps) => {
     const otpImage =  `${process.env.PUBLIC_URL}/assets/images/mobile-otp.png`;
 
     return (
-        <div className='login-action'>
-            <div className="login-header">
-              <div className="otpImageWrap">
+        <div className={styles.loginAction}>
+            <div className={styles.loginHeader}>
+              <div className={styles.otpImageWrap}>
                 <img src={otpImage}  alt="otp-image" />
               </div>
-              <h1 className="login-title">Sign-In</h1>
+              <h1>Sign-In</h1>
               {UserType[userType]}
             </div>
 
-            <div className="loginFormSection">
+            <div className={styles.loginFormSection}>
               {message}
 
               <IonInput
                   type='text'
-                  className='custom-login'
+                  className={styles.loginCustomInput}
                   pattern='\d{3}[\-]\d{3}[\-]\d{4}'
                   value={phoneNumber}
                   onIonChange={(event) => setPhoneNumber(`${event.target.value}`)}
@@ -96,14 +96,13 @@ const LoginContainer: React.FC<IContainerProps> = (props: IContainerProps) => {
 
               <IonButton
                   expand='block'
-                  className='login-custom-mail'
+                  className={styles.loginCustomBtn}
                   onClick={() => handleLoginEvent()}>
                   <IonIcon slot='start' icon={phonePortraitOutline}></IonIcon>
                   GET OTP
               </IonButton>
 
               <OtpInput
-                  className='login-passcode'
                   value={oneTimePasscode}
                   onChange={(otp: string) => {
                       setOneTimePasscode(otp);
@@ -131,7 +130,7 @@ const LoginContainer: React.FC<IContainerProps> = (props: IContainerProps) => {
 
               <IonButton
                   expand='block'
-                  className='login-custom-mail'
+                  className={styles.loginCustomBtn}
                   onClick={() => handleVerifyLogin()}>
                   <IonIcon slot='start' icon={phonePortraitOutline}></IonIcon>
                   Verify OTP
