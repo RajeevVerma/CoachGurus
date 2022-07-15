@@ -1,5 +1,6 @@
 import * as React from 'react';
 import GooglePlacesAutocomplete from 'react-google-places-autocomplete';
+import Files from 'react-files';
 import {
   Button,
   Container,
@@ -17,6 +18,7 @@ import Checkbox from '@mui/material/Checkbox';
 // Import styles
 import styles from './CoachAdminScreen.module.scss';
 import { useState } from 'react';
+import { IFile } from 'models';
 
 interface CoachAdminScreenProps {}
 
@@ -25,8 +27,32 @@ const CoachAdminScreen: React.FC<CoachAdminScreenProps> = () => {
   const [location1, setLocation1] = useState('');
   const [location2, setLocation2] = useState('');
 
+  const [profilePicture, setProfilePicture] = useState<IFile[]>([]);
+  
+  const [activityPicture, setActivityPicture] = useState<IFile[]>([]);
+
   const handleChange = (event: SelectChangeEvent) => {
     setCoaching(event.target.value as string);
+  };
+
+  const onProfilePictureFilesChange = (files: IFile[]) => {
+    console.log(files);
+    setProfilePicture(files);
+  };
+
+  const onProfilePictureFilesError = (error: any) => {
+    console.log('error code ' + error.code + ': ' + error.message);
+    setProfilePicture([]);
+  };
+
+  const onActivityPictureFilesChange = (files: IFile[]) => {
+    console.log(files);
+    setActivityPicture(files);
+  };
+
+  const onActivityPictureFilesError = (error: any) => {
+    console.log('error code ' + error.code + ': ' + error.message);
+    setActivityPicture([]);
   };
 
   return (
@@ -200,12 +226,30 @@ const CoachAdminScreen: React.FC<CoachAdminScreenProps> = () => {
                 <FormGroup className={styles.inputFormGroup}>
                   <label>Upload your profile pic</label>
                   <div>
-                    <input
-                      type='file'
-                      className={styles.coachAdminProfilePhoto}
-                      name='profile'
-                      accept='image/png, image/jpeg'
-                    />
+                    <Files
+                      key={'profile_pic'}
+                      onChange={onProfilePictureFilesChange}
+                      onError={onProfilePictureFilesError}
+                      accepts={['image/*']}
+                      multiple={false}
+                      maxFiles={1}
+                      maxFileSize={10000000}
+                      minFileSize={0}
+                      clickable>
+                      {profilePicture.length > 0 ? (
+                        <div className='files-gallery'>
+                          {profilePicture.map((pic: any) => (
+                            <img
+                              className='files-gallery-item'
+                              src={pic?.preview?.url}
+                              key={pic?.id}
+                            />
+                          ))}
+                        </div>
+                      ) : (
+                        <div>Upload Profile Picture</div>
+                      )}
+                    </Files>
                   </div>
                 </FormGroup>
                 <FormGroup className={styles.inputFormGroup}>
@@ -222,12 +266,30 @@ const CoachAdminScreen: React.FC<CoachAdminScreenProps> = () => {
                 <FormGroup className={styles.inputFormGroup}>
                   <label>You in Action</label>
                   <div>
-                    <input
-                      type='file'
-                      className={styles.coachAdminProfilePhoto}
-                      name='action-media'
-                      multiple
-                    />
+                  <Files
+                      key={'activity_pic'}
+                      onChange={onActivityPictureFilesChange}
+                      onError={onActivityPictureFilesError}
+                      accepts={['image/*']}
+                      multiple={true}
+                      maxFiles={8}
+                      maxFileSize={10000000}
+                      minFileSize={0}
+                      clickable>
+                      {activityPicture.length > 0 ? (
+                        <div className='files-gallery'>
+                          {activityPicture.map((pic: any) => (
+                            <img
+                              className='files-gallery-item'
+                              src={pic?.preview?.url}
+                              key={pic?.id}
+                            />
+                          ))}
+                        </div>
+                      ) : (
+                        <div>Upload Activity Picture (Max 8 Allowed)</div>
+                      )}
+                    </Files>
                   </div>
                 </FormGroup>
               </div>

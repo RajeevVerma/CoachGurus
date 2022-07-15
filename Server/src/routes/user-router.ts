@@ -15,12 +15,12 @@ export const paths = {
     add: '/add',
     update: '/update',
     delete: '/delete/:id',
-    updateUserProfile: '/updateprofile',
-    getUserAddresses: '/getUserAddresses/:userPk'
+    updateUserProfile: '/updateprofile', // depecrated, isntead use micro api for specific task
+    addAddress: '/addAddress/:userPk',
 } as const;
 
 /**
- * Get all users.
+ * Get user.
  */
 router.get(paths.get, async (req: Request, res: Response) => {
     const { pk } = req.params;
@@ -93,17 +93,15 @@ router.post(paths.updateUserProfile, async (req: Request, res: Response) => {
     return res.status(OK).end();
 });
 
-/**
- * Get User Location addresses
- */
-router.get(paths.getUserAddresses, async (req: Request, res: Response) => {
+router.post(paths.addAddress, async (req: Request, res: Response) => {
     const { userPk } = req.params;
-    // Check param
+    const address = req.body;
     if (!userPk) {
         throw new ParamMissingError();
     }
 
-    await addressService.getUserAddresses(userPk);
+    await userService.addAddressForUser(userPk, address);
+    return res.status(OK).end();
 });
 
 // Export default

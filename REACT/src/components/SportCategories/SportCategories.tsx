@@ -22,7 +22,7 @@ function SportCategories(props: ISportCategoriesProps): JSX.Element {
                 {
                     categories.map((category, i) => {
                         return (
-                            <Grid item md={2}>
+                            <Grid item xs={6} md={2}>
                                 <SportCategory
                                     imageUrl={category.imageUrl}
                                     category={category.category} />

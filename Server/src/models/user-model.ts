@@ -7,6 +7,7 @@ import {
 } from "./enums/enumTypes";
 import IdbItemBase from "./shared/dbItemBase";
 import randomNumberTimeBased from './../shared/constants/randomGenerator.utility';
+import { IAddress } from "./shared";
 
 // User schema
 export interface IUser extends IdbItemBase {
@@ -56,6 +57,7 @@ export interface IUser extends IdbItemBase {
     coachingEndeavourPks: string;
     /** Should be sorted based on priority */
     // endeavourTypes?: EndeavourCategory[];
+    addresses: IAddress[];
 }
 
 function stringToHash(data: string): string {
@@ -110,7 +112,8 @@ function getNew(name: string, email: string): IUser {
         userType: UserType.Guru,
         signUpDate: new Date(),
         coachingEndeavourPks: "E-1",
-        bucketFolderName: randomNumberTimeBased(tableItemPrefixes.VerifiedUserPrefix + phone).toString()
+        bucketFolderName: randomNumberTimeBased(tableItemPrefixes.VerifiedUserPrefix + phone).toString(),
+        addresses: []
     };
 }
 
