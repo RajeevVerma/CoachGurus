@@ -152,6 +152,20 @@ const CoachAdminScreen: React.FC<CoachAdminScreenProps> = () => {
                       selectProps={{
                         location1,
                         onChange: setLocation1,
+                        styles: {
+                          input: (provided: any) => ({
+                            ...provided,
+                            color: 'blue',
+                          }),
+                          option: (provided: any) => ({
+                            ...provided,
+                            color: 'blue',
+                          }),
+                          singleValue: (provided: any) => ({
+                            ...provided,
+                            color: 'blue',
+                          }),
+                        },
                       }}
                       autocompletionRequest={{
                         componentRestrictions: {
@@ -176,6 +190,20 @@ const CoachAdminScreen: React.FC<CoachAdminScreenProps> = () => {
                       selectProps={{
                         location2,
                         onChange: setLocation2,
+                        styles: {
+                          input: (provided: any) => ({
+                            ...provided,
+                            color: 'blue',
+                          }),
+                          option: (provided: any) => ({
+                            ...provided,
+                            color: 'blue',
+                          }),
+                          singleValue: (provided: any) => ({
+                            ...provided,
+                            color: 'blue',
+                          }),
+                        },
                       }}
                       autocompletionRequest={{
                         componentRestrictions: {
@@ -232,7 +260,7 @@ const CoachAdminScreen: React.FC<CoachAdminScreenProps> = () => {
                   </label>
                   <div className={styles.fileUploadContainer}>
                     <Files
-                      key={'profile_pic'}
+                      key={'profile_pic'}                      
                       onChange={onProfilePictureFilesChange}
                       onError={onProfilePictureFilesError}
                       accepts={['image/*']}
