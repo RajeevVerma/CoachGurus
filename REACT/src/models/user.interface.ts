@@ -64,3 +64,8 @@ export interface IFile {
     size: number;
     type: string;
 }
+
+export interface IUserProfile {
+    user?: IUser,
+    addresses?: IAddress[]
+}
