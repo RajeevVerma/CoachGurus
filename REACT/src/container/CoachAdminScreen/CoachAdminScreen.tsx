@@ -10,9 +10,7 @@ import {
   TextareaAutosize,
 } from '@mui/material';
 import { cloudUpload } from 'ionicons/icons';
-import {
-  IonIcon,
-} from '@ionic/react';
+import { IonCol, IonGrid, IonIcon, IonRow } from '@ionic/react';
 import TextField from '@mui/material/TextField';
 import MenuItem from '@mui/material/MenuItem';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
@@ -31,7 +29,7 @@ const CoachAdminScreen: React.FC<CoachAdminScreenProps> = () => {
   const [location2, setLocation2] = useState('');
 
   const [profilePicture, setProfilePicture] = useState<IFile[]>([]);
-  
+
   const [activityPicture, setActivityPicture] = useState<IFile[]>([]);
 
   const handleChange = (event: SelectChangeEvent) => {
@@ -255,12 +253,10 @@ const CoachAdminScreen: React.FC<CoachAdminScreenProps> = () => {
                   </div>
                 </FormGroup>
                 <FormGroup className={styles.inputFormGroup}>
-                  <label>
-                    Upload your profile picture
-                  </label>
+                  <label>Upload your profile picture</label>
                   <div className={styles.fileUploadContainer}>
                     <Files
-                      key={'profile_pic'}                      
+                      key={'profile_pic'}
                       onChange={onProfilePictureFilesChange}
                       onError={onProfilePictureFilesError}
                       accepts={['image/*']}
@@ -273,7 +269,7 @@ const CoachAdminScreen: React.FC<CoachAdminScreenProps> = () => {
                         <div className='files-gallery'>
                           {profilePicture.map((pic: any) => (
                             <img
-                              alt="profile-pic"
+                              alt='profile-pic'
                               className='files-gallery-item'
                               src={pic?.preview?.url}
                               key={pic?.id}
@@ -303,7 +299,7 @@ const CoachAdminScreen: React.FC<CoachAdminScreenProps> = () => {
                 <FormGroup className={styles.inputFormGroup}>
                   <label>You in Action</label>
                   <div className={styles.fileUploadContainer}>
-                  <Files
+                    <Files
                       key={'activity_pic'}
                       onChange={onActivityPictureFilesChange}
                       onError={onActivityPictureFilesError}
@@ -315,14 +311,24 @@ const CoachAdminScreen: React.FC<CoachAdminScreenProps> = () => {
                       clickable>
                       {activityPicture.length > 0 ? (
                         <div className='files-gallery'>
-                          {activityPicture.map((pic: IFile) => (
-                            <img
-                              alt="action-gallery-item"
-                              className='files-gallery-item'
-                              src={pic?.preview?.url}
-                              key={pic?.id}
-                            />
-                          ))}
+                          <IonGrid>
+                            <IonRow>
+                              {activityPicture.map((pic: IFile) => (
+                                <IonCol
+                                  size='12'
+                                  className='activity-row'
+                                  size-sm>
+                                  <img
+                                    alt='action-gallery-item'
+                                    height={'80%'}
+                                    className='files-gallery-item'
+                                    src={pic?.preview?.url}
+                                    key={pic?.id}
+                                  />
+                                </IonCol>
+                              ))}
+                            </IonRow>
+                          </IonGrid>
                         </div>
                       ) : (
                         <div className={styles.fileUploadBtn}>
@@ -337,8 +343,9 @@ const CoachAdminScreen: React.FC<CoachAdminScreenProps> = () => {
             </Grid>
           </Grid>
           <Grid style={{ justifyContent: 'flex-end' }} container>
-            <Button style={{ margin: '1rem 0', background: '#2ab9c6'
-}} variant='contained'>
+            <Button
+              style={{ margin: '1rem 0', background: '#2ab9c6' }}
+              variant='contained'>
               Save Profile
             </Button>
           </Grid>
