@@ -278,7 +278,7 @@ const CoachAdminScreen: React.FC<CoachAdminScreenProps> = () => {
                       clickable>
                       {activityPicture.length > 0 ? (
                         <div className='files-gallery'>
-                          {activityPicture.map((pic: any) => (
+                          {activityPicture.map((pic: IFile) => (
                             <img
                               className='files-gallery-item'
                               src={pic?.preview?.url}
