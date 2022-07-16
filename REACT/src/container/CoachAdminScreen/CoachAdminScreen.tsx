@@ -18,8 +18,9 @@ import Checkbox from '@mui/material/Checkbox';
 
 // Import styles
 import styles from './CoachAdminScreen.module.scss';
-import { useState } from 'react';
-import { IFile } from 'models';
+import { useEffect, useState } from 'react';
+import { IFile, IUserProfile } from 'models';
+import { UserSignUpSource, UserType } from 'enums';
 
 interface CoachAdminScreenProps {}
 
@@ -28,9 +29,21 @@ const CoachAdminScreen: React.FC<CoachAdminScreenProps> = () => {
   const [location1, setLocation1] = useState('');
   const [location2, setLocation2] = useState('');
 
+  const [userProfile, setUserProfile] = useState<IUserProfile>({
+    user: {
+      bucketFolderName: '',
+      mobilePhone: '',
+      signUpSourceType: UserSignUpSource.Phone,
+      coachingEndeavourPks: '',
+      userType: UserType.Guru,
+    },
+  });
+
   const [profilePicture, setProfilePicture] = useState<IFile[]>([]);
 
   const [activityPicture, setActivityPicture] = useState<IFile[]>([]);
+
+  useEffect(() => {});
 
   const handleChange = (event: SelectChangeEvent) => {
     setCoaching(event.target.value as string);
@@ -78,6 +91,18 @@ const CoachAdminScreen: React.FC<CoachAdminScreenProps> = () => {
                       placeholder='First Name'
                       id='first-name'
                       variant='outlined'
+                      value={userProfile?.user?.firstName}
+                      onChange={(e) =>
+                        userProfile &&
+                        userProfile.user &&
+                        setUserProfile({
+                          ...userProfile,
+                          user: {
+                            ...userProfile.user,
+                            firstName: e.target.value,
+                          },
+                        })
+                      }
                     />
                     <TextField
                       size='small'
@@ -85,6 +110,18 @@ const CoachAdminScreen: React.FC<CoachAdminScreenProps> = () => {
                       placeholder='Last Name'
                       id='last-name'
                       variant='outlined'
+                      value={userProfile?.user?.lastName}
+                      onChange={(e) =>
+                        userProfile &&
+                        userProfile.user &&
+                        setUserProfile({
+                          ...userProfile,
+                          user: {
+                            ...userProfile.user,
+                            lastName: e.target.value,
+                          },
+                        })
+                      }
                     />
                   </div>
                 </FormGroup>
@@ -97,6 +134,18 @@ const CoachAdminScreen: React.FC<CoachAdminScreenProps> = () => {
                       placeholder='Mobile Number'
                       id='mobile'
                       variant='outlined'
+                      value={userProfile?.user?.mobilePhone}
+                      onChange={(e) =>
+                        userProfile &&
+                        userProfile.user &&
+                        setUserProfile({
+                          ...userProfile,
+                          user: {
+                            ...userProfile.user,
+                            mobilePhone: e.target.value,
+                          },
+                        })
+                      }
                     />
                   </div>
                 </FormGroup>
@@ -139,6 +188,21 @@ const CoachAdminScreen: React.FC<CoachAdminScreenProps> = () => {
                       placeholder='Years'
                       id='years-of-coaching'
                       variant='outlined'
+                      value={userProfile?.user?.profileData?.yearsOfExperience}
+                      onChange={(e) =>
+                        userProfile &&
+                        userProfile.user &&
+                        setUserProfile({
+                          ...userProfile,
+                          user: {
+                            ...userProfile.user,
+                            profileData: {
+                              ...userProfile.user.profileData,
+                              yearsOfExperience: parseInt(e.target.value, 10),
+                            },
+                          },
+                        })
+                      }
                     />
                   </div>
                 </FormGroup>
@@ -238,6 +302,21 @@ const CoachAdminScreen: React.FC<CoachAdminScreenProps> = () => {
                       placeholder='Headline'
                       id='headline'
                       variant='outlined'
+                      value={userProfile?.user?.profileData?.description}
+                      onChange={(e) =>
+                        userProfile &&
+                        userProfile.user &&
+                        setUserProfile({
+                          ...userProfile,
+                          user: {
+                            ...userProfile.user,
+                            profileData: {
+                              ...userProfile.user.profileData,
+                              description: e.target.value,
+                            },
+                          },
+                        })
+                      }
                     />
                   </div>
                 </FormGroup>
@@ -249,6 +328,21 @@ const CoachAdminScreen: React.FC<CoachAdminScreenProps> = () => {
                       aria-label='minimum height'
                       minRows={3}
                       placeholder='Minimum 3 rows'
+                      value={userProfile?.user?.profileData?.qualifications}
+                      onChange={(e) =>
+                        userProfile &&
+                        userProfile.user &&
+                        setUserProfile({
+                          ...userProfile,
+                          user: {
+                            ...userProfile.user,
+                            profileData: {
+                              ...userProfile.user.profileData,
+                              qualifications: e.target.value,
+                            },
+                          },
+                        })
+                      }
                     />
                   </div>
                 </FormGroup>
@@ -293,6 +387,21 @@ const CoachAdminScreen: React.FC<CoachAdminScreenProps> = () => {
                       aria-label='minimum height'
                       minRows={3}
                       placeholder='Pitch your trainees with reason why they should choose you.'
+                      value={userProfile?.user?.profileData?.shortBio}
+                      onChange={(e) =>
+                        userProfile &&
+                        userProfile.user &&
+                        setUserProfile({
+                          ...userProfile,
+                          user: {
+                            ...userProfile.user,
+                            profileData: {
+                              ...userProfile.user.profileData,
+                              shortBio: e.target.value,
+                            },
+                          },
+                        })
+                      }
                     />
                   </div>
                 </FormGroup>
