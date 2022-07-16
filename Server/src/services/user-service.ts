@@ -4,6 +4,7 @@ import { UserNotFoundError } from "@shared/errors";
 import addressService from "./address-service";
 import { IUserProfile } from "@models/view-models";
 import randomNumberTimeBased from './../shared/constants/randomGenerator.utility';
+import { IAddress } from "@models/shared";
 
 /**
  * Get user.
@@ -84,13 +85,31 @@ async function deleteOne(id: string): Promise<void> {
  */
 async function updateUserProfile(userProfile: IUserProfile): Promise<void> {
 
-    console.log('adding user');
+    console.log('adding user', userProfile);
     return new Promise(async (resolve, error) => {
+        userProfile.user.addresses = userProfile.addresses;
         const user = await addOne(userProfile.user);
         userProfile.addresses.forEach(async (address, index, addrs) => {
             const saveAddress = await addressService.addAddress(address);
             await addressService.addAddressUserMapping(saveAddress, user.pk);
         });
+        resolve(); // returning void.
+    });
+}
+
+/**
+ * Add address for the user
+ * 
+ * @param userProfile 
+ * @returns 
+ */
+async function addAddressForUser(userPk: string, address: IAddress): Promise<void> {
+    return new Promise(async (resolve, error) => {
+        const savedAddress = await addressService.addAddress(address);
+        await addressService.addAddressUserMapping(savedAddress, userPk);
+        const user = await get(userPk);
+        await userRepo.addUserAddress(userPk, savedAddress);
+        // udpate the user address 
         resolve(); // returning void.
     });
 }
@@ -103,6 +122,7 @@ export default {
     updateOne,
     delete: deleteOne,
     updateUserProfile,
+    addAddressForUser
 } as const;
 
 

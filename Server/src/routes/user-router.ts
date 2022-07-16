@@ -2,6 +2,7 @@ import StatusCodes from 'http-status-codes';
 import { Request, Response, Router } from 'express';
 import userService from '@services/user-service';
 import { ParamMissingError } from '@shared/errors';
+import addressService from '@services/address-service';
 
 // Constants
 const router = Router();
@@ -14,11 +15,12 @@ export const paths = {
     add: '/add',
     update: '/update',
     delete: '/delete/:id',
-    updateUserProfile: '/updateprofile'
+    updateUserProfile: '/updateprofile', // depecrated, isntead use micro api for specific task
+    addAddress: '/addAddress/:userPk',
 } as const;
 
 /**
- * Get all users.
+ * Get user.
  */
 router.get(paths.get, async (req: Request, res: Response) => {
     const { pk } = req.params;
@@ -88,6 +90,17 @@ router.post(paths.updateUserProfile, async (req: Request, res: Response) => {
     console.log(userProfile);
 
     await userService.updateUserProfile(userProfile)
+    return res.status(OK).end();
+});
+
+router.post(paths.addAddress, async (req: Request, res: Response) => {
+    const { userPk } = req.params;
+    const address = req.body;
+    if (!userPk) {
+        throw new ParamMissingError();
+    }
+
+    await userService.addAddressForUser(userPk, address);
     return res.status(OK).end();
 });
 

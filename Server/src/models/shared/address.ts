@@ -4,6 +4,7 @@ import IdbItemBase from "./dbItemBase"
 
 //** Id is will be formatted as '{country}|{state}|{city}'   sorty-key - 'endeavourId'* /
 export interface IAddress extends IdbItemBase {
+    name: string,
     addr1: string,
     addr2?: string
     city: string,
