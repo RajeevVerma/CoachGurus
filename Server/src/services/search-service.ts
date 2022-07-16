@@ -1,3 +1,4 @@
+
 import { getAddressUserPk, IAddressUserMapping } from '@models/addressUserMapping-model';
 import { IAddress } from '@models/shared';
 import { IUser } from '@models/user-model';
@@ -18,9 +19,9 @@ import geoHash from 'ngeohash';
  */
 const searchGurus = async (endeavour: string, lat: string, long: string): Promise<IUserProfile[]> => {
 
-
     return new Promise(async (resolve, error) => {
         const nearByAddresses = await findNearByAddresses(lat, long);
+        console.log('near by addresses', nearByAddresses);
         const addressUserMappings = await getAddressUserMappings(nearByAddresses);
         const users = await getUsersByAddresses(addressUserMappings);
         const gurus: IUserProfile[] = users.map((user, i, arr) => {
@@ -51,17 +52,15 @@ const findNearByAddresses = async (lat: string, long: string): Promise<IAddress[
     geoHashes.push(geoHash.encode(lat, long, hashPrecision));
     geoHashes = geoHashes.concat(geoHash.neighbors(geoHashes[0]));
     const partitionKeys = geoHashes.map((hash, i, arr) => `AD-India-Maharashtra-Pune-${hash}`);
-    let addresses: IAddress[] = [];
-    for (let i = 0; i < partitionKeys.length; i++) {
+    let addresses: IAddress[] = await addressRepo.getAddressesByPK(partitionKeys);
+    /*for (let i = 0; i < partitionKeys.length; i++) {
         console.log('fetching address');
         const addrs = await addressRepo.get(partitionKeys[i]);
         console.log('address fetched', addrs);
         addresses = addresses.concat(addrs);
-    }
+    }*/
 
-    return new Promise((resolve, error) => {
-        resolve(addresses);
-    });
+    return addresses;
 };
 
 /**
@@ -73,6 +72,7 @@ const getAddressUserMappings = async (addresses: IAddress[]): Promise<IAddressUs
     let addressUserMappings: IAddressUserMapping[] = [];
     return new Promise(async (resolve, error) => {
         for (let i = 0; i < addresses.length; i++) {
+            console.log(getAddressUserPk(addresses[i]));
             const addrUserMappings = await addressUserMappingRepo.getAddressUserMappings(getAddressUserPk(addresses[i]));
             addressUserMappings = addressUserMappings.concat(addrUserMappings);
         }

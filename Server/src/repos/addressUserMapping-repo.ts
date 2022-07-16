@@ -43,7 +43,7 @@ const save = async (addressUserMapping: IAddressUserMapping): Promise<IAddressUs
  * @returns 
  */
 const getAddressUserMappings = (partitionKey: string): Promise<IAddressUserMapping[]> => {
-
+    console.log('Get address user mappings -', partitionKey);
     const params = {
         TableName: TABLE_NAME,
         KeyConditionExpression: 'pk=:pk',

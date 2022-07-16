@@ -18,9 +18,9 @@ export interface IAddress extends IdbItemBase {
 }
 
 export const getAddressPk = (address: IAddress, geoHash: string): string => {
-    return address.pk ?? `${tableItemPrefixes.AddressItemPrefix}${address.country}-${address.state}-${address.city}-${geoHash}`;
+    return address.pk || `${tableItemPrefixes.AddressItemPrefix}${address.country}-${address.state}-${address.city}-${geoHash}`;
 }
 
 export const getAddressSk = (address: IAddress): string => {
-    return address.sk ?? uniqueIdGenerator(tableItemPrefixes.AddressItemPrefix);
+    return address.sk || uniqueIdGenerator(tableItemPrefixes.AddressItemPrefix);
 }
