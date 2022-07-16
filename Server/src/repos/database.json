@@ -1,23 +1,34 @@
 {
-    "users": [
+    "lastName": "Sonawane",
+    "addresses": [
         {
-            "firstName": "Rajeev",
-            "lastName": "Verma",
-            "email": "rajeev@gmal.com",
-            "signUpSourceType": "Facebook",
-            "userType": "coach",
-            "mobilePhone": "8983465716",
-            "signUpDate": "06-07-2022",
-            "profilePicUrl": "profile-Z6P_9233.jpg",
-            "bucketFolderName": "123456",
-            "profileData": {
-                "shortBio": "He is an amazing badminton coach. Very famous in Kharadi area and trainess look to him for intermediate to professional level training.",
-                "description": "Professional Badminton Coach",
-                "certifications": "PSM Level-3",
-                "coachingPhotos": "DSC_4186.jpg|DSC_4101.jpg"
-            },
-            "isCoachGuruVerfied": true,
-            "coachingEndeavourIds": "S-B-1"
+            "country": "India",
+            "pincode": 411001,
+            "addr2": "Koregaon Park",
+            "addr1": "Suyojana Club House Lane No 5,",
+            "city": "Pune",
+            "state": "Maharashtra",
+            "lat": "18.8827449",
+            "long": "72.9476291",
+            "endeavourId": "NA"
         }
-    ]
+    ],
+    "signUpSourceType": "Mobile",
+    "signUpDate": "08-07-2022",
+    "firstName": "Laxman",
+    "bucketFolderName": "165505331387700-5716",
+    "mobilePhone": "07947328701",
+    "profilePicUrl": "profile-Z6P_9233.jpg",
+    "sk": "VU-07947328701",
+    "isCoachGuruVerfied": true,
+    "coachingEndeavourIds": "S-B-1",
+    "userType": "coach",
+    "pk": "VU-07947328701",
+    "profileData": {
+        "coachingPhotos": "DSC_4186.jpg|DSC_4101.jpg|IMG_0_.JPG|IMG_1_.JPG",
+        "shortBio": "He is an amazing badminton coach. Very famous in Kharadi area and trainess look to him for intermediate to professional level training.",
+        "description": "Professional Badminton Coach",
+        "certifications": "PSM Level-3"
+    },
+    "email": "NA"
 }

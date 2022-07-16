@@ -15,7 +15,7 @@ import {
 import { useEffect } from 'react';
 import * as qs from 'query-string';
 
-import { pin } from 'ionicons/icons';
+import { image, pin } from 'ionicons/icons';
 
 // Import styles
 import './CoachProfileContainer.scss';
@@ -29,7 +29,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getCoachProfile } from './coachProfile.actions';
 import { IApplicationState } from 'store';
 import awsConstants from 'models/shared/aws-constants';
-import { IonContent, IonIcon, IonSlide, IonSlides } from '@ionic/react';
+import { IonButton, IonContent, IonIcon, IonImg, IonSlide, IonSlides } from '@ionic/react';
 
 interface ContainerProps {
 }
@@ -53,6 +53,8 @@ const CoachProfileContainer: React.FC<ContainerProps> = () => {
             // getGuruLocations(userPk);
         }
     }, [userPk]);
+
+    const images: string[] | undefined = guru?.profileData?.coachingPhotos?.split('|');
 
     /** To load guru locations */
     // const getGuruLocations = (userPk: string) => {
@@ -82,8 +84,10 @@ const CoachProfileContainer: React.FC<ContainerProps> = () => {
     // }
 
     const slideOpts = {
-        initialSlide: 2,
-        speed: 400
+        initialSlide: 1,
+        speed: 400,
+        slidesPerView: 1.5,
+        autoplay: true
     };
 
 
@@ -100,7 +104,7 @@ const CoachProfileContainer: React.FC<ContainerProps> = () => {
                                         <Grid item xs={12} md={6}>
                                             <CardMedia
                                                 component="img"
-                                                image={awsConstants.getUserProfilePictureBaseUri(guru?.bucketFolderName, guru?.profilePicUrl)}
+                                                image={awsConstants.getUserProfilePictureUri(guru?.bucketFolderName, guru?.profilePicUrl)}
                                                 alt="Coach Profile"
                                             />
                                         </Grid>
@@ -135,25 +139,25 @@ const CoachProfileContainer: React.FC<ContainerProps> = () => {
                                         </div>
                                     </Grid>
                                 </Grid>
-                                <Grid style={{ marginTop: '2rem', color: 'black' }} className="boxShadowContainer" container>
-                                    <IonSlides pager={true} options={slideOpts}>
-                                        <IonSlide>
-                                            <h1>Slide 1</h1>
-                                        </IonSlide>
-                                        <IonSlide>
-                                            <h1>Slide 2</h1>
-                                        </IonSlide>
-                                        <IonSlide>
-                                            <h1>Slide 3</h1>
-                                        </IonSlide>
-                                    </IonSlides>
-                                </Grid>
+                                {images &&
+                                    <Grid style={{ marginTop: '2rem', color: 'black', height: '400px' }} className="boxShadowContainer" container>
+                                        <IonSlides pager={true} options={slideOpts}>
+                                            {
+                                                images.map((x) => {
+                                                    return <IonSlide>
+                                                        <IonImg src={awsConstants.getUserCoachingPictureUri(guru?.bucketFolderName, x)} />
+                                                    </IonSlide>
+                                                })
+                                            }
+                                        </IonSlides>
+                                    </Grid>
+                                }
                             </Grid>
                             <Grid item xs={12} md={4}>
                                 <div className="boxShadowContainer">
                                     <h3>Training Locations</h3>
                                     <List className="trainingLocationsWrap">
-                                        <ListItem sx={{p:0}} className="trainingLocation">
+                                        <ListItem sx={{ p: 0 }} className="trainingLocation">
                                             <Link className="">
                                                 <IonIcon icon={pin}></IonIcon>
                                                 <Typography>
@@ -165,7 +169,7 @@ const CoachProfileContainer: React.FC<ContainerProps> = () => {
                                             </Link>
                                         </ListItem>
 
-                                        <ListItem sx={{p:0}} className="trainingLocation">
+                                        <ListItem sx={{ p: 0 }} className="trainingLocation">
                                             <Link className="">
                                                 <IonIcon icon={pin}></IonIcon>
                                                 <Typography>
