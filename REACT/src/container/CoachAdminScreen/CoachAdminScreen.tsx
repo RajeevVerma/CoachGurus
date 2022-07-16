@@ -9,7 +9,8 @@ import {
   Grid,
   TextareaAutosize,
 } from '@mui/material';
-
+import { cloudUpload } from 'ionicons/icons';
+import { IonCol, IonGrid, IonIcon, IonRow } from '@ionic/react';
 import TextField from '@mui/material/TextField';
 import MenuItem from '@mui/material/MenuItem';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
@@ -28,7 +29,7 @@ const CoachAdminScreen: React.FC<CoachAdminScreenProps> = () => {
   const [location2, setLocation2] = useState('');
 
   const [profilePicture, setProfilePicture] = useState<IFile[]>([]);
-  
+
   const [activityPicture, setActivityPicture] = useState<IFile[]>([]);
 
   const handleChange = (event: SelectChangeEvent) => {
@@ -59,7 +60,7 @@ const CoachAdminScreen: React.FC<CoachAdminScreenProps> = () => {
     <>
       <section className={styles.mainContainer}>
         <Container maxWidth='lg'>
-          <Grid container spacing={3} className={styles.profileWrapper}>
+          <Grid container className={styles.profileWrapper}>
             <Grid
               className={styles.boxShadowContainer}
               item
@@ -149,6 +150,20 @@ const CoachAdminScreen: React.FC<CoachAdminScreenProps> = () => {
                       selectProps={{
                         location1,
                         onChange: setLocation1,
+                        styles: {
+                          input: (provided: any) => ({
+                            ...provided,
+                            color: 'blue',
+                          }),
+                          option: (provided: any) => ({
+                            ...provided,
+                            color: 'blue',
+                          }),
+                          singleValue: (provided: any) => ({
+                            ...provided,
+                            color: 'blue',
+                          }),
+                        },
                       }}
                       autocompletionRequest={{
                         componentRestrictions: {
@@ -173,6 +188,20 @@ const CoachAdminScreen: React.FC<CoachAdminScreenProps> = () => {
                       selectProps={{
                         location2,
                         onChange: setLocation2,
+                        styles: {
+                          input: (provided: any) => ({
+                            ...provided,
+                            color: 'blue',
+                          }),
+                          option: (provided: any) => ({
+                            ...provided,
+                            color: 'blue',
+                          }),
+                          singleValue: (provided: any) => ({
+                            ...provided,
+                            color: 'blue',
+                          }),
+                        },
                       }}
                       autocompletionRequest={{
                         componentRestrictions: {
@@ -224,8 +253,8 @@ const CoachAdminScreen: React.FC<CoachAdminScreenProps> = () => {
                   </div>
                 </FormGroup>
                 <FormGroup className={styles.inputFormGroup}>
-                  <label>Upload your profile pic</label>
-                  <div>
+                  <label>Upload your profile picture</label>
+                  <div className={styles.fileUploadContainer}>
                     <Files
                       key={'profile_pic'}
                       onChange={onProfilePictureFilesChange}
@@ -240,6 +269,7 @@ const CoachAdminScreen: React.FC<CoachAdminScreenProps> = () => {
                         <div className='files-gallery'>
                           {profilePicture.map((pic: any) => (
                             <img
+                              alt='profile-pic'
                               className='files-gallery-item'
                               src={pic?.preview?.url}
                               key={pic?.id}
@@ -247,7 +277,10 @@ const CoachAdminScreen: React.FC<CoachAdminScreenProps> = () => {
                           ))}
                         </div>
                       ) : (
-                        <div>Upload Profile Picture</div>
+                        <div className={styles.fileUploadBtn}>
+                          <IonIcon slot='start' icon={cloudUpload}></IonIcon>
+                          <span>Upload Profile Picture</span>
+                        </div>
                       )}
                     </Files>
                   </div>
@@ -265,8 +298,8 @@ const CoachAdminScreen: React.FC<CoachAdminScreenProps> = () => {
                 </FormGroup>
                 <FormGroup className={styles.inputFormGroup}>
                   <label>You in Action</label>
-                  <div>
-                  <Files
+                  <div className={styles.fileUploadContainer}>
+                    <Files
                       key={'activity_pic'}
                       onChange={onActivityPictureFilesChange}
                       onError={onActivityPictureFilesError}
@@ -278,16 +311,30 @@ const CoachAdminScreen: React.FC<CoachAdminScreenProps> = () => {
                       clickable>
                       {activityPicture.length > 0 ? (
                         <div className='files-gallery'>
-                          {activityPicture.map((pic: any) => (
-                            <img
-                              className='files-gallery-item'
-                              src={pic?.preview?.url}
-                              key={pic?.id}
-                            />
-                          ))}
+                          <IonGrid>
+                            <IonRow>
+                              {activityPicture.map((pic: IFile) => (
+                                <IonCol
+                                  size='12'
+                                  className='activity-row'
+                                  size-sm>
+                                  <img
+                                    alt='action-gallery-item'
+                                    height={'80%'}
+                                    className='files-gallery-item'
+                                    src={pic?.preview?.url}
+                                    key={pic?.id}
+                                  />
+                                </IonCol>
+                              ))}
+                            </IonRow>
+                          </IonGrid>
                         </div>
                       ) : (
-                        <div>Upload Activity Picture (Max 8 Allowed)</div>
+                        <div className={styles.fileUploadBtn}>
+                          <IonIcon slot='start' icon={cloudUpload}></IonIcon>
+                          <span>Upload Activity Picture (Max 8 Allowed)</span>
+                        </div>
                       )}
                     </Files>
                   </div>
@@ -296,7 +343,9 @@ const CoachAdminScreen: React.FC<CoachAdminScreenProps> = () => {
             </Grid>
           </Grid>
           <Grid style={{ justifyContent: 'flex-end' }} container>
-            <Button style={{ margin: '2rem' }} variant='contained'>
+            <Button
+              style={{ margin: '1rem 0', background: '#2ab9c6' }}
+              variant='contained'>
               Save Profile
             </Button>
           </Grid>

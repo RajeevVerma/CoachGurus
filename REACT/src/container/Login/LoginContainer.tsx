@@ -77,9 +77,9 @@ const LoginContainer: React.FC<IContainerProps> = (props: IContainerProps) => {
         <div className={styles.loginAction}>
             <div className={styles.loginHeader}>
               <div className={styles.otpImageWrap}>
-                <img src={otpImage}  alt="otp-image" />
+                <img src={otpImage}  alt="otp-logo" />
               </div>
-              <h1>Sign-In</h1>
+              <h1>Sign In</h1>
               {UserType[userType]}
             </div>
 

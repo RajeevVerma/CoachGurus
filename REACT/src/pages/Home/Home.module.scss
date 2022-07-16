@@ -22,24 +22,27 @@ header {
 .mainHeader {
     background-image: url(../../../public/assets/images/bg-vector-dark-gray.jpg);
     background-color: transparent;
-    background-position: right 10%;
+    background-position: right center;
     background-repeat: no-repeat;
     min-height:100vh;
     max-width: 1400px;
     margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 }
 
 .bannerContent {
-    padding-top: 10%;
     padding-left: 1rem;
     max-width: 1400px;
-    margin: 0 auto;
+    margin-bottom: 3rem;
 
     h2 {
         color: #fbb35F;
         font-family: 'Poppins', sans-serif;
         font-weight: 600;
         padding-left: 1rem;
+        font-size: 4rem;
     }
 }
 
@@ -72,6 +75,7 @@ header {
 @media(max-width:767px){
 
     .mainHeader {
+        justify-content: flex-start;
         background-size: 350px;
         background-position: bottom;
     }
@@ -81,7 +85,7 @@ header {
 
         .bannerTitle {
             font-size: 2rem;
-            padding-top: 4rem;
+            padding-top: 5rem;
             text-align: center;
             padding-left: 0;
         }
@@ -101,6 +105,7 @@ header {
 
     .homeContentContainer {
         padding: 0;
+        background-color: #fff;
     }
 }
 
