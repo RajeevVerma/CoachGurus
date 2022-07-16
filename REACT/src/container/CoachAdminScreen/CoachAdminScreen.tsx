@@ -1,33 +1,52 @@
 import * as React from 'react';
-import GooglePlacesAutocomplete from 'react-google-places-autocomplete';
+import GooglePlacesAutocomplete, {
+  geocodeByPlaceId,
+  getLatLng,
+} from 'react-google-places-autocomplete';
 import Files from 'react-files';
 import {
   Button,
   Container,
-  FormControlLabel,
   FormGroup,
   Grid,
   TextareaAutosize,
 } from '@mui/material';
 import { cloudUpload } from 'ionicons/icons';
-import { IonCol, IonGrid, IonIcon, IonRow } from '@ionic/react';
+import {
+  IonCheckbox,
+  IonCol,
+  IonContent,
+  IonGrid,
+  IonIcon,
+  IonItem,
+  IonLabel,
+  IonRadio,
+  IonRadioGroup,
+  IonRow,
+} from '@ionic/react';
 import TextField from '@mui/material/TextField';
-import MenuItem from '@mui/material/MenuItem';
-import Select, { SelectChangeEvent } from '@mui/material/Select';
-import Checkbox from '@mui/material/Checkbox';
 
 // Import styles
 import styles from './CoachAdminScreen.module.scss';
 import { useEffect, useState } from 'react';
 import { IFile, IUserProfile } from 'models';
 import { UserSignUpSource, UserType } from 'enums';
+import {
+  ICategories,
+  rootInterest,
+} from 'pages/SignupWorkFlow/UserProfileEdit.Constants';
+import { ServerHooks } from 'hooks';
 
 interface CoachAdminScreenProps {}
 
 const CoachAdminScreen: React.FC<CoachAdminScreenProps> = () => {
-  const [coaching, setCoaching] = React.useState('sports');
-  const [location1, setLocation1] = useState('');
-  const [location2, setLocation2] = useState('');
+  const { adminUserUpdate } = ServerHooks();
+  const [rootCoaching, setRootCoaching] = React.useState('S');
+  const [coachingOptions, setCoachingOptions] = React.useState<ICategories[]>(
+    rootInterest.filter((x) => x.parentKey === rootCoaching)
+  );
+  const [selectedCoaching, setSelectedCoaching] = React.useState<string[]>([]);
+  const [location1, setLocation1] = useState();
 
   const [userProfile, setUserProfile] = useState<IUserProfile>({
     user: {
@@ -40,13 +59,51 @@ const CoachAdminScreen: React.FC<CoachAdminScreenProps> = () => {
   });
 
   const [profilePicture, setProfilePicture] = useState<IFile[]>([]);
-
   const [activityPicture, setActivityPicture] = useState<IFile[]>([]);
 
   useEffect(() => {});
 
-  const handleChange = (event: SelectChangeEvent) => {
-    setCoaching(event.target.value as string);
+  const handleRootCoachingSelection = (value: string) => {
+    setRootCoaching(value);
+    const coachingOptions = rootInterest
+      .filter((option) => option.parentKey === value)
+      .map((option) => {
+        option.selected = false;
+        return option;
+      });
+    setCoachingOptions(coachingOptions);
+  };
+
+  const handleCoachingSelection = (value: string, isChecked: boolean) => {
+    let updatedCoachingOptions = rootInterest.filter(
+      (option) => option.parentKey === rootCoaching
+    );
+
+    updatedCoachingOptions = updatedCoachingOptions.map((option) => {
+      if (value === option.key) {
+        option.selected = isChecked;
+      }
+      return option;
+    });
+
+    setCoachingOptions(updatedCoachingOptions);
+
+    if (isChecked) {
+      setSelectedCoaching([...selectedCoaching, value]);
+    } else {
+      const updatedCoachingList = selectedCoaching.filter((x) => x !== value);
+      setSelectedCoaching(updatedCoachingList);
+    }
+
+    if (userProfile && userProfile.user) {
+      setUserProfile({
+        ...userProfile,
+        user: {
+          ...userProfile.user,
+          coachingEndeavourPks: selectedCoaching.join('|'),
+        },
+      });
+    }
   };
 
   const onProfilePictureFilesChange = (files: IFile[]) => {
@@ -68,6 +125,49 @@ const CoachAdminScreen: React.FC<CoachAdminScreenProps> = () => {
     console.log('error code ' + error.code + ': ' + error.message);
     setActivityPicture([]);
   };
+
+  const handleGoogleLocationChange = (location: any) => {
+    setLocation1(location);
+    geocodeByPlaceId(location.value.place_id)
+      .then((results) => getLatLng(results[0]))
+      .then(({ lat, lng }) => {
+        console.log('Successfully got latitude and longitude', { lat, lng });
+        setUserProfile({
+          ...userProfile,
+          addresses: [
+            {
+              addr1: '',
+              state:
+                location.value.term.find((x: any) => x.offset === 19)?.value ??
+                '',
+              city:
+                location.value.term.find((x: any) => x.offset === 13)?.value ??
+                '',
+              country:
+                location.value.term.find((x: any) => x.offset === 32)?.value ??
+                '',
+              name:
+                location.value.term.find((x: any) => x.offset === 0)?.value ??
+                '',
+              pincode: 1,
+              lat: `${lat}`,
+              long: `${lng}`,
+            },
+          ],
+        });
+      });
+  };
+
+  const handleSubmitEvent = () => {
+    adminUserUpdate(userProfile).then(() => {
+      setUserProfile({});
+    });
+  };
+
+  const locationStyle = (provided: any) => ({
+    ...provided,
+    color: 'blue',
+  });
 
   return (
     <>
@@ -151,28 +251,58 @@ const CoachAdminScreen: React.FC<CoachAdminScreenProps> = () => {
                 </FormGroup>
                 <FormGroup className={styles.inputFormGroup}>
                   <label>What Coaching you wish to give?*</label>
-                  <Select
-                    style={{ maxWidth: '210px' }}
-                    size='small'
-                    className={styles.coachAdminInput}
-                    labelId='demo-simple-select-label'
-                    id='demo-simple-select'
-                    value={coaching}
-                    label='Coaching'
-                    onChange={handleChange}>
-                    <MenuItem value='sports'>Sports</MenuItem>
-                    <MenuItem value='academies'>Academies</MenuItem>
-                    <MenuItem value='fitness'>Fitness</MenuItem>
-                  </Select>
+
+                  <IonRadioGroup
+                    className={styles.coachingGroup}
+                    value={rootCoaching}
+                    onIonChange={(e) =>
+                      handleRootCoachingSelection(e.detail.value)
+                    }>
+                    <IonItem className={styles.coachingGroupItem}>
+                      <IonLabel className={styles.coachingGroupItem}>
+                        Sports
+                      </IonLabel>
+                      <IonRadio slot='start' value='S' />
+                    </IonItem>
+                    <IonItem className={styles.coachingGroupItem}>
+                      <IonLabel className={styles.coachingGroupItem}>
+                        Academies
+                      </IonLabel>
+                      <IonRadio slot='start' value='A' />
+                    </IonItem>
+                    <IonItem className={styles.coachingGroupItem}>
+                      <IonLabel className={styles.coachingGroupItem}>
+                        Fitness
+                      </IonLabel>
+                      <IonRadio slot='start' value='F' />
+                    </IonItem>
+                    <IonItem className={styles.coachingGroupItem}>
+                      <IonLabel className={styles.coachingGroupItem}>
+                        Extra-Curricular
+                      </IonLabel>
+                      <IonRadio slot='start' value='E' />
+                    </IonItem>
+                  </IonRadioGroup>
                 </FormGroup>
                 <FormGroup
                   className={styles.inputFormGroup}
                   style={{ flexDirection: 'row' }}>
-                  <FormControlLabel
-                    control={<Checkbox defaultChecked />}
-                    label='Cricket'
-                  />
-                  <FormControlLabel control={<Checkbox />} label='Badminton' />
+                  {coachingOptions.map((option, i) => (
+                    <IonItem key={i} className={styles.coachingGroupItem}>
+                      <IonLabel>{option.value}</IonLabel>
+                      <IonCheckbox
+                        slot='start'
+                        value={option.key}
+                        checked={option?.selected}
+                        onIonChange={(e) =>
+                          handleCoachingSelection(
+                            e.detail.value,
+                            e.detail.checked
+                          )
+                        }
+                      />
+                    </IonItem>
+                  ))}
                 </FormGroup>
                 <FormGroup className={styles.inputFormGroup}>
                   <label>
@@ -213,20 +343,11 @@ const CoachAdminScreen: React.FC<CoachAdminScreenProps> = () => {
                       apiKey={'AIzaSyCZ2tJfShJZfqBzIRXHpPYW1cmZ5A8ODKo'}
                       selectProps={{
                         location1,
-                        onChange: setLocation1,
+                        onChange: handleGoogleLocationChange,
                         styles: {
-                          input: (provided: any) => ({
-                            ...provided,
-                            color: 'blue',
-                          }),
-                          option: (provided: any) => ({
-                            ...provided,
-                            color: 'blue',
-                          }),
-                          singleValue: (provided: any) => ({
-                            ...provided,
-                            color: 'blue',
-                          }),
+                          input: locationStyle,
+                          option: locationStyle,
+                          singleValue: locationStyle,
                         },
                       }}
                       autocompletionRequest={{
@@ -240,44 +361,6 @@ const CoachAdminScreen: React.FC<CoachAdminScreenProps> = () => {
                       className={styles.coachAdminInput}
                       placeholder='Name'
                       id='location-one-name'
-                      variant='outlined'
-                    />
-                  </div>
-                </FormGroup>
-                <FormGroup className={styles.inputFormGroup}>
-                  <label>Academy Location 2</label>
-                  <div>
-                    <GooglePlacesAutocomplete
-                      apiKey={'AIzaSyCZ2tJfShJZfqBzIRXHpPYW1cmZ5A8ODKo'}
-                      selectProps={{
-                        location2,
-                        onChange: setLocation2,
-                        styles: {
-                          input: (provided: any) => ({
-                            ...provided,
-                            color: 'blue',
-                          }),
-                          option: (provided: any) => ({
-                            ...provided,
-                            color: 'blue',
-                          }),
-                          singleValue: (provided: any) => ({
-                            ...provided,
-                            color: 'blue',
-                          }),
-                        },
-                      }}
-                      autocompletionRequest={{
-                        componentRestrictions: {
-                          country: ['in'],
-                        },
-                      }}
-                    />
-                    <TextField
-                      size='small'
-                      className={styles.coachAdminInput}
-                      placeholder='Name'
-                      id='location-two-name'
                       variant='outlined'
                     />
                   </div>
@@ -454,7 +537,8 @@ const CoachAdminScreen: React.FC<CoachAdminScreenProps> = () => {
           <Grid style={{ justifyContent: 'flex-end' }} container>
             <Button
               style={{ margin: '1rem 0', background: '#2ab9c6' }}
-              variant='contained'>
+              variant='contained'
+              onClick={() => handleSubmitEvent()}>
               Save Profile
             </Button>
           </Grid>

@@ -46,7 +46,19 @@ body, html,:host, .ion-page, .menu-content {
         width: 100%;
         margin-bottom: 1rem;
     }
+   
+       
 }
+
+.coachingGroup {
+    --background: #232e4d;
+}
+
+.coachingGroupItem {
+    --background: #232e4d;
+    --color: #fff;
+}
+
 
 textarea {
     border-color: rgba(255, 255, 255, 0.5);
