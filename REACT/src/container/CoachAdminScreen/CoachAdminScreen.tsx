@@ -137,7 +137,7 @@ const CoachAdminScreen: React.FC<CoachAdminScreenProps> = () => {
           ...userProfile,
           addresses: [
             {
-              addr1: '',
+              addr1: location.label,
               state:
               location.value.terms[location.value.terms.length-2]?.value ??
                 '',
