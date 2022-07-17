@@ -17,13 +17,13 @@ import geoHash from 'ngeohash';
  * @param long 
  * @returns Gurus
  */
-const searchGurus = async (endeavourId: string, lat: string, long: string): Promise<IUserProfile[]> => {
+const searchGurus = async (endeavourId: string, lat: string, long: string): Promise<IUser[]> => {
 
     return new Promise(async (resolve, error) => {
         const nearByAddresses = await findNearByAddresses(lat, long);
         const addressUserMappings = await getAddressUserMappings(nearByAddresses);
         const users = await getUsersByAddressUserMappings(addressUserMappings, endeavourId);
-        const gurus: IUserProfile[] = users.map((user, i, arr) => {
+        /* const gurus: IUserProfile[] = users.map((user, i, arr) => {
             console.log(user);
             const usrAddresses = addressUserMappings
                 .filter((addrUsrMap, i, arr) => addrUsrMap.sk == user.pk)
@@ -35,9 +35,9 @@ const searchGurus = async (endeavourId: string, lat: string, long: string): Prom
                 user: user,
                 addresses: addresses
             };
-        });
+        }); */
 
-        resolve(gurus);
+        resolve(users);
     });
 };
 
