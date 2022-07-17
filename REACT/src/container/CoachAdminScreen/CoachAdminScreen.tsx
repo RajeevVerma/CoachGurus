@@ -139,16 +139,16 @@ const CoachAdminScreen: React.FC<CoachAdminScreenProps> = () => {
             {
               addr1: location.label,
               state:
-              location.value.terms[location.value.terms.length-2]?.value ??
+                location.value.terms[location.value.terms.length - 2]?.value ??
                 '',
               city:
-              location.value.terms[location.value.terms.length-3]?.value ??
+                location.value.terms[location.value.terms.length - 3]?.value ??
                 '',
               country:
-                location.value.terms[location.value.terms.length-1]?.value ??
+                location.value.terms[location.value.terms.length - 1]?.value ??
                 '',
               name:
-              location.value.terms[location.value.terms.length-4]?.value ??
+                location.value.terms[location.value.terms.length - 4]?.value ??
                 '',
               pincode: 1,
               lat: `${lat}`,
@@ -161,7 +161,24 @@ const CoachAdminScreen: React.FC<CoachAdminScreenProps> = () => {
 
   const handleSubmitEvent = () => {
     adminUserUpdate(userProfile).then(() => {
-      setUserProfile({});
+      setUserProfile({
+        user: {
+          mobilePhone: '',
+          firstName: '',
+          lastName: '',
+          coachingEndeavourPks: '',
+          profileData: {
+            shortBio: '',
+            qualifications: '',
+            finalRatings: 0,
+            yearsOfExperience: undefined,
+            description: '',
+          },
+          bucketFolderName: '',
+          signUpSourceType: UserSignUpSource.Phone,
+        },
+        addresses: [],
+      });
     });
   };
 
@@ -355,7 +372,7 @@ const CoachAdminScreen: React.FC<CoachAdminScreenProps> = () => {
                         componentRestrictions: {
                           country: ['in'],
                         },
-                        types: ['address'],                        
+                        types: ['address'],
                       }}
                     />
                     <TextField
