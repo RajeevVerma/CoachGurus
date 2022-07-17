@@ -1,4 +1,5 @@
 import AWS from 'aws-sdk';
+import DynamoDB from 'aws-sdk/clients/dynamodb';
 
 import { IAddressUserMapping } from '@models/addressUserMapping-model';
 import { serviceConfigOptions } from "@shared/constants/aws-config";
@@ -66,7 +67,38 @@ const getAddressUserMappings = (partitionKey: string): Promise<IAddressUserMappi
     });
 }
 
+/**
+ * Get address user mappings by partitionKeys
+ * @param partitionKeys 
+ * @returns 
+ */
+const getAddressUserMappingsByPK = async (partitionKeys: string[]): Promise<IAddressUserMapping[]> => {
+    const db = new DynamoDB();
+    partitionKeys = partitionKeys.map((pk, i, arr) => `'${pk}'`);
+    const pks = partitionKeys.join(',');
+    const statement = `SELECT * FROM "${TABLE_NAME}" WHERE "pk" in (${pks})`;
+
+    return new Promise((resolve, error) =>
+        db.executeStatement({
+            Statement: statement
+        }, (err, data) => {
+            if (err) {
+                console.log(err);
+                error(err);
+            } else {
+                console.log(data);
+
+                const addressUserMappings = data.Items?.map((item, i, arr) => AWS.DynamoDB.Converter.unmarshall(item) as IAddressUserMapping);
+
+                resolve(addressUserMappings!);
+            }
+        })
+    );
+};
+
+
 export default {
     save,
-    getAddressUserMappings
+    getAddressUserMappings,
+    getAddressUserMappingsByPK
 } as const;

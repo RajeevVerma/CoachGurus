@@ -69,7 +69,6 @@ async function get(partitionKey: string): Promise<IAddress[]> {
     });
 }
 
-
 /**
  * Get addresses.
  * @param partitionKey array 

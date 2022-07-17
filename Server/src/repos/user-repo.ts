@@ -245,6 +245,35 @@ const updateUserAddresses = async (userPk: string, addresses: IAddress[]): Promi
     });
 };
 
+const getUserByPks = async (userPks: string[], endeavourId: string): Promise<IUser[]> => {
+    const keys = userPks.map((pk, i, arr) => ({ "pk": pk, "sk": pk }));
+
+    return new Promise((resolve, error) => {
+        dbClient.batchGet({
+            RequestItems: {
+                "coach-gurus-entities": {
+                    Keys: keys
+                }
+            }
+        }, (err, data) => {
+            if (err) {
+                console.log(err);
+                error(err);
+            } else {
+                console.log(data);
+                console.log(data.Responses);
+                if (data.Responses) {
+                    let users = data.Responses['coach-gurus-entities'] as IUser[];
+                    users = users.filter((user, i, arr) => user.coachingEndeavourPks.includes(endeavourId));
+                    resolve(users);
+                } else {
+                    resolve([]);
+                }
+            }
+        })
+    });
+}
+
 // Export default
 export default {
     getOne,
@@ -255,5 +284,6 @@ export default {
     save,
     getUsers,
     addUserAddress,
-    updateUserAddresses
+    updateUserAddresses,
+    getUserByPks
 } as const;

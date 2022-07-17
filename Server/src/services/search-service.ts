@@ -17,19 +17,20 @@ import geoHash from 'ngeohash';
  * @param long 
  * @returns Gurus
  */
-const searchGurus = async (endeavour: string, lat: string, long: string): Promise<IUserProfile[]> => {
+const searchGurus = async (endeavourId: string, lat: string, long: string): Promise<IUserProfile[]> => {
 
     return new Promise(async (resolve, error) => {
         const nearByAddresses = await findNearByAddresses(lat, long);
-        console.log('near by addresses', nearByAddresses);
         const addressUserMappings = await getAddressUserMappings(nearByAddresses);
-        const users = await getUsersByAddresses(addressUserMappings);
+        const users = await getUsersByAddressUserMappings(addressUserMappings, endeavourId);
         const gurus: IUserProfile[] = users.map((user, i, arr) => {
+            console.log(user);
             const usrAddresses = addressUserMappings
                 .filter((addrUsrMap, i, arr) => addrUsrMap.sk == user.pk)
                 .map((addrUsrMap, i, arr) => addrUsrMap.pk);
+            console.log(usrAddresses);
             const addresses = nearByAddresses.filter((addr, i, arr) => usrAddresses.includes(getAddressUserPk(addr)));
-
+            console.log(addresses)
             return {
                 user: user,
                 addresses: addresses
@@ -70,30 +71,34 @@ const findNearByAddresses = async (lat: string, long: string): Promise<IAddress[
  */
 const getAddressUserMappings = async (addresses: IAddress[]): Promise<IAddressUserMapping[]> => {
     let addressUserMappings: IAddressUserMapping[] = [];
-    return new Promise(async (resolve, error) => {
+    /* return new Promise(async (resolve, error) => {
         for (let i = 0; i < addresses.length; i++) {
             console.log(getAddressUserPk(addresses[i]));
             const addrUserMappings = await addressUserMappingRepo.getAddressUserMappings(getAddressUserPk(addresses[i]));
             addressUserMappings = addressUserMappings.concat(addrUserMappings);
         }
         resolve(addressUserMappings);
-    });
+    }); */
+    const partitionKeys = addresses.map((address, i, arr) => getAddressUserPk(address));
+    return await addressRepo.getAddressesByPK(partitionKeys);
 };
 
 /**
- * Find address user mappings.
- * @param addresses 
+ * Find users by address user mappings 
+ * @param addressUserMappings
  * @returns 
  */
-const getUsersByAddresses = (addressUserMappings: IAddressUserMapping[]): Promise<IUser[]> => {
-    let users: IUser[] = [];
-    return new Promise(async (resolve, error) => {
+const getUsersByAddressUserMappings = async (addressUserMappings: IAddressUserMapping[], endeavourId: string): Promise<IUser[]> => {
+    const userPks = addressUserMappings.map((addressUserMapping, i, arr) => addressUserMapping.sk)
+
+    return await userRepo.getUserByPks(userPks, endeavourId);
+    /* return new Promise(async (resolve, error) => {
         for (let i = 0; i < addressUserMappings.length; i++) {
             const user = await userRepo.getOne(addressUserMappings[i].sk);
             users.push(user);
         }
         resolve(users);
-    });
+    }); */
 };
 
 export default {
