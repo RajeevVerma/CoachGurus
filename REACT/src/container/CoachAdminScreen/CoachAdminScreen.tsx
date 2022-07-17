@@ -56,6 +56,7 @@ const CoachAdminScreen: React.FC<CoachAdminScreenProps> = () => {
       coachingEndeavourPks: '',
       userType: UserType.Guru,
     },
+    addresses: [],
   });
 
   const [profilePicture, setProfilePicture] = useState<IFile[]>([]);
@@ -138,16 +139,16 @@ const CoachAdminScreen: React.FC<CoachAdminScreenProps> = () => {
             {
               addr1: '',
               state:
-                location.value.term.find((x: any) => x.offset === 19)?.value ??
+              location.value.terms[location.value.terms.length-2]?.value ??
                 '',
               city:
-                location.value.term.find((x: any) => x.offset === 13)?.value ??
+              location.value.terms[location.value.terms.length-3]?.value ??
                 '',
               country:
-                location.value.term.find((x: any) => x.offset === 32)?.value ??
+                location.value.terms[location.value.terms.length-1]?.value ??
                 '',
               name:
-                location.value.term.find((x: any) => x.offset === 0)?.value ??
+              location.value.terms[location.value.terms.length-4]?.value ??
                 '',
               pincode: 1,
               lat: `${lat}`,
@@ -354,6 +355,7 @@ const CoachAdminScreen: React.FC<CoachAdminScreenProps> = () => {
                         componentRestrictions: {
                           country: ['in'],
                         },
+                        types: ['address'],                        
                       }}
                     />
                     <TextField
