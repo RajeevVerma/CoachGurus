@@ -2,6 +2,7 @@ import { tableItemPrefixes as tableItemPrefixes } from "@shared/constants/table-
 import { uniqueIdGenerator } from "@shared/utils";
 import {
     EndeavourCategory,
+    UserRole,
     UserSignUpSource,
     UserType,
 } from "./enums/enumTypes";
@@ -11,13 +12,15 @@ import { IAddress } from "./shared";
 
 // User schema
 export interface IUser extends IdbItemBase {
+    firstName?: string;
+    lastName?: string;
     email?: string;
-    name?: string;
     city?: string;  // GSI
     signUpSourceType: UserSignUpSource;
     mobilePhone: string;
     alternatePhone?: string;
     userType?: UserType;
+    userRole?: UserRole;
 
     /** Auto set on backend */
     signUpDate?: Date;
@@ -100,14 +103,15 @@ export const getUserSk = (pk: string): string => {
  * Get a new User object. *
  * @returns
  */
-function getNew(name: string, email: string): IUser {
+function getNew(firstName: string, lastName:string, email: string): IUser {
     const phone = '8983879384';
     return {
         pk: tableItemPrefixes.VerifiedUserPrefix + phone,
         sk: phone,
         mobilePhone: phone,
         email,
-        name,
+        firstName,
+        lastName,
         signUpSourceType: UserSignUpSource.Facebook,
         userType: UserType.Guru,
         signUpDate: new Date(),

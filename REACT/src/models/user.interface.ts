@@ -1,4 +1,5 @@
 import { UserSignUpSource, UserType } from 'enums';
+import { UserRole } from 'enums/login.enum';
 import { IAddress } from './address.model';
 
 export interface IResponse {
@@ -6,15 +7,15 @@ export interface IResponse {
 }
 
 export interface IUser {
-    email?: string;
     firstName?: string;
     lastName?: string;
-
+    email?: string;
     city?: string; // GSI
     signUpSourceType: UserSignUpSource;
     mobilePhone: string;
     alternatePhone?: string;
     userType?: UserType;
+    userRole?: UserRole;
 
     /** Auto set on backend */
     signUpDate?: Date;
