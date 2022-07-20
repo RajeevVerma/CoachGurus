@@ -1,5 +1,5 @@
 import AWS from 'aws-sdk';
-
+import DynamoDB from 'aws-sdk/clients/dynamodb';
 import { IAddress } from '../models';
 import { serviceConfigOptions } from "@shared/constants/aws-config";
 import { BatchGetItemInput } from '@aws-sdk/client-dynamodb';
@@ -30,7 +30,6 @@ const save = async (address: IAddress): Promise<any> => {
                 if (err) {
                     console.error(err);
                     error(err);
-                    throw err;
                 } else {
                     console.log("PutItem succeeded:", data);
                     resolve(address);
@@ -69,7 +68,6 @@ async function get(partitionKey: string): Promise<IAddress[]> {
         );
     });
 }
-
 
 /**
  * Get addresses.
@@ -111,10 +109,40 @@ async function getAddresses(partitionKeys: string[]): Promise<IAddress[]> {
     });
 }
 
+/**
+ * Get addresses by partitionKeys
+ * @param partitionKeys 
+ * @returns 
+ */
+const getAddressesByPK = async (partitionKeys: string[]): Promise<IAddress[]> => {
+    const db = new DynamoDB();
+    partitionKeys = partitionKeys.map((pk, i, arr) => `'${pk}'`);
+    const pks = partitionKeys.join(',');
+    const statement = `SELECT * FROM "${TABLE_NAME}" WHERE "pk" in (${pks})`;
+    console.log(statement);
+    return new Promise((resolve, error) =>
+        db.executeStatement({
+            Statement: statement
+        }, (err, data) => {
+            if (err) {
+                console.log(err);
+                error(err);
+            } else {
+                console.log(data);
+
+                const addresses = data.Items?.map((item, i, arr) => AWS.DynamoDB.Converter.unmarshall(item) as IAddress);
+
+                resolve(addresses!);
+            }
+        })
+    );
+};
+
 const addressRepo = {
     save,
     get,
-    getAddresses
+    getAddresses,
+    getAddressesByPK
 };
 
 export default addressRepo;

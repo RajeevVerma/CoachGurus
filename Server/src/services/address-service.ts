@@ -22,6 +22,11 @@ const addAddress = async (address: IAddress): Promise<IAddress> => {
     return await addressRepo.save(address);
 }
 
+const updateAddress = async (address: IAddress): Promise<IAddress> => {
+    console.log('updating address');
+    return await addressRepo.save(address);
+}
+
 const addAddressUserMapping = async (address: IAddress, userPk: string): Promise<IAddressUserMapping> => {
     const addressUserMapping: IAddressUserMapping = {
         pk: getAddressUserPk(address),
@@ -45,5 +50,6 @@ const getUserAddresses = async (userPk: string): Promise<IAddress[]> => {
 export default {
     addAddress,
     addAddressUserMapping,
-    getUserAddresses
+    getUserAddresses,
+    updateAddress
 } as const;

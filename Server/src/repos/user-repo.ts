@@ -112,7 +112,6 @@ const save = async (user: IUser): Promise<any> => {
 
 /**
  * Update a user.
- *
  * @param user
  * @returns
  */
@@ -128,7 +127,6 @@ async function update(user: IUser): Promise<void> {
 
 /**
  * Delete one user.
- *
  * @param id
  * @returns
  */
@@ -140,10 +138,12 @@ async function deleteOne(id: string): Promise<void> {
             return orm.saveDb(db);
         }
     }
-}
+};
 
 /**
- * Get near by addresses  
+ * Get users by userids
+ * @param userIds 
+ * @returns 
  */
 const getUsers = (userIds: string[]): Promise<IUser[]> => {
     let keyConditionExpression: string = '';
@@ -175,32 +175,102 @@ const getUsers = (userIds: string[]): Promise<IUser[]> => {
             }
         );
     });
-}
+};
 
+/**
+ * add user address.
+ * @param userPk 
+ * @param address 
+ * @returns 
+ */
 const addUserAddress = async (userPk: string, address: IAddress): Promise<void> => {
     console.log("add user address - user-repo", userPk);
+    const param = {
+        TableName: TABLE_NAME,
+        Key: { "pk": userPk, "sk": userPk },
+        UpdateExpression: "SET #addresses = list_append(#addresses, :address)",
+        ExpressionAttributeNames: {
+            "#addresses": "addresses",
+        },
+        ExpressionAttributeValues: {
+            ":address": [address]
+        }
+    };
+
     return new Promise((resolve, error) => {
-        dbClient.update(
-            {
-                TableName: TABLE_NAME,
-                Key: { "pk": userPk, "sk": userPk },
-                UpdateExpression: "SET #addresses = list_append(#addresses, :address)",
-                ExpressionAttributeNames: {
-                    "#addresses": "addresses",
-                },
-                ExpressionAttributeValues: {
-                    ":address": [address]
-                }
-            }, function (err, data) {
-                if (err) {
-                    console.error(err);
-                    error(err);
-                } else {
-                    console.debug("PutItem succeeded:", data);
-                    resolve();
+        dbClient.update(param, function (err, data) {
+            if (err) {
+                console.error(err);
+                error(err);
+            } else {
+                console.debug("Update item succeeded:", data);
+                resolve();
+            }
+        }
+        );
+    });
+};
+
+/**
+ * Update user addresses.
+ * @param userPk 
+ * @param addresses 
+ * @returns 
+ */
+const updateUserAddresses = async (userPk: string, addresses: IAddress[]): Promise<void> => {
+    console.log("update user address - user-repo", addresses);
+    const param = {
+        TableName: TABLE_NAME,
+        Key: { "pk": userPk, "sk": userPk },
+        UpdateExpression: "SET #addresses = :addresses",
+        ExpressionAttributeNames: {
+            "#addresses": "addresses",
+        },
+        ExpressionAttributeValues: {
+            ":address": addresses
+        }
+    };
+
+    return new Promise((resolve, error) => {
+        dbClient.update(param, function (err, data) {
+            if (err) {
+                console.error(err);
+                error(err);
+            } else {
+                console.debug("Update item succeeded:", data);
+                resolve();
+            }
+        }
+        );
+    });
+};
+
+const getUserByPks = async (userPks: string[], endeavourId: string): Promise<IUser[]> => {
+    const keys = userPks.map((pk, i, arr) => ({ "pk": pk, "sk": pk }));
+
+    return new Promise((resolve, error) => {
+        dbClient.batchGet({
+            RequestItems: {
+                "coach-gurus-entities": {
+                    Keys: keys
                 }
             }
-        );
+        }, (err, data) => {
+            if (err) {
+                console.log(err);
+                error(err);
+            } else {
+                console.log(data);
+                console.log(data.Responses);
+                if (data.Responses) {
+                    let users = data.Responses['coach-gurus-entities'] as IUser[];
+                    users = users.filter((user, i, arr) => user.coachingEndeavourPks.includes(endeavourId));
+                    resolve(users);
+                } else {
+                    resolve([]);
+                }
+            }
+        })
     });
 }
 
@@ -213,5 +283,7 @@ export default {
     delete: deleteOne,
     save,
     getUsers,
-    addUserAddress
+    addUserAddress,
+    updateUserAddresses,
+    getUserByPks
 } as const;

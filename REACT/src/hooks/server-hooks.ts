@@ -1,4 +1,4 @@
-import { IResponse, IUser } from 'models';
+import { IResponse, IUser, IUserProfile } from 'models';
 import { AmplifyService } from './amplify.service';
 
 const { getLoggedInUser } = new AmplifyService();
@@ -40,7 +40,21 @@ export function ServerHooks() {
     });
   };
 
+  const adminUserUpdate = async (userProfile: IUserProfile) => {
+    const { signInUserSession } = await getLoggedInUser();
+    await fetch('/api/users/updateprofile', {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${signInUserSession?.accessToken.jwtToken}`,
+      },
+      body: JSON.stringify(userProfile),
+    });
+  };
+
   return {
+    adminUserUpdate,
     updateUser,
     getUser,
   };

@@ -100,8 +100,8 @@ router.post(paths.addAddress, async (req: Request, res: Response) => {
         throw new ParamMissingError();
     }
 
-    await userService.addAddressForUser(userPk, address);
-    return res.status(OK).end();
+    const savedAddress = await userService.addAddressForUser(userPk, address);
+    return res.status(CREATED).json(savedAddress);
 });
 
 // Export default
