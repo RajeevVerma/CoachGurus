@@ -47,6 +47,26 @@ body, html,:host, .ion-page, .menu-content {
         margin-bottom: 1rem;
     }
    
+    ion-radio, ion-checkbox{
+        margin-inline-end: 15px;
+    }
+
+    .googleInputWrap {
+
+        span+div, input{
+            background-color: transparent;
+            color: #FFF;
+        }
+
+        span+div {
+            div {
+                > div {
+                    color: #FFF;
+                }
+            }
+        }
+
+    }
        
 }
 
@@ -96,7 +116,7 @@ textarea {
 }
 
 .fileUploadContainer {
-    padding: 0.5rem 0;
+    padding: 1rem 0;
     
     > div > div {
         display: flex;
@@ -108,6 +128,16 @@ textarea {
         border-radius: 10px;
         max-width: 110px;
     }
+
+    .imageRemoveIcon {
+        color: white;
+        position: relative;
+        right: 12px;
+        top: -10px;
+        font-size: 1.2rem;
+        cursor: pointer;
+    }
+    
 }
 
 @media(max-width: 767px){

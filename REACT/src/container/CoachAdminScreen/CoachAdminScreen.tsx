@@ -11,7 +11,7 @@ import {
   Grid,
   TextareaAutosize,
 } from '@mui/material';
-import { cloudUpload } from 'ionicons/icons';
+import { cloudUpload, closeCircleOutline } from 'ionicons/icons';
 import {
   IonCheckbox,
   IonCol,
@@ -184,7 +184,7 @@ const CoachAdminScreen: React.FC<CoachAdminScreenProps> = () => {
 
   const locationStyle = (provided: any) => ({
     ...provided,
-    color: 'blue',
+    color: '#232e4d',
   });
 
   return (
@@ -276,30 +276,34 @@ const CoachAdminScreen: React.FC<CoachAdminScreenProps> = () => {
                     onIonChange={(e) =>
                       handleRootCoachingSelection(e.detail.value)
                     }>
-                    <IonItem className={styles.coachingGroupItem}>
-                      <IonLabel className={styles.coachingGroupItem}>
-                        Sports
-                      </IonLabel>
-                      <IonRadio slot='start' value='S' />
-                    </IonItem>
-                    <IonItem className={styles.coachingGroupItem}>
-                      <IonLabel className={styles.coachingGroupItem}>
-                        Academies
-                      </IonLabel>
-                      <IonRadio slot='start' value='A' />
-                    </IonItem>
-                    <IonItem className={styles.coachingGroupItem}>
-                      <IonLabel className={styles.coachingGroupItem}>
-                        Fitness
-                      </IonLabel>
-                      <IonRadio slot='start' value='F' />
-                    </IonItem>
-                    <IonItem className={styles.coachingGroupItem}>
-                      <IonLabel className={styles.coachingGroupItem}>
-                        Extra-Curricular
-                      </IonLabel>
-                      <IonRadio slot='start' value='E' />
-                    </IonItem>
+                    <div style={{display:'flex'}}>
+                      <IonItem className={styles.coachingGroupItem}>
+                        <IonLabel className={styles.coachingGroupItem}>
+                          Sports
+                        </IonLabel>
+                        <IonRadio slot='start' value='S' />
+                      </IonItem>
+                      <IonItem className={styles.coachingGroupItem}>
+                        <IonLabel className={styles.coachingGroupItem}>
+                          Academies
+                        </IonLabel>
+                        <IonRadio slot='start' value='A' />
+                      </IonItem>
+                    </div> 
+                    <div style={{display:'flex'}}>
+                      <IonItem className={styles.coachingGroupItem}>
+                        <IonLabel className={styles.coachingGroupItem}>
+                          Fitness
+                        </IonLabel>
+                        <IonRadio slot='start' value='F' />
+                      </IonItem>
+                      <IonItem className={styles.coachingGroupItem}>
+                        <IonLabel className={styles.coachingGroupItem}>
+                          Extra-Curricular
+                        </IonLabel>
+                        <IonRadio slot='start' value='E' />
+                      </IonItem>
+                    </div> 
                   </IonRadioGroup>
                 </FormGroup>
                 <FormGroup
@@ -356,7 +360,7 @@ const CoachAdminScreen: React.FC<CoachAdminScreenProps> = () => {
                 </FormGroup>
                 <FormGroup className={styles.inputFormGroup}>
                   <label>Academy Location 1</label>
-                  <div>
+                  <div className={styles.googleInputWrap}>
                     <GooglePlacesAutocomplete
                       apiKey={'AIzaSyCZ2tJfShJZfqBzIRXHpPYW1cmZ5A8ODKo'}
                       selectProps={{
@@ -464,12 +468,15 @@ const CoachAdminScreen: React.FC<CoachAdminScreenProps> = () => {
                       {profilePicture.length > 0 ? (
                         <div className='files-gallery'>
                           {profilePicture.map((pic: any) => (
-                            <img
-                              alt='profile-pic'
-                              className='files-gallery-item'
-                              src={pic?.preview?.url}
-                              key={pic?.id}
-                            />
+                            <>
+                              <img
+                                alt='profile-pic'
+                                className='files-gallery-item'
+                                src={pic?.preview?.url}
+                                key={pic?.id}
+                              />
+                              <IonIcon className={styles.imageRemoveIcon} slot='end' icon={closeCircleOutline}></IonIcon>
+                            </>
                           ))}
                         </div>
                       ) : (
@@ -527,7 +534,7 @@ const CoachAdminScreen: React.FC<CoachAdminScreenProps> = () => {
                               {activityPicture.map((pic: IFile) => (
                                 <IonCol
                                   size='12'
-                                  className='activity-row'
+                                  className={styles.multiFilesWrap}
                                   size-sm>
                                   <img
                                     alt='action-gallery-item'
@@ -536,6 +543,7 @@ const CoachAdminScreen: React.FC<CoachAdminScreenProps> = () => {
                                     src={pic?.preview?.url}
                                     key={pic?.id}
                                   />
+                                  <IonIcon className={styles.imageRemoveIcon} slot='start' icon={closeCircleOutline}></IonIcon>
                                 </IonCol>
                               ))}
                             </IonRow>
