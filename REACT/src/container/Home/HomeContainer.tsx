@@ -8,7 +8,7 @@ import { Header, MobileMenu } from 'components';
 import { UserType } from 'enums';
 import { LoginService } from 'hooks';
 import { ICognitoUser } from 'models';
-import { GuruListContainer } from 'container';
+import { GuruListContainer, ActivityCreation } from 'container';
 import LoginModal from 'pages/Modals/Login/Login';
 import {
   AcademicsPage,
@@ -99,6 +99,10 @@ const HomeContainer: React.FC<IContainerProps> = () => {
                 <Route path='/admin/usersearch' exact={true}>
                     <UserSearchPage />
                 </Route>
+                <Route path='/createActivity' exact={true}>
+                    <ActivityCreation />
+                </Route>
+                
             </IonRouterOutlet>
 
             {/* Modals */}
