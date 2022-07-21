@@ -22,9 +22,9 @@ export function ServerHooks() {
     });
   };
 
-  const updateUser = async (user: IUser) => {
+  const updateUser = async (user: IUser): Promise<IResponse> => {
     const { signInUserSession } = await getLoggedInUser();
-    await fetch('/api/users/add', {
+    return await fetch('/api/users/add', {
       method: 'POST',
       headers: {
         Accept: 'application/json',
@@ -32,6 +32,11 @@ export function ServerHooks() {
         Authorization: `Bearer ${signInUserSession?.accessToken.jwtToken}`,
       },
       body: JSON.stringify(user),
+    }).then((response) => {
+      if (!response.ok) {
+        throw new Error(response.statusText);
+      }
+      return response.json() as Promise<IResponse>;
     });
   };
 

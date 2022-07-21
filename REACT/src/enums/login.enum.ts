@@ -21,3 +21,10 @@ export enum EndeavourCategory {
   Academics,
   Fitness,
 }
+
+export enum UserRole {
+  SuperAdmin,
+  Admin,
+  Coach,
+  Trainee
+}

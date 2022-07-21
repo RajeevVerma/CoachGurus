@@ -11,11 +11,12 @@ import { ICognitoUser } from 'models';
 import { GuruListContainer } from 'container';
 import LoginModal from 'pages/Modals/Login/Login';
 import {
-    AcademicsPage,
-    ExtraCurricularPage,
-    HomePage,
-    SportsPage,
-    UserProfileEditPage,
+  AcademicsPage,
+  ExtraCurricularPage,
+  HomePage,
+  SportsPage,
+  UserProfileEditPage,
+  UserSearchPage,
 } from 'pages';
 import CoachProfileContainer from 'container/CoachProfile/CoachProfileContainer';
 
@@ -94,6 +95,9 @@ const HomeContainer: React.FC<IContainerProps> = () => {
                 </Route>
                 <Route exact path='/'>
                     <Redirect to='/home' />
+                </Route>
+                <Route path='/admin/usersearch' exact={true}>
+                    <UserSearchPage />
                 </Route>
             </IonRouterOutlet>
 

@@ -12,10 +12,11 @@ import { phonePortraitOutline } from 'ionicons/icons';
 // Import css
 import styles from './LoginContainer.module.scss';
 
-import { ICognitoUser } from '../../models';
+import { ICognitoUser, IUser } from '../../models';
 import { ServerHooks, LoginService } from '../../hooks';
 import { UserSignUpSource, UserType } from '../../enums';
 import randomNumberTimeBased from 'models/shared/randomGenerator.utility';
+import { UserRole } from 'enums/login.enum';
 
 interface IContainerProps {
     userType: UserType;
@@ -40,6 +41,10 @@ const LoginContainer: React.FC<IContainerProps> = (props: IContainerProps) => {
 
     const history = useHistory();
 
+    const isAdmin = (user:IUser) => {
+        return user.userRole == UserRole.SuperAdmin || user.userRole == UserRole.Admin
+    }
+    
     const insertUser = () => {
         updateUser({
             mobilePhone: phoneNumber,
@@ -49,8 +54,11 @@ const LoginContainer: React.FC<IContainerProps> = (props: IContainerProps) => {
             phoneOtpVerified: true,
             bucketFolderName: randomNumberTimeBased(phoneNumber)
         })
-            .then(() => {
-                navigate('/profile-edit');
+            .then((responce) => {
+                if(responce && isAdmin(responce.Item))
+                    navigate('/admin/usersearch');
+                 else
+                    navigate('/profile-edit');
             })
             .catch(() => {
                 setMessage('Failed to Verify User try Again.');
