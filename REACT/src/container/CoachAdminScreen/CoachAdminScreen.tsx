@@ -20,6 +20,7 @@ import {
   IonIcon,
   IonItem,
   IonLabel,
+  IonPage,
   IonRadio,
   IonRadioGroup,
   IonRow,
@@ -188,7 +189,7 @@ const CoachAdminScreen: React.FC<CoachAdminScreenProps> = () => {
   });
 
   return (
-    <>
+    <IonPage>
       <section className={styles.mainContainer}>
         <Container maxWidth='lg'>
           <Grid container className={styles.profileWrapper}>
@@ -531,7 +532,7 @@ const CoachAdminScreen: React.FC<CoachAdminScreenProps> = () => {
                                   size-sm>
                                   <img
                                     alt='action-gallery-item'
-                                    height={'80%'}
+                                    // height={'80%'}
                                     className='files-gallery-item'
                                     src={pic?.preview?.url}
                                     key={pic?.id}
@@ -563,7 +564,7 @@ const CoachAdminScreen: React.FC<CoachAdminScreenProps> = () => {
           </Grid>
         </Container>
       </section>
-    </>
+    </IonPage>
   );
 };
 
