@@ -133,7 +133,7 @@ const deleteUserAddress = async (
     addressUserSk: string,
     userPk: string,
     addressIndex: number): Promise<void> => {
-    console.log('address repo: delete user address');
+    console.log('address repo: delete user address', addressPk, addressSk, addressUserPk, addressUserSk, userPk, addressIndex);
 
     const params = {
         TransactItems: [

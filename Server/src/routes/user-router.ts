@@ -23,7 +23,7 @@ export const paths = {
 export const addressPath = {
     add: '/add',
     update: '/update',
-    delete: '/delete/:addressSk/:addressPk'
+    delete: '/delete/:pk/:sk'
 };
 
 router.use(paths.addresses, addressRouter);
@@ -127,13 +127,12 @@ addressRouter.post(paths.update, async (req: Request, res: Response) => {
 
 
 addressRouter.delete(addressPath.delete, async (req: Request, res: Response) => {
-    const { userPk, addressSk, addressPk } = req.params;
-    const address = req.body;
-    if (!userPk) {
+    const { userPk, pk, sk } = req.params;
+    if (!userPk || !pk || !sk) {
         throw new ParamMissingError();
     }
 
-    const savedAddress = await addressService.deleteUserAddress(addressPk, addressSk, userPk);
+    const savedAddress = await addressService.deleteUserAddress(pk, sk, userPk);
     return res.status(CREATED).json(savedAddress);
 });
 
