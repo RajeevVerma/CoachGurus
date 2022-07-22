@@ -148,7 +148,7 @@ const CoachAdminScreen: React.FC<CoachAdminScreenProps> = () => {
 
     updatedLocations[index] = location;
 
-    setLocation(updatedLocations);
+    setLocations(updatedLocations);
 
     geocodeByPlaceId(location.value.place_id)
       .then((results) => getLatLng(results[0]))
