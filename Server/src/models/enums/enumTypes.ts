@@ -23,4 +23,9 @@ export enum EndeavourCategory {
     Fitness
 }
 
-
+export enum UserRole {
+    SuperAdmin,
+    Admin,
+    Coach,
+    Trainee
+}

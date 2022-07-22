@@ -8,6 +8,7 @@ body, html,:host, .ion-page, .menu-content {
 }
 
 .inputFormGroup {
+
     span {
         font-family: 'Poppins', sans-serif;
     }
@@ -67,6 +68,27 @@ body, html,:host, .ion-page, .menu-content {
         }
 
     }
+
+    .addLocationContainer {
+        max-width: 300px;
+        display: flex;
+        flex-direction: row;
+        align-items: baseline;
+    }
+
+    .daysSelectWrap {
+
+        > div {
+            border: 1px solid #2ab9c6;
+
+            svg {
+                color: #2ab9c6;
+            }
+        }
+        span {
+            color: #FFF;
+        }
+    }
        
 }
 
@@ -97,21 +119,14 @@ textarea {
     }
 }
 
-.fileUploadBtn {
-    border: 1px solid rgb(42, 185, 198);
-    margin: 0.5rem 0;
-    padding: 0.5rem;
-    border-radius: 15px;
-    color: rgb(42, 185, 198);
-    font-weight: 600;
-    text-align: center;
-    cursor: pointer;
 
+.iconWrap {
     ion-icon {
         font-size: 1.5rem;
         padding-right: 0.5rem;
         vertical-align: bottom;
         color: rgb(42, 185, 198);
+        cursor: pointer;
     }
 }
 
