@@ -1,6 +1,6 @@
 import AWS from 'aws-sdk';
 import DynamoDB from 'aws-sdk/clients/dynamodb';
-import { IAddress } from '../models';
+import { IAddress, IAddressUserMapping } from '../models';
 import { serviceConfigOptions } from "@shared/constants/aws-config";
 import { BatchGetItemInput } from '@aws-sdk/client-dynamodb';
 
@@ -10,15 +10,13 @@ AWS.config.update(serviceConfigOptions);
 const dbClient = new AWS.DynamoDB.DocumentClient();
 const TABLE_NAME: string = "coach-gurus-entities";
 
-
-
 /**
  * Save address.
  * @param address
  * @returns
  */
 const save = async (address: IAddress): Promise<any> => {
-    console.log("address-repo", address);
+    console.log("address-repo: save", address);
 
     return new Promise((resolve, error) => {
         dbClient.put(
@@ -38,6 +36,204 @@ const save = async (address: IAddress): Promise<any> => {
         );
     });
 };
+
+/**
+ * Add address for a user
+ * @param address 
+ * @param addressUserMapping 
+ * @param userPk 
+ * @returns 
+ */
+const addUserAddress = async (address: IAddress, addressUserMapping: IAddressUserMapping, userPk: string): Promise<IAddress> => {
+    console.log('address repo: addUserAddress');
+    const params = {
+        TransactItems: [
+            {
+                Put: {
+                    TableName: TABLE_NAME,
+                    Item: address,
+                },
+            },
+            {
+                Put: {
+                    TableName: TABLE_NAME,
+                    Item: addressUserMapping
+                }
+            },
+            {
+                Update: {
+                    TableName: TABLE_NAME,
+                    Key: { "pk": userPk, "sk": userPk },
+                    UpdateExpression: "SET #addresses = list_append(#addresses, :address)",
+                    ExpressionAttributeNames: {
+                        "#addresses": "addresses",
+                    },
+                    ExpressionAttributeValues: {
+                        ":address": [address]
+                    }
+                }
+            }
+        ]
+    };
+
+    return new Promise((resolve, error) => {
+        dbClient.transactWrite(params, (err, data) => {
+            if (err) {
+                console.log(`Error in address-repo: addUserAddress ${err}`);
+                error(err);
+            } else {
+                resolve(address);
+            }
+        });
+    });
+}
+
+/**
+ * Delete address.
+ * @param pk
+ * @param sk
+ * @returns boolean (true | false)
+ */
+const deleteAddress = async (pk: string, sk: string): Promise<boolean> => {
+    console.log("address-repo: delete", pk, sk);
+
+    return new Promise((resolve, error) => {
+        dbClient.delete(
+            {
+                TableName: TABLE_NAME,
+                Key: { "pk": pk, "sk": sk }
+            },
+            async function (err, data) {
+                if (err) {
+                    console.error(err);
+                    error(err);
+                } else {
+                    console.log("deleteitem succeeded:", data);
+                    resolve(true);
+                }
+            }
+        );
+    });
+};
+
+/**
+ * Delete adddress for the user.
+ * @param addressPk 
+ * @param addressSk 
+ * @param addressUserPk 
+ * @param addressUserSk 
+ * @param userPk 
+ * @param addressIndex 
+ * @returns 
+ */
+const deleteUserAddress = async (
+    addressPk: string,
+    addressSk: string,
+    addressUserPk: string,
+    addressUserSk: string,
+    userPk: string,
+    addressIndex: number): Promise<void> => {
+    console.log('address repo: delete user address');
+
+    const params = {
+        TransactItems: [
+            {
+                Delete: {
+                    TableName: TABLE_NAME,
+                    Key: {
+                        "pk": addressPk,
+                        "sk": addressSk
+                    },
+                },
+            },
+            {
+                Delete: {
+                    TableName: TABLE_NAME,
+                    Key: {
+                        "pk": addressUserPk,
+                        "sk": addressUserSk
+                    }
+                }
+            },
+            {
+                Update: {
+                    TableName: TABLE_NAME,
+                    Key: { "pk": userPk, "sk": userPk },
+                    UpdateExpression: `REMOVE #addresses[${addressIndex}]`,
+                    ExpressionAttributeNames: {
+                        "#addresses": "addresses",
+                    },
+                }
+            }
+        ]
+    };
+
+    return new Promise((resolve, error) => {
+        dbClient.transactWrite(params, (err, data) => {
+            if (err) {
+                console.log('address-repo:deleteUserAddress- Error', err);
+                error(err);
+            } else {
+                console.log('delete user address successful', data);
+                resolve();
+            }
+        })
+    })
+}
+
+/**
+ * Update user address
+ * @param address 
+ * @param userPk 
+ * @param addressIndex 
+ * @returns 
+ */
+const updateUserAddress = async (
+    address: IAddress,
+    userPk: string,
+    addressIndex: number): Promise<IAddress> => {
+    console.log('address repo: update user address');
+
+    const params = {
+        TransactItems: [
+            {
+                Put: {
+                    TableName: TABLE_NAME,
+                    Key: {
+                        "pk": address.pk,
+                        "sk": address.sk
+                    },
+                    Item: address
+                },
+            },
+            {
+                Update: {
+                    TableName: TABLE_NAME,
+                    Key: { "pk": userPk, "sk": userPk },
+                    UpdateExpression: `SET #addresses[${addressIndex}] = :address`,
+                    ExpressionAttributeNames: {
+                        "#addresses": "addresses",
+                    },
+                    ExpressionAttributeValues: {
+                        ":address": address
+                    }
+                }
+            }
+        ]
+    };
+
+    return new Promise((resolve, error) => {
+        dbClient.transactWrite(params, (err, data) => {
+            if (err) {
+                console.log('address-repo:updateUserAddress- Error', err);
+                error(err);
+            } else {
+                console.log('update user address successful', data);
+                resolve(address);
+            }
+        })
+    })
+}
 
 /**
  * Get address.
@@ -129,7 +325,6 @@ const getAddressesByPK = async (partitionKeys: string[]): Promise<IAddress[]> =>
                 error(err);
             } else {
                 console.log(data);
-
                 const addresses = data.Items?.map((item, i, arr) => AWS.DynamoDB.Converter.unmarshall(item) as IAddress);
 
                 resolve(addresses!);
@@ -140,9 +335,13 @@ const getAddressesByPK = async (partitionKeys: string[]): Promise<IAddress[]> =>
 
 const addressRepo = {
     save,
+    addUserAddress,
+    deleteUserAddress,
+    updateUserAddress,
     get,
     getAddresses,
-    getAddressesByPK
+    getAddressesByPK,
+    deleteAddress,
 };
 
 export default addressRepo;

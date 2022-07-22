@@ -103,7 +103,7 @@ export const getUserSk = (pk: string): string => {
  * Get a new User object. *
  * @returns
  */
-function getNew(firstName: string, lastName:string, email: string): IUser {
+function getNew(firstName: string, lastName: string, email: string): IUser {
     const phone = '8983879384';
     return {
         pk: tableItemPrefixes.VerifiedUserPrefix + phone,
@@ -112,7 +112,7 @@ function getNew(firstName: string, lastName:string, email: string): IUser {
         email,
         firstName,
         lastName,
-        signUpSourceType: UserSignUpSource.Facebook,
+        signUpSourceType: UserSignUpSource.Phone,
         userType: UserType.Guru,
         signUpDate: new Date(),
         coachingEndeavourPks: "E-1",

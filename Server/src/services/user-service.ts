@@ -4,8 +4,6 @@ import { UserNotFoundError } from "@shared/errors";
 import addressService from "./address-service";
 import { IUserProfile } from "@models/view-models";
 import randomNumberTimeBased from './../shared/constants/randomGenerator.utility';
-import { IAddress } from "@models/shared";
-import { UserSignUpSource } from "@models/enums/enumTypes";
 
 /**
  * Get user.
@@ -98,39 +96,7 @@ async function updateUserProfile(userProfile: IUserProfile): Promise<void> {
     });
 }
 
-/**
- * Add address for the user
- * 
- * @param userProfile 
- * @returns 
- */
-async function addAddressForUser(userPk: string, address: IAddress): Promise<IAddress> {
-    debugger
-    console.log(address);
-    return new Promise(async (resolve, error) => {
-        try {
-            // if sk and pk both exist in the address then we have to update the exsiting address instead adding a new one
-            if (address.pk && address.sk) {
-                address = await addressService.updateAddress(address);
-                const user = await get(userPk);
-                let userAddresses = user.addresses;
-                userAddresses.map((userAddress, i, arr) => {
-                    if (userAddress.pk == address.pk && userAddress.sk == address.sk) {
-                        userAddress = address;
-                    }
-                });
-                await userRepo.updateUserAddresses(userPk, userAddresses);
-            } else {
-                address = await addressService.addAddress(address);
-                await addressService.addAddressUserMapping(address, userPk);
-                await userRepo.addUserAddress(userPk, address);
-            }
-            resolve(address);
-        } catch (err) {
-            error(err);
-        }
-    });
-}
+
 
 // Export default
 export default {
@@ -139,8 +105,7 @@ export default {
     addOne,
     updateOne,
     delete: deleteOne,
-    updateUserProfile,
-    addAddressForUser
+    updateUserProfile
 } as const;
 
 

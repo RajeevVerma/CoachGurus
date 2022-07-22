@@ -28,7 +28,7 @@ async function getOne(pk: string): Promise<IUser> {
                     sk: getUserSk(pk)
                 },
             }, function (err, data) {
-                result = data as IUser;
+                result = data.Item as IUser;
                 if (err) {
                     console.error(err);
                     error(err);

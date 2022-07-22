@@ -6,6 +6,7 @@ import addressService from '@services/address-service';
 
 // Constants
 const router = Router();
+const addressRouter = Router({ mergeParams: true });
 const { CREATED, OK } = StatusCodes;
 
 // Paths
@@ -16,9 +17,16 @@ export const paths = {
     update: '/update',
     delete: '/delete/:id',
     updateUserProfile: '/updateprofile', // depecrated, isntead use micro api for specific task
-    addAddress: '/addAddress/:userPk',
+    addresses: '/:userPk/addresses',
 } as const;
 
+export const addressPath = {
+    add: '/add',
+    update: '/update',
+    delete: '/delete/:addressSk/:addressPk'
+};
+
+router.use(paths.addresses, addressRouter);
 /**
  * Get user.
  */
@@ -93,14 +101,39 @@ router.post(paths.updateUserProfile, async (req: Request, res: Response) => {
     return res.status(OK).end();
 });
 
-router.post(paths.addAddress, async (req: Request, res: Response) => {
+
+// address routes 
+addressRouter.post(paths.add, async (req: Request, res: Response) => {
     const { userPk } = req.params;
     const address = req.body;
     if (!userPk) {
         throw new ParamMissingError();
     }
 
-    const savedAddress = await userService.addAddressForUser(userPk, address);
+    const savedAddress = await addressService.addOrUpdateAddressForUser(userPk, address);
+    return res.status(CREATED).json(savedAddress);
+});
+
+addressRouter.post(paths.update, async (req: Request, res: Response) => {
+    const { userPk } = req.params;
+    const address = req.body;
+    if (!userPk) {
+        throw new ParamMissingError();
+    }
+
+    const savedAddress = await addressService.addOrUpdateAddressForUser(userPk, address);
+    return res.status(CREATED).json(savedAddress);
+});
+
+
+addressRouter.delete(addressPath.delete, async (req: Request, res: Response) => {
+    const { userPk, addressSk, addressPk } = req.params;
+    const address = req.body;
+    if (!userPk) {
+        throw new ParamMissingError();
+    }
+
+    const savedAddress = await addressService.deleteUserAddress(addressPk, addressSk, userPk);
     return res.status(CREATED).json(savedAddress);
 });
 
