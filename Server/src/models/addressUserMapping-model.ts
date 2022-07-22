@@ -12,6 +12,10 @@ export const getAddressUserPk = (address: IAddress): string => {
     return `${tableItemPrefixes.AddressUserMappingItemPrefix}${address.pk}-${address.sk}`;
 }
 
+export const getAddressUserPkByAddressKey = (addressKey: { sk: string, pk: string }) => {
+    return `${tableItemPrefixes.AddressUserMappingItemPrefix}${addressKey.pk}-${addressKey.sk}`;
+}
+
 export const getAddressUserSk = (userPk: string): string => {
     return `${userPk}`;
 }
