@@ -11,7 +11,11 @@ import {
   Grid,
   TextareaAutosize,
 } from '@mui/material';
-import { cloudUpload, closeCircleOutline, addCircleOutline } from 'ionicons/icons';
+import {
+  cloudUpload,
+  closeCircleOutline,
+  addCircleOutline,
+} from 'ionicons/icons';
 import {
   IonButton,
   IonCheckbox,
@@ -140,7 +144,11 @@ const CoachAdminScreen: React.FC<CoachAdminScreenProps> = () => {
   };
 
   const handleGoogleLocationChange = (location: any, index: number) => {
-    //setLocation(location);
+    const updatedLocations = [...locations];
+
+    updatedLocations[index] = location;
+
+    setLocation(updatedLocations);
 
     geocodeByPlaceId(location.value.place_id)
       .then((results) => getLatLng(results[0]))
@@ -385,7 +393,7 @@ const CoachAdminScreen: React.FC<CoachAdminScreenProps> = () => {
                   <div>
                     Academy Locations
                     <IonButton slot='end' onClick={() => addLocation()}>
-                     <IonIcon icon={addCircleOutline}/>
+                      <IonIcon icon={addCircleOutline} />
                     </IonButton>
                   </div>
 
