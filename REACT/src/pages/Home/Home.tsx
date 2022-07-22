@@ -110,8 +110,8 @@ const Home: React.FC = () => {
                     <IonGrid>
                         <IonRow>
                             {
-                                guruList.map((guru) => (
-                                    <IonCol size="4" sizeMd='4' sizeXs='12'>
+                                guruList.map((guru, index) => (
+                                    <IonCol key={index} size="4" sizeMd='4' sizeXs='12'>
                                         <GuruCard 
                                             guru={guru}
                                         />

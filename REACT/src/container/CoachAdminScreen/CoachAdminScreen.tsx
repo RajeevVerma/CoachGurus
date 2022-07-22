@@ -11,8 +11,9 @@ import {
   Grid,
   TextareaAutosize,
 } from '@mui/material';
-import { cloudUpload, closeCircleOutline } from 'ionicons/icons';
+import { cloudUpload, closeCircleOutline, addCircleOutline } from 'ionicons/icons';
 import {
+  IonButton,
   IonCheckbox,
   IonCol,
   IonContent,
@@ -40,14 +41,24 @@ import { ServerHooks } from 'hooks';
 
 interface CoachAdminScreenProps {}
 
+interface IKeyValue {
+  key: number;
+  value: any;
+}
+
 const CoachAdminScreen: React.FC<CoachAdminScreenProps> = () => {
   const { adminUserUpdate } = ServerHooks();
-  const [rootCoaching, setRootCoaching] = React.useState('S');
-  const [coachingOptions, setCoachingOptions] = React.useState<ICategories[]>(
+  const [rootCoaching, setRootCoaching] = useState('S');
+  const [coachingOptions, setCoachingOptions] = useState<ICategories[]>(
     rootInterest.filter((x) => x.parentKey === rootCoaching)
   );
-  const [selectedCoaching, setSelectedCoaching] = React.useState<string[]>([]);
-  const [location1, setLocation1] = useState();
+  const [selectedCoaching, setSelectedCoaching] = useState<string[]>([]);
+  const [locations, setLocations] = useState<IKeyValue[]>([
+    {
+      key: 1,
+      value: undefined,
+    },
+  ]);
 
   const [userProfile, setUserProfile] = useState<IUserProfile>({
     user: {
@@ -128,8 +139,9 @@ const CoachAdminScreen: React.FC<CoachAdminScreenProps> = () => {
     setActivityPicture([]);
   };
 
-  const handleGoogleLocationChange = (location: any) => {
-    setLocation1(location);
+  const handleGoogleLocationChange = (location: any, index: number) => {
+    //setLocation(location);
+
     geocodeByPlaceId(location.value.place_id)
       .then((results) => getLatLng(results[0]))
       .then(({ lat, lng }) => {
@@ -158,6 +170,16 @@ const CoachAdminScreen: React.FC<CoachAdminScreenProps> = () => {
           ],
         });
       });
+  };
+
+  const addLocation = () => {
+    const addLocation = [...locations];
+    addLocation.push({
+      key: addLocation.length + 1,
+      value: undefined,
+    });
+
+    setLocations(addLocation);
   };
 
   const handleSubmitEvent = () => {
@@ -277,7 +299,7 @@ const CoachAdminScreen: React.FC<CoachAdminScreenProps> = () => {
                     onIonChange={(e) =>
                       handleRootCoachingSelection(e.detail.value)
                     }>
-                    <div style={{display:'flex'}}>
+                    <div style={{ display: 'flex' }}>
                       <IonItem className={styles.coachingGroupItem}>
                         <IonLabel className={styles.coachingGroupItem}>
                           Sports
@@ -290,8 +312,8 @@ const CoachAdminScreen: React.FC<CoachAdminScreenProps> = () => {
                         </IonLabel>
                         <IonRadio slot='start' value='A' />
                       </IonItem>
-                    </div> 
-                    <div style={{display:'flex'}}>
+                    </div>
+                    <div style={{ display: 'flex' }}>
                       <IonItem className={styles.coachingGroupItem}>
                         <IonLabel className={styles.coachingGroupItem}>
                           Fitness
@@ -304,7 +326,7 @@ const CoachAdminScreen: React.FC<CoachAdminScreenProps> = () => {
                         </IonLabel>
                         <IonRadio slot='start' value='E' />
                       </IonItem>
-                    </div> 
+                    </div>
                   </IonRadioGroup>
                 </FormGroup>
                 <FormGroup
@@ -360,34 +382,46 @@ const CoachAdminScreen: React.FC<CoachAdminScreenProps> = () => {
                   </div>
                 </FormGroup>
                 <FormGroup className={styles.inputFormGroup}>
-                  <label>Academy Location 1</label>
-                  <div className={styles.googleInputWrap}>
-                    <GooglePlacesAutocomplete
-                      apiKey={'AIzaSyCZ2tJfShJZfqBzIRXHpPYW1cmZ5A8ODKo'}
-                      selectProps={{
-                        location1,
-                        onChange: handleGoogleLocationChange,
-                        styles: {
-                          input: locationStyle,
-                          option: locationStyle,
-                          singleValue: locationStyle,
-                        },
-                      }}
-                      autocompletionRequest={{
-                        componentRestrictions: {
-                          country: ['in'],
-                        },
-                        types: ['address'],
-                      }}
-                    />
-                    <TextField
-                      size='small'
-                      className={styles.coachAdminInput}
-                      placeholder='Name'
-                      id='location-one-name'
-                      variant='outlined'
-                    />
+                  <div>
+                    Academy Locations
+                    <IonButton slot='end' onClick={() => addLocation()}>
+                     <IonIcon icon={addCircleOutline}/>
+                    </IonButton>
                   </div>
+
+                  {locations.map((location: IKeyValue, index: number) => (
+                    <div key={index}>
+                      <label>Academy {location.key}</label>
+                      <div className={styles.googleInputWrap}>
+                        <GooglePlacesAutocomplete
+                          apiKey={'AIzaSyCZ2tJfShJZfqBzIRXHpPYW1cmZ5A8ODKo'}
+                          selectProps={{
+                            value: location.value,
+                            onChange: (e: any) =>
+                              handleGoogleLocationChange(e, location.key),
+                            styles: {
+                              input: locationStyle,
+                              option: locationStyle,
+                              singleValue: locationStyle,
+                            },
+                          }}
+                          autocompletionRequest={{
+                            componentRestrictions: {
+                              country: ['in'],
+                            },
+                            types: ['address'],
+                          }}
+                        />
+                        <TextField
+                          size='small'
+                          className={styles.coachAdminInput}
+                          placeholder='Name'
+                          id='location-one-name'
+                          variant='outlined'
+                        />
+                      </div>
+                    </div>
+                  ))}
                 </FormGroup>
               </div>
             </Grid>
@@ -476,7 +510,10 @@ const CoachAdminScreen: React.FC<CoachAdminScreenProps> = () => {
                                 src={pic?.preview?.url}
                                 key={pic?.id}
                               />
-                              <IonIcon className={styles.imageRemoveIcon} slot='end' icon={closeCircleOutline}></IonIcon>
+                              <IonIcon
+                                className={styles.imageRemoveIcon}
+                                slot='end'
+                                icon={closeCircleOutline}></IonIcon>
                             </>
                           ))}
                         </div>
@@ -544,7 +581,10 @@ const CoachAdminScreen: React.FC<CoachAdminScreenProps> = () => {
                                     src={pic?.preview?.url}
                                     key={pic?.id}
                                   />
-                                  <IonIcon className={styles.imageRemoveIcon} slot='start' icon={closeCircleOutline}></IonIcon>
+                                  <IonIcon
+                                    className={styles.imageRemoveIcon}
+                                    slot='start'
+                                    icon={closeCircleOutline}></IonIcon>
                                 </IonCol>
                               ))}
                             </IonRow>
