@@ -2,11 +2,10 @@ import StatusCodes from 'http-status-codes';
 import { Request, Response, Router } from 'express';
 import userService from '@services/user-service';
 import { ParamMissingError } from '@shared/errors';
-import addressService from '@services/address-service';
+import addressRouter from './address-router';
 
 // Constants
 const router = Router();
-const addressRouter = Router({ mergeParams: true });
 const { CREATED, OK } = StatusCodes;
 
 // Paths
@@ -18,15 +17,16 @@ export const paths = {
     delete: '/delete/:id',
     updateUserProfile: '/updateprofile', // depecrated, isntead use micro api for specific task
     addresses: '/:userPk/addresses',
+    saveProfilePic: '/:pk/profile-pic',
+    saveCoverPic: '/:pk/cover-pic',
+    saveActivityPics: '/:pk/activity-pics'
 } as const;
 
-export const addressPath = {
-    add: '/add',
-    update: '/update',
-    delete: '/delete/:pk/:sk'
-};
-
+/**
+ * Address routes
+ */
 router.use(paths.addresses, addressRouter);
+
 /**
  * Get user.
  */
@@ -101,39 +101,48 @@ router.post(paths.updateUserProfile, async (req: Request, res: Response) => {
     return res.status(OK).end();
 });
 
-
-// address routes 
-addressRouter.post(paths.add, async (req: Request, res: Response) => {
-    const { userPk } = req.params;
-    const address = req.body;
-    if (!userPk) {
+/**
+ * Save profile pic
+ */
+router.post(paths.saveProfilePic, async (req: Request, res: Response) => {
+    const { pk } = req.params;
+    const profilePic = req.body;
+    console.log(profilePic);
+    if (!pk) {
         throw new ParamMissingError();
     }
+    await userService.saveProfilePic(pk, profilePic.url);
 
-    const savedAddress = await addressService.addOrUpdateAddressForUser(userPk, address);
-    return res.status(CREATED).json(savedAddress);
+    res.status(OK).end();
 });
 
-addressRouter.post(paths.update, async (req: Request, res: Response) => {
-    const { userPk } = req.params;
-    const address = req.body;
-    if (!userPk) {
+/**
+ * Save cover pic 
+ */
+router.post(paths.saveCoverPic, async (req: Request, res: Response) => {
+    const { pk } = req.params;
+    const coverPic = req.body;
+    if (!pk) {
         throw new ParamMissingError();
     }
+    await userService.saveCoverPic(pk, coverPic.url);
 
-    const savedAddress = await addressService.addOrUpdateAddressForUser(userPk, address);
-    return res.status(CREATED).json(savedAddress);
+    res.status(OK).end();
 });
 
-
-addressRouter.delete(addressPath.delete, async (req: Request, res: Response) => {
-    const { userPk, pk, sk } = req.params;
-    if (!userPk || !pk || !sk) {
+/**
+ * Save activity pics 
+ */
+router.post(paths.saveActivityPics, async (req: Request, res: Response) => {
+    const { pk } = req.params;
+    const activityPic = req.body;
+    console.log(activityPic);
+    if (!pk) {
         throw new ParamMissingError();
     }
+    await userService.saveActivityPics(pk, activityPic.urls);
 
-    const savedAddress = await addressService.deleteUserAddress(pk, sk, userPk);
-    return res.status(CREATED).json(savedAddress);
+    res.status(OK).end();
 });
 
 // Export default
