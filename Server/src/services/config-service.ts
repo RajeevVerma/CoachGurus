@@ -1,10 +1,10 @@
 import AWS from 'aws-sdk/';
 
 /**
- * Only required for the local not when app is running in Farget container (ECS)
+ * Only required for the local not when app is running in Farget container (ECS) (ECS role will be use to get the s3 url)
  */
-const ACCESS_KEY = 'AKIAY2AYNRZNFMVU4WX7';
-const SECRET_KEY = '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';
+const ACCESS_KEY = 'PUT ACCESS KEY HERE';
+const SECRET_KEY = 'PUT SECRET KEY HERE';
 const BUCKET_NAME = 'coach-gurus-users';
 const REGION = 'ap-sourth-1';
 const s3 = new AWS.S3();
