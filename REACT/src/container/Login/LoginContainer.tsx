@@ -39,10 +39,8 @@ const LoginContainer: React.FC<IContainerProps> = (props: IContainerProps) => {
         });
     };
 
-    const history = useHistory();
-
     const isAdmin = (user:IUser) => {
-        return user.userRole == UserRole.SuperAdmin || user.userRole == UserRole.Admin
+        return user.userRole === UserRole.SuperAdmin || user.userRole === UserRole.Admin
     }
     
     const insertUser = () => {

@@ -28,7 +28,7 @@ const UserSearch: React.FC = () => {
     const [rows, setRows] = useState<IUser[]>([]);
 
     const handleUserSearch = async () => {
-        if(PhoneNumber && PhoneNumber != ''){
+        if(PhoneNumber && PhoneNumber !== ''){
             await getUser(PhoneNumber).then((data)=> {
                 console.log(data.Item);
                 if(data && data.Item && Object.keys( data.Item).length>0)
