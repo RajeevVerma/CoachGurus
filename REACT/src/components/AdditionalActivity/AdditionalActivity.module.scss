@@ -1,0 +1,112 @@
+.inputFormGroup {
+
+    span {
+        font-family: 'Poppins', sans-serif;
+    }
+
+    .coachAdminInput {
+        margin: 0.5rem 1rem 1rem 0;
+        border-radius: 10px;
+        border: 1px solid rgba(255, 255, 255, 0.5);
+        color: #fff;    
+        > div{
+            border-radius: 10px;
+            border-color: rgba(255, 255, 255, 0.5);
+            color: #fff;
+        }
+    }
+} 
+
+
+.boxShadowContainer {
+    background: #232e4d;
+    box-shadow: none;
+    border-radius: 15px;
+    padding: 1rem 0.5rem;
+    color: #fff;
+    width: 100%;
+    margin-bottom: 1rem;
+    font-family: 'Poppins', sans-serif;
+
+    ion-radio, ion-checkbox{
+        margin-inline-end: 15px;
+    }
+
+    svg {
+        color: #FFF;
+    }
+
+    > div {
+        background: transparent;
+        color: #fff;  
+        box-shadow: none;
+    }
+
+    .daysSelectWrap {
+
+        > div {
+            border: 1px solid #2ab9c6;
+
+            svg {
+                color: #2ab9c6;
+            }
+        }
+        span {
+            color: #FFF;
+        }
+    }
+}
+
+.coachingGroup {
+    --background: #232e4d;
+}
+
+.coachingGroupItem {
+    --background: #232e4d;
+    --color: #fff;
+}
+
+
+@media(min-width:769px) {
+    .profileWrapper {
+        flex-wrap: nowrap;
+        gap: 10px;
+    }
+}
+
+
+.iconWrap {
+    ion-icon {
+        font-size: 1.5rem;
+        padding-right: 0.5rem;
+        vertical-align: bottom;
+        color: rgb(42, 185, 198);
+        cursor: pointer;
+    }
+}
+
+
+@media(max-width: 767px){
+    .inputFormGroup {
+        .coachAdminInput {
+            min-width: 100%;
+        }
+    } 
+}
+
+.fileUploadBtn {
+    border: 1px solid rgb(42, 185, 198);
+    margin: 0.5rem 0 1rem 0;
+    padding: 0.5rem;
+    border-radius: 10px;
+    color: rgb(42, 185, 198);
+    cursor: pointer;
+    max-width: 220px;
+
+    ion-icon {
+        font-size: 1.5rem;
+        padding-right: 0.5rem;
+        vertical-align: bottom;
+        color: rgb(42, 185, 198);
+    }
+}

@@ -35,6 +35,9 @@ import TextField from '@mui/material/TextField';
 import styles from './ActivityCreation.module.scss';
 import { useEffect, useState } from 'react';
 
+// Import Components
+import { AdditionalActivity } from '../../components'
+
 interface ActivityCreationProps {}
 
 const ActivityCreation: React.FC<ActivityCreationProps> = () => {
@@ -254,6 +257,10 @@ const ActivityCreation: React.FC<ActivityCreationProps> = () => {
               </div>
             </Grid>
           </Grid>
+
+          {/* Additional Activity */}
+          <AdditionalActivity />
+
           <Grid style={{ justifyContent: 'flex-end' }} container>
             <Button
               style={{ margin: '1rem 0', background: '#2ab9c6' }}
