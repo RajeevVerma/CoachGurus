@@ -3,6 +3,7 @@ import { Request, Response, Router } from 'express';
 
 import userRouter from './user-router';
 import searchRouter from './search-router';
+import configRouter from './config-rouer';
 
 
 // Export the base-router
@@ -16,6 +17,7 @@ baseRouter.get('/health', async (_: Request, res: Response) => {
 // Setup routers
 baseRouter.use('/users', userRouter);
 baseRouter.use('/search', searchRouter);
+baseRouter.use('/config', configRouter);
 
 // Export default.
 export default baseRouter;

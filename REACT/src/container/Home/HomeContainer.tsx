@@ -19,7 +19,7 @@ import {
   UserSearchPage,
 } from 'pages';
 import CoachProfileContainer from 'container/CoachProfile/CoachProfileContainer';
-import CoachAdminScreen from 'container/CoachAdminScreen/CoachAdminScreen';
+import CoachAdminScreen from 'pages/CoachAdminScreen/CoachAdminScreen';
 
 export const history = createBrowserHistory();
 

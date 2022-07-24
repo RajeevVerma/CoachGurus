@@ -17,7 +17,6 @@ async function get(phone: string): Promise<IUser> {
 
 /**
  * Get all users.
- *
  * @returns Users 
  */
 async function getAll(): Promise<IUser[]> {
@@ -96,7 +95,41 @@ async function updateUserProfile(userProfile: IUserProfile): Promise<void> {
     });
 }
 
+/**
+ * Save profile pic.
+ * @param phone 
+ * @param profilePic 
+ * @returns 
+ */
+async function saveProfilePic(phone: string, profilePic: string): Promise<void> {
+    const userPk = getGeneratedUserPk(phone);
 
+    return await userRepo.saveProfilePic(userPk, profilePic);
+}
+
+/**
+ * Save cover pic.
+ * @param phone 
+ * @param coverPic 
+ * @returns 
+ */
+async function saveCoverPic(phone: string, coverPic: string) {
+    const userPk = getGeneratedUserPk(phone);
+
+    return await userRepo.saveCoverPic(userPk, coverPic);
+}
+
+/**
+ * Save activity pics.
+ * @param phone 
+ * @param activitypics - | separated string for multiple images 
+ * @returns 
+ */
+async function saveActivityPics(phone: string, activitypics: string) {
+    const userPk = getGeneratedUserPk(phone);
+
+    return await userRepo.saveActivityPics(userPk, activitypics);
+}
 
 // Export default
 export default {
@@ -105,7 +138,10 @@ export default {
     addOne,
     updateOne,
     delete: deleteOne,
-    updateUserProfile
+    updateUserProfile,
+    saveActivityPics,
+    saveProfilePic,
+    saveCoverPic
 } as const;
 
 

@@ -245,6 +245,12 @@ const updateUserAddresses = async (userPk: string, addresses: IAddress[]): Promi
     });
 };
 
+/**
+ * Get users by pks 
+ * @param userPks 
+ * @param endeavourId 
+ * @returns 
+ */
 const getUserByPks = async (userPks: string[], endeavourId: string): Promise<IUser[]> => {
     const keys = userPks.map((pk, i, arr) => ({ "pk": pk, "sk": pk }));
 
@@ -274,6 +280,112 @@ const getUserByPks = async (userPks: string[], endeavourId: string): Promise<IUs
     });
 }
 
+/**
+ * Save profile pic for the user
+ * @param userPk 
+ * @param profilePic 
+ * @returns 
+ */
+const saveProfilePic = async (userPk: string, profilePic: string): Promise<void> => {
+    console.log('user-repo: saveProfilePicUrl');
+    const param = {
+        Key: {
+            'sk': userPk,
+            'pk': userPk
+        },
+        TableName: TABLE_NAME,
+        UpdateExpression: 'SET #profilePicUrl=:picUrl',
+        ExpressionAttributeNames: {
+            '#profilePicUrl': 'profilePicUrl'
+        },
+        ExpressionAttributeValues: {
+            ':picUrl': profilePic
+        }
+    };
+
+    return new Promise((resolve, error) => {
+        dbClient.update(param, (err, data) => {
+            if (err) {
+                console.log('Error in user-repo: saveProfilePicUrl', err);
+                error(err);
+            }
+            console.log(data);
+            resolve();
+        });
+    })
+}
+
+/**
+ * Save cover pic for the user
+ * @param userPk 
+ * @param coverPic 
+ * @returns 
+ */
+const saveCoverPic = async (userPk: string, coverPic: string): Promise<void> => {
+    console.log('user-repo: saveCoverPicUrl');
+    const param = {
+        Key: {
+            'sk': userPk,
+            'pk': userPk
+        },
+        TableName: TABLE_NAME,
+        UpdateExpression: 'SET #coverPicUrl=:picUrl',
+        ExpressionAttributeNames: {
+            '#coverPicUrl': 'coverPicUrl'
+        },
+        ExpressionAttributeValues: {
+            ':picUrl': coverPic
+        }
+    };
+
+    return new Promise((resolve, error) => {
+        dbClient.update(param, (err, data) => {
+            if (err) {
+                console.log('Error in user-repo: saveCoverPicUrl', err);
+                error(err);
+            }
+            console.log(data);
+            resolve();
+        });
+    })
+}
+
+/**
+ * Save activity pics for the user
+ * @param userPk 
+ * @param activityPics 
+ * @returns 
+ */
+const saveActivityPics = async (userPk: string, activityPics: string): Promise<void> => {
+    console.log('user-repo: saveActivityPics');
+    const param = {
+        Key: {
+            'sk': userPk,
+            'pk': userPk
+        },
+        TableName: TABLE_NAME,
+        UpdateExpression: 'SET #profileData.#coachingPhotos=:activityUrls',
+        ExpressionAttributeNames: {
+            '#profileData': 'profileData',
+            '#coachingPhotos': 'coachingPhotos'
+        },
+        ExpressionAttributeValues: {
+            ':activityUrls': activityPics
+        }
+    };
+
+    return new Promise((resolve, error) => {
+        dbClient.update(param, (err, data) => {
+            if (err) {
+                console.log('Error in user-repo: saveCoverPicUrl', err);
+                error(err);
+            }
+            console.log(data);
+            resolve();
+        });
+    })
+}
+
 // Export default
 export default {
     getOne,
@@ -285,5 +397,8 @@ export default {
     getUsers,
     addUserAddress,
     updateUserAddresses,
-    getUserByPks
+    getUserByPks,
+    saveProfilePic,
+    saveCoverPic,
+    saveActivityPics
 } as const;

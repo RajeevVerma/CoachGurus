@@ -26,6 +26,7 @@ export interface IUser extends IdbItemBase {
     signUpDate?: Date;
     lastLoginDate?: Date;
     profilePicUrl?: string;
+    coverPicUrl?: string;
     bucketFolderName: string;
 
     profileData?: {
