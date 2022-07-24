@@ -13,23 +13,25 @@ import {
   MenuItem,
   Select,
   Stack,
+  TextField,
 } from '@mui/material';
 import DoneIcon from '@mui/icons-material/Done';
+
+import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
+
+import { 
+  LocalizationProvider, 
+  MobileDatePicker, 
+  TimePicker,
+} from '@mui/x-date-pickers';
 
 import { addCircle } from 'ionicons/icons';
 import {
   IonCheckbox,
-  IonCol,
-  IonGrid,
   IonIcon,
   IonItem,
   IonLabel,
-  IonRadio,
-  IonRadioGroup,
-  IonRow,
 } from '@ionic/react';
-import TextField from '@mui/material/TextField';
-// import { MobileDatePicker } from '@mui/x-date-pickers/MobileDatePicker';
 
 // Import styles
 import styles from './ActivityCreation.module.scss';
@@ -69,14 +71,17 @@ const ActivityCreation: React.FC<ActivityCreationProps> = () => {
     setLocation(event.target.value);
   };
 
-/** Activity Start Date Handling */
-//   const [startDate, setStartDate] = React.useState<Date | null>(
-//     new Date('2014-08-18T21:11:54'),
-//   );
+  const [value, setValue] = React.useState<Date | null>(null);
 
-//   const handleStartDateChange = (newValue: Date | null) => {
-//     setStartDate(newValue);
-//   };
+
+  /** Activity Start Date Handling */
+  const [startDate, setStartDate] = React.useState<Date | null>(
+    new Date('2014-08-18T21:11:54'),
+  );
+
+  const handleStartDateChange = (newValue: Date | null) => {
+    setStartDate(newValue);
+  };
 
   /** Activity Days */
   const handleClick = () => {
@@ -161,25 +166,17 @@ const ActivityCreation: React.FC<ActivityCreationProps> = () => {
                 </FormGroup>
                 <FormGroup className={styles.inputFormGroup}>
                     <label>Start Date</label>
-                    {/* <MobileDatePicker
-                        label="Date mobile"
-                        inputFormat="MM/dd/yyyy"
-                        value={startDate}
-                        onChange={handleStartDateChange}
-                        renderInput={(params) => <TextField {...params} />}
-                    /> */}
-                    <div>
-                        <TextField
-                        style={{minWidth: '220px'}}
-                        size='small'
-                        className={styles.coachAdminInput}
-                        placeholder='Years'
-                        id='years-of-coaching'
-                        variant='outlined'
-                        type="date"
+                    <div className={styles.timeInputFormGroup} >
+                      <LocalizationProvider style={{minWidth: '220px'}} dateAdapter={AdapterDateFns}>
+                        <MobileDatePicker
+                            className={styles.coachAdminInput}
+                            inputFormat="MM/dd/yyyy"
+                            value={startDate}
+                            onChange={handleStartDateChange}
+                            renderInput={(params) => <TextField {...params} />}
                         />
+                      </LocalizationProvider>
                     </div>
-
                 </FormGroup>
                 <FormGroup className={styles.inputFormGroup} sx={{mb:1}}>
                     <label>Select Days</label>
@@ -211,38 +208,38 @@ const ActivityCreation: React.FC<ActivityCreationProps> = () => {
                     Time
                   </label> 
                 </FormGroup>
-                <div style={{display: 'flex'}}>
+                <div style={{display: 'flex', gap: '10px'}}>
                     <FormGroup className={styles.inputFormGroup}>
                     <label>
                         Start Time
                     </label>
-                    <div>
-                            <TextField
-                            style={{minWidth: '220px'}}
-                            size='small'
-                            className={styles.coachAdminInput}
-                            placeholder='Years'
-                            id='years-of-coaching'
-                            variant='outlined'
-                            type="date"
-                            />
+                    <div className={styles.timeInputFormGroup}>
+                        <LocalizationProvider dateAdapter={AdapterDateFns}>
+                          <TimePicker
+                            value={value}
+                            onChange={(newValue) => {
+                              setValue(newValue);
+                            }}
+                            renderInput={(params) => <TextField {...params} />}
+                          />
+                        </LocalizationProvider>
                     </div>
                     </FormGroup>
                     <FormGroup className={styles.inputFormGroup}>
-                    <label>
-                        End Time
-                    </label>
-                    <div>
-                            <TextField
-                            style={{minWidth: '220px'}}
-                            size='small'
-                            className={styles.coachAdminInput}
-                            placeholder='Years'
-                            id='years-of-coaching'
-                            variant='outlined'
-                            type="date"
+                      <label>
+                          End Time
+                      </label>
+                      <div className={styles.timeInputFormGroup}>
+                          <LocalizationProvider dateAdapter={AdapterDateFns}>
+                            <TimePicker
+                              value={value}
+                              onChange={(newValue) => {
+                                setValue(newValue);
+                              }}
+                              renderInput={(params) => <TextField {...params} />}
                             />
-                    </div>
+                          </LocalizationProvider>
+                      </div>
                     </FormGroup>
                 </div>
                 <FormGroup className={styles.inputFormGroup}>

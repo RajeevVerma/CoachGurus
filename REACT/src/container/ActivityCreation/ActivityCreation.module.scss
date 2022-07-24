@@ -1,31 +1,3 @@
-body, html,:host, .ion-page, .menu-content {
-    overflow-x: hidden;
-    overflow-y: auto;
-}
-
-*, ::placeholder {
-    font-family: 'Poppins', sans-serif;
-}
-
-.inputFormGroup {
-
-    span {
-        font-family: 'Poppins', sans-serif;
-    }
-
-    .coachAdminInput {
-        margin: 0.5rem 1rem 1rem 0;
-        border-radius: 10px;
-        border: 1px solid rgba(255, 255, 255, 0.5);
-        color: #fff;    
-        > div{
-            border-radius: 10px;
-            border-color: rgba(255, 255, 255, 0.5);
-            color: #fff;
-        }
-    }
-} 
-
 .mainContainer {
     padding-top: 1rem;
     min-height: 100vh;
@@ -33,7 +5,8 @@ body, html,:host, .ion-page, .menu-content {
     background-color: #1d2029;
     color: #fff;
     background: url(../../../public/assets/images/bg-pattern-circles.svg) no-repeat center, #1d2029;
-
+    background-attachment: fixed;
+    
     @media (min-width:769px) {
         padding-top: 4.5rem;
     }
@@ -92,6 +65,44 @@ body, html,:host, .ion-page, .menu-content {
        
 }
 
+.inputFormGroup {
+
+    span {
+        font-family: 'Poppins', sans-serif;
+    }
+
+    .coachAdminInput {
+        margin: 0.5rem 1rem 1rem 0;
+        border-radius: 10px;
+        border: 1px solid rgba(255, 255, 255, 0.5);
+        color: #fff;    
+        > div{
+            border-radius: 10px;
+            border-color: rgba(255, 255, 255, 0.5);
+            color: #fff;
+        }
+    }
+} 
+
+.timeInputFormGroup {
+    max-width: 220px;
+    margin-bottom: 0.5rem;
+
+    input {
+        padding: 8px 14px;
+        color: #FFF;
+    }
+
+    svg {
+        color: #FFF;
+    }
+
+    fieldset {
+        border-color: #CCC;
+        border-radius: 10px;
+    }
+}
+
 .coachingGroup {
     --background: #232e4d;
 }
@@ -100,25 +111,6 @@ body, html,:host, .ion-page, .menu-content {
     --background: #232e4d;
     --color: #fff;
 }
-
-
-textarea {
-    border-color: rgba(255, 255, 255, 0.5);
-    border-radius: 15px;
-    padding-left: 0.5rem;
-    padding-right: 0.5rem;
-    background-color: transparent;
-}
-
-@media(min-width:769px) {
-    .mainContainer {        
-        .profileWrapper {
-            flex-wrap: nowrap;
-            gap: 10px;
-        }
-    }
-}
-
 
 .iconWrap {
     ion-icon {
@@ -130,29 +122,13 @@ textarea {
     }
 }
 
-.fileUploadContainer {
-    padding: 1rem 0;
-    
-    > div > div {
-        display: flex;
-        gap: 8px;
-        flex-direction: row;
+@media(min-width:769px) {
+    .mainContainer {        
+        .profileWrapper {
+            flex-wrap: nowrap;
+            gap: 10px;
+        }
     }
-
-    img {
-        border-radius: 10px;
-        max-width: 110px;
-    }
-
-    .imageRemoveIcon {
-        color: white;
-        position: relative;
-        right: 12px;
-        top: -10px;
-        font-size: 1.2rem;
-        cursor: pointer;
-    }
-    
 }
 
 @media(max-width: 767px){

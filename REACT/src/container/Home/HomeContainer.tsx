@@ -104,7 +104,7 @@ const HomeContainer: React.FC<IContainerProps> = () => {
         </Route>
        
         <Route exact path='/'>
-          <Redirect to='/home' />
+          <Redirect to='/createActivity' />
         </Route>
       </IonRouterOutlet>
 
