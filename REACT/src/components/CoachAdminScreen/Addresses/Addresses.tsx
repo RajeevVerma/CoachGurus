@@ -37,7 +37,7 @@ function Addresses(props: IAddressesProps): JSX.Element {
 
   return (
     <Fragment>
-      <IonItem>
+      <div>
         <IonLabel>Academy Locations</IonLabel>
         {/* Add New Location */}
         <IonButton slot='end' onClick={() => onAddAddressClickEvent()}>
@@ -49,7 +49,7 @@ function Addresses(props: IAddressesProps): JSX.Element {
           <IonIcon icon={cloudDoneOutline} />
           <IonLabel>Save Locations</IonLabel>
         </IonButton>
-      </IonItem>
+      </div>
 
       {/* Iterate though the locations */}
       {locations.map((location: IKeyValue, index: number) => (
