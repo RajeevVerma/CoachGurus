@@ -132,6 +132,14 @@ const CoachAdminScreen: React.FC<CoachAdminScreenProps> = () => {
   /** Handle Change Address Event. */
   const handleAddressChangeEvent = () => {};
 
+  const handleRemoveAddressEvent = (location: IKeyValue) => {
+    let updatedLocations = [...locations];
+
+    updatedLocations = updatedLocations.filter((x) => x.key !== location.key);
+
+    setLocations(updatedLocations);
+  };
+
   /** Handle Submit Addresses Event. */
   const handleSubmitAddressesClickEvent = () => {};
 
@@ -344,6 +352,7 @@ const CoachAdminScreen: React.FC<CoachAdminScreenProps> = () => {
                     locations={locations}
                     onAddAddressClickEvent={handleAddAddressClickEvent}
                     onAddressChangeEvent={handleAddressChangeEvent}
+                    onRemoveAddressEvent={handleRemoveAddressEvent}
                     onSubmitAddressesClickEvent={
                       handleSubmitAddressesClickEvent
                     }

@@ -1,9 +1,11 @@
-import { IonContent, IonItem, IonLabel, IonText } from '@ionic/react';
+import { IonButton, IonIcon, IonItem, IonLabel, IonText } from '@ionic/react';
 import GooglePlacesAutocomplete from 'react-google-places-autocomplete';
 
 import { IKeyValue } from 'models';
 import { IAddress } from 'models/address.model';
 import { fetchAddressFromLocation } from 'utilities/google.utility';
+import { Fragment } from 'react';
+import { cloudDoneOutline, removeCircleOutline } from 'ionicons/icons';
 
 /**
  * Represents props for the Address Component.
@@ -11,13 +13,14 @@ import { fetchAddressFromLocation } from 'utilities/google.utility';
 interface IAddressProps {
   location: IKeyValue;
   onAddressChangeEvent: (address: IAddress) => void;
+  onRemoveAddressEvent: (location: IKeyValue) => void;
 }
 
 /** Represent Address Card Component.
  * props: IAddressProps
  */
 function Address(props: IAddressProps): JSX.Element {
-  const { location } = props;
+  const { location, onRemoveAddressEvent, onAddressChangeEvent } = props;
 
   const locationStyle = (provided: any) => ({
     ...provided,
@@ -29,9 +32,14 @@ function Address(props: IAddressProps): JSX.Element {
   };
 
   return (
-    <IonContent>
+    <Fragment>
       <IonItem>
         <IonLabel>Academy {location.key}</IonLabel>
+        {/* Save Locations */}
+        <IonButton slot='end' onClick={() => onRemoveAddressEvent(location)}>
+          <IonIcon icon={removeCircleOutline} />
+          <IonLabel>DELETE Location</IonLabel>
+        </IonButton>
       </IonItem>
       <IonItem>
         <IonText placeholder='Landmark' id='location-one-name' />
@@ -56,7 +64,7 @@ function Address(props: IAddressProps): JSX.Element {
           }}
         />
       </IonItem>
-    </IonContent>
+    </Fragment>
   );
 }
 
