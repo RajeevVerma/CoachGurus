@@ -7,23 +7,12 @@ import {
   TextareaAutosize,
 } from '@mui/material';
 import {
-  cloudUpload,
-  closeCircleOutline,
-  addCircleOutline,
-} from 'ionicons/icons';
-import {
-  IonButton,
   IonCheckbox,
-  IonCol,
-  IonContent,
-  IonGrid,
-  IonIcon,
   IonItem,
   IonLabel,
   IonPage,
   IonRadio,
   IonRadioGroup,
-  IonRow,
 } from '@ionic/react';
 import TextField from '@mui/material/TextField';
 
@@ -40,6 +29,7 @@ import { ServerHooks } from 'hooks';
 import {
   ActivityPictures,
   Addresses,
+  BasicInformation,
   ProfilePicture,
 } from 'components/CoachAdminScreen';
 
@@ -118,6 +108,17 @@ const CoachAdminScreen: React.FC<CoachAdminScreenProps> = () => {
     }
   };
 
+  /** Handle Input Change Event */
+  const handleInputChangeEvent = (value: string, propertyName: string) => {
+    setUserProfile({
+      ...userProfile,
+      user: {
+        ...userProfile.user,
+        [propertyName]: value,
+      },
+    });
+  };
+
   /** Handle Adding New Address Event */
   const handleAddAddressClickEvent = () => {
     const addLocation = [...locations];
@@ -190,71 +191,11 @@ const CoachAdminScreen: React.FC<CoachAdminScreenProps> = () => {
               {/* <h1>Personal Info</h1> */}
               <div style={{ margin: '0.5rem' }}>
                 <FormGroup className={styles.inputFormGroup}>
-                  <label>What is your Name?*</label>
-                  <div>
-                    <TextField
-                      size='small'
-                      className={styles.coachAdminInput}
-                      placeholder='First Name'
-                      id='first-name'
-                      variant='outlined'
-                      value={userProfile?.user?.firstName}
-                      onChange={(e) =>
-                        userProfile &&
-                        userProfile.user &&
-                        setUserProfile({
-                          ...userProfile,
-                          user: {
-                            ...userProfile.user,
-                            firstName: e.target.value,
-                          },
-                        })
-                      }
-                    />
-                    <TextField
-                      size='small'
-                      className={styles.coachAdminInput}
-                      placeholder='Last Name'
-                      id='last-name'
-                      variant='outlined'
-                      value={userProfile?.user?.lastName}
-                      onChange={(e) =>
-                        userProfile &&
-                        userProfile.user &&
-                        setUserProfile({
-                          ...userProfile,
-                          user: {
-                            ...userProfile.user,
-                            lastName: e.target.value,
-                          },
-                        })
-                      }
-                    />
-                  </div>
-                </FormGroup>
-                <FormGroup className={styles.inputFormGroup}>
-                  <label>Contact Number*</label>
-                  <div>
-                    <TextField
-                      size='small'
-                      className={styles.coachAdminInput}
-                      placeholder='Mobile Number'
-                      id='mobile'
-                      variant='outlined'
-                      value={userProfile?.user?.mobilePhone}
-                      onChange={(e) =>
-                        userProfile &&
-                        userProfile.user &&
-                        setUserProfile({
-                          ...userProfile,
-                          user: {
-                            ...userProfile.user,
-                            mobilePhone: e.target.value,
-                          },
-                        })
-                      }
-                    />
-                  </div>
+                  <BasicInformation
+                    firstName={userProfile?.user?.firstName ?? ''}
+                    lastName={userProfile?.user?.lastName ?? ''}
+                    onInputChangeEvent={handleInputChangeEvent}
+                  />
                 </FormGroup>
                 <FormGroup className={styles.inputFormGroup}>
                   <label>What Coaching you wish to give?*</label>

@@ -67,6 +67,6 @@ export interface IFile {
 }
 
 export interface IUserProfile {
-  user?: IUser;
+  user: IUser;
   addresses?: IAddress[];
 }
