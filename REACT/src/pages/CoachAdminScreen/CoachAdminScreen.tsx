@@ -1,9 +1,4 @@
 import * as React from 'react';
-import GooglePlacesAutocomplete, {
-  geocodeByPlaceId,
-  getLatLng,
-} from 'react-google-places-autocomplete';
-import Files from 'react-files';
 import {
   Button,
   Container,
@@ -35,20 +30,20 @@ import TextField from '@mui/material/TextField';
 // Import styles
 import styles from './CoachAdminScreen.module.scss';
 import { useEffect, useState } from 'react';
-import { IFile, IUserProfile } from 'models';
+import { IFile, IKeyValue, IUserProfile } from 'models';
 import { UserSignUpSource, UserType } from 'enums';
 import {
   ICategories,
   rootInterest,
 } from 'pages/SignupWorkFlow/UserProfileEdit.Constants';
 import { ServerHooks } from 'hooks';
+import {
+  ActivityPictures,
+  Addresses,
+  ProfilePicture,
+} from 'components/CoachAdminScreen';
 
 interface CoachAdminScreenProps {}
-
-interface IKeyValue {
-  key: number;
-  value: any;
-}
 
 const CoachAdminScreen: React.FC<CoachAdminScreenProps> = () => {
   const { adminUserUpdate } = ServerHooks();
@@ -75,7 +70,7 @@ const CoachAdminScreen: React.FC<CoachAdminScreenProps> = () => {
     addresses: [],
   });
 
-  const [profilePicture, setProfilePicture] = useState<IFile[]>([]);
+  const [profilePicture, setProfilePicture] = useState<IFile>();
   const [activityPicture, setActivityPicture] = useState<IFile[]>([]);
 
   useEffect(() => {});
@@ -123,64 +118,8 @@ const CoachAdminScreen: React.FC<CoachAdminScreenProps> = () => {
     }
   };
 
-  const onProfilePictureFilesChange = (files: IFile[]) => {
-    console.log(files);
-    setProfilePicture(files);
-  };
-
-  const onProfilePictureFilesError = (error: any) => {
-    console.log('error code ' + error.code + ': ' + error.message);
-    setProfilePicture([]);
-  };
-
-  const onActivityPictureFilesChange = (files: IFile[]) => {
-    console.log(files);
-    setActivityPicture(files);
-  };
-
-  const onActivityPictureFilesError = (error: any) => {
-    console.log('error code ' + error.code + ': ' + error.message);
-    setActivityPicture([]);
-  };
-
-  const handleGoogleLocationChange = (location: any, index: number) => {
-    const updatedLocations = [...locations];
-
-    updatedLocations[index] = location;
-
-    setLocations(updatedLocations);
-
-    geocodeByPlaceId(location.value.place_id)
-      .then((results) => getLatLng(results[0]))
-      .then(({ lat, lng }) => {
-        console.log('Successfully got latitude and longitude', { lat, lng });
-        setUserProfile({
-          ...userProfile,
-          addresses: [
-            {
-              addr1: location.label,
-              state:
-                location.value.terms[location.value.terms.length - 2]?.value ??
-                '',
-              city:
-                location.value.terms[location.value.terms.length - 3]?.value ??
-                '',
-              country:
-                location.value.terms[location.value.terms.length - 1]?.value ??
-                '',
-              name:
-                location.value.terms[location.value.terms.length - 4]?.value ??
-                '',
-              pincode: 1,
-              lat: `${lat}`,
-              long: `${lng}`,
-            },
-          ],
-        });
-      });
-  };
-
-  const addLocation = () => {
+  /** Handle Adding New Address Event */
+  const handleAddAddressClickEvent = () => {
     const addLocation = [...locations];
     addLocation.push({
       key: addLocation.length + 1,
@@ -188,6 +127,22 @@ const CoachAdminScreen: React.FC<CoachAdminScreenProps> = () => {
     });
 
     setLocations(addLocation);
+  };
+
+  /** Handle Change Address Event. */
+  const handleAddressChangeEvent = () => {};
+
+  /** Handle Submit Addresses Event. */
+  const handleSubmitAddressesClickEvent = () => {};
+
+  /** Handle Profile Picture Change Event. */
+  const handleProfilePictureChangeEvent = (profilePicture: IFile) => {
+    setProfilePicture(profilePicture);
+  };
+
+  /** Handle Activities Picture Change Event. */
+  const handleActivityPicturesChangeEvent = (activityPictures: IFile[]) => {
+    setActivityPicture(activityPictures);
   };
 
   const handleSubmitEvent = () => {
@@ -212,11 +167,6 @@ const CoachAdminScreen: React.FC<CoachAdminScreenProps> = () => {
       });
     });
   };
-
-  const locationStyle = (provided: any) => ({
-    ...provided,
-    color: '#232e4d',
-  });
 
   return (
     <IonPage>
@@ -390,46 +340,14 @@ const CoachAdminScreen: React.FC<CoachAdminScreenProps> = () => {
                   </div>
                 </FormGroup>
                 <FormGroup className={styles.inputFormGroup}>
-                  <div>
-                    Academy Locations
-                    <IonButton slot='end' onClick={() => addLocation()}>
-                      <IonIcon icon={addCircleOutline} />
-                    </IonButton>
-                  </div>
-
-                  {locations.map((location: IKeyValue, index: number) => (
-                    <div key={index}>
-                      <label>Academy {location.key}</label>
-                      <div className={styles.googleInputWrap}>
-                        <GooglePlacesAutocomplete
-                          apiKey={'AIzaSyCZ2tJfShJZfqBzIRXHpPYW1cmZ5A8ODKo'}
-                          selectProps={{
-                            value: location.value,
-                            onChange: (e: any) =>
-                              handleGoogleLocationChange(e, location.key),
-                            styles: {
-                              input: locationStyle,
-                              option: locationStyle,
-                              singleValue: locationStyle,
-                            },
-                          }}
-                          autocompletionRequest={{
-                            componentRestrictions: {
-                              country: ['in'],
-                            },
-                            types: ['address'],
-                          }}
-                        />
-                        <TextField
-                          size='small'
-                          className={styles.coachAdminInput}
-                          placeholder='Name'
-                          id='location-one-name'
-                          variant='outlined'
-                        />
-                      </div>
-                    </div>
-                  ))}
+                  <Addresses
+                    locations={locations}
+                    onAddAddressClickEvent={handleAddAddressClickEvent}
+                    onAddressChangeEvent={handleAddressChangeEvent}
+                    onSubmitAddressesClickEvent={
+                      handleSubmitAddressesClickEvent
+                    }
+                  />
                 </FormGroup>
               </div>
             </Grid>
@@ -496,43 +414,12 @@ const CoachAdminScreen: React.FC<CoachAdminScreenProps> = () => {
                   </div>
                 </FormGroup>
                 <FormGroup className={styles.inputFormGroup}>
-                  <label>Upload your profile picture</label>
-                  <div className={styles.fileUploadContainer}>
-                    <Files
-                      key={'profile_pic'}
-                      onChange={onProfilePictureFilesChange}
-                      onError={onProfilePictureFilesError}
-                      accepts={['image/*']}
-                      multiple={false}
-                      maxFiles={1}
-                      maxFileSize={10000000}
-                      minFileSize={0}
-                      clickable>
-                      {profilePicture.length > 0 ? (
-                        <div className='files-gallery'>
-                          {profilePicture.map((pic: any) => (
-                            <>
-                              <img
-                                alt='profile-pic'
-                                className='files-gallery-item'
-                                src={pic?.preview?.url}
-                                key={pic?.id}
-                              />
-                              <IonIcon
-                                className={styles.imageRemoveIcon}
-                                slot='end'
-                                icon={closeCircleOutline}></IonIcon>
-                            </>
-                          ))}
-                        </div>
-                      ) : (
-                        <div className={styles.fileUploadBtn}>
-                          <IonIcon slot='start' icon={cloudUpload}></IonIcon>
-                          <span>Upload Profile Picture</span>
-                        </div>
-                      )}
-                    </Files>
-                  </div>
+                  <ProfilePicture
+                    profilePicture={profilePicture}
+                    onProfilePictureChangeEvent={
+                      handleProfilePictureChangeEvent
+                    }
+                  />
                 </FormGroup>
                 <FormGroup className={styles.inputFormGroup}>
                   <label>Pitch your trainee</label>
@@ -561,51 +448,12 @@ const CoachAdminScreen: React.FC<CoachAdminScreenProps> = () => {
                   </div>
                 </FormGroup>
                 <FormGroup className={styles.inputFormGroup}>
-                  <label>You in Action</label>
-                  <div className={styles.fileUploadContainer}>
-                    <Files
-                      key={'activity_pic'}
-                      onChange={onActivityPictureFilesChange}
-                      onError={onActivityPictureFilesError}
-                      accepts={['image/*']}
-                      multiple={true}
-                      maxFiles={8}
-                      maxFileSize={10000000}
-                      minFileSize={0}
-                      clickable>
-                      {activityPicture.length > 0 ? (
-                        <div className='files-gallery'>
-                          <IonGrid>
-                            <IonRow>
-                              {activityPicture.map((pic: IFile) => (
-                                <IonCol
-                                  size='12'
-                                  className={styles.multiFilesWrap}
-                                  size-sm>
-                                  <img
-                                    alt='action-gallery-item'
-                                    // height={'80%'}
-                                    className='files-gallery-item'
-                                    src={pic?.preview?.url}
-                                    key={pic?.id}
-                                  />
-                                  <IonIcon
-                                    className={styles.imageRemoveIcon}
-                                    slot='start'
-                                    icon={closeCircleOutline}></IonIcon>
-                                </IonCol>
-                              ))}
-                            </IonRow>
-                          </IonGrid>
-                        </div>
-                      ) : (
-                        <div className={styles.fileUploadBtn}>
-                          <IonIcon slot='start' icon={cloudUpload}></IonIcon>
-                          <span>Upload Activity Picture (Max 8 Allowed)</span>
-                        </div>
-                      )}
-                    </Files>
-                  </div>
+                  <ActivityPictures
+                    activityPicture={activityPicture}
+                    onActivityPicturesChangeEvent={
+                      handleActivityPicturesChangeEvent
+                    }
+                  />
                 </FormGroup>
               </div>
             </Grid>
