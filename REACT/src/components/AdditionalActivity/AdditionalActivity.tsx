@@ -54,7 +54,7 @@ interface IAdditionalActivityProps {
  */
 function AdditionalActivity(props: IAdditionalActivityProps): JSX.Element {
 
-    const [expanded, setExpanded] = React.useState<string | false>(false);
+    const [expanded, setExpanded] = React.useState<string | false>('panel1');
     const [profilePicture, setProfilePicture] = useState<IFile[]>([]);
 
     const handleChange =

@@ -102,7 +102,7 @@ const ActivityCreation: React.FC<ActivityCreationProps> = () => {
             <Grid
               className={styles.boxShadowContainer}
               item
-              md={12}
+              md={6}
               sm={12}
               xs={12}>
               {/* <h1>Personal Info</h1> */}
@@ -253,10 +253,16 @@ const ActivityCreation: React.FC<ActivityCreationProps> = () => {
                 </FormGroup>
               </div>
             </Grid>
+            {/* Additional Activity */}
+            <Grid
+              item
+              md={6}
+              sm={12}
+              xs={12}>
+                <AdditionalActivity />
+              </Grid>
           </Grid>
 
-          {/* Additional Activity */}
-          <AdditionalActivity />
 
           <Grid style={{ justifyContent: 'flex-end' }} container>
             <Button
