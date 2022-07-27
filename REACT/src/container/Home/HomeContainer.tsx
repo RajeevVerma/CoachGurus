@@ -12,6 +12,7 @@ import { GuruListContainer, ActivityCreation } from 'container';
 import LoginModal from 'pages/Modals/Login/Login';
 import {
   AcademicsPage,
+  CoachDashboardPage,
   ExtraCurricularPage,
   HomePage,
   SportsPage,
@@ -102,9 +103,11 @@ const HomeContainer: React.FC<IContainerProps> = () => {
         <Route path='/createActivity' exact={true}>
           <ActivityCreation />
         </Route>
-       
         <Route exact path='/'>
           <Redirect to='/createActivity' />
+        </Route>
+        <Route path='/coach/dashboard' exact={true}>
+            <CoachDashboardPage />
         </Route>
       </IonRouterOutlet>
 

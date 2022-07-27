@@ -1,0 +1,45 @@
+body, html,:host, .ion-page, .menu-content {
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
+*, ::placeholder {
+    font-family: 'Poppins', sans-serif;
+}
+
+.inputFormGroup {
+    span {
+        font-family: 'Poppins', sans-serif;
+    }
+
+    .coachAdminInput {
+        margin: 0.5rem 1rem 1rem 0;
+        border-radius: 10px;
+        border: 1px solid rgba(255, 255, 255, 0.5);
+        color: #fff;    
+        > div{
+            border-radius: 10px;
+            border-color: rgba(255, 255, 255, 0.5);
+            color: #fff;
+        }
+    }
+} 
+
+.pageContainer {
+    padding-top: 1rem;
+    min-height: 100vh;
+    padding-bottom: 3rem;
+    background-color: #f2f3f6;
+    color: #fff;
+    /*background: url(../../../public/assets/images/bg-pattern-circles.svg) repeat center, #1d2029;*/
+    @media (min-width:769px) {
+        padding-top: 4.5rem;
+    }
+
+    .boxShadowContainer {
+        border-radius: 15px;
+        padding: 1rem;
+        background-color: #fff;
+        box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+    }
+}

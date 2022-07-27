@@ -5,3 +5,4 @@ export { default as ExtraCurricularPage } from './Extra-Curricular/ExtraCurricul
 export { default as UserProfileEditPage } from './SignupWorkFlow/UserProfileEdit';
 export { default as UserSearchPage } from './Admin/UserSearch';
 export { default as CoachAdminScreen } from './CoachAdminScreen/CoachAdminScreen';
+export { default as CoachDashboardPage } from './coach/dashboard';
