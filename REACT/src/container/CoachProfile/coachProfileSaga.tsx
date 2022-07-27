@@ -44,4 +44,4 @@ function* getCoachProfile(profileAction: IGetCoachProfileAction) {
     }
 }
 
-const transformResponseToUserModel = (transformResponseToUserModel: any): IUser => transformResponseToUserModel.Item as IUser;
+const transformResponseToUserModel = (transformResponseToUserModel: any): IUser => transformResponseToUserModel as IUser;

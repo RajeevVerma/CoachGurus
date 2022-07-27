@@ -199,17 +199,17 @@ const CoachProfileContainer: React.FC<ContainerProps> = () => {
                             </Grid>
                         </Grid>
                                 {/* Images Collage */}
-                                <Grid container>
-                                    <Grid item xs={12} md={6}>
-                                        <IonImg src="https://a0.muscache.com/im/pictures/miso/Hosting-52159627/original/d727cf6e-4787-4b38-a86f-0cd8d91d02b2.png?im_w=720" alt="coach-action-1" />
+                                <Grid container style={{gap: '10px', marginTop:'2rem', minWidth:'1200px'}}>
+                                    <Grid item md={6} style={{width: '43.5%', flexBasis: '43.5%'}}>
+                                        <img className="actionImgLeftOne" src="https://a0.muscache.com/im/pictures/miso/Hosting-52159627/original/d727cf6e-4787-4b38-a86f-0cd8d91d02b2.png?im_w=720" alt="coach-action-1" />
                                     </Grid>
-                                    <Grid item xs={12} md={3}>
-                                            <IonImg src="https://a0.muscache.com/im/pictures/miso/Hosting-52159627/original/4f4102ab-2f61-41f5-89bc-849f966478a8.jpeg?im_w=720" alt="coach-action-2" />
-                                            <IonImg src="https://a0.muscache.com/im/pictures/miso/Hosting-52159627/original/58587221-6dfd-4134-bf23-e41111e461fb.jpeg?im_w=720" alt="coach-action-2" />
+                                    <Grid item md={3} style={{width: '30%', gap:'10px', flexBasis: '30%'}}>
+                                            <img src="https://a0.muscache.com/im/pictures/miso/Hosting-52159627/original/4f4102ab-2f61-41f5-89bc-849f966478a8.jpeg?im_w=720" alt="coach-action-2" />
+                                            <img src="https://a0.muscache.com/im/pictures/miso/Hosting-52159627/original/58587221-6dfd-4134-bf23-e41111e461fb.jpeg?im_w=720" alt="coach-action-2" />
                                     </Grid>
-                                    <Grid item xs={12} md={3}>
-                                            <IonImg src="https://a0.muscache.com/im/pictures/miso/Hosting-52159627/original/58587221-6dfd-4134-bf23-e41111e461fb.jpeg?im_w=720" alt="coach-action-2" />
-                                            <IonImg src="https://a0.muscache.com/im/pictures/miso/Hosting-52159627/original/4f4102ab-2f61-41f5-89bc-849f966478a8.jpeg?im_w=720" alt="coach-action-2" />
+                                    <Grid item md={3} style={{width: '30%', gap:'10px', flexBasis: '30%'}}>
+                                            <img className="actionImgRightOne" src="https://a0.muscache.com/im/pictures/miso/Hosting-52159627/original/58587221-6dfd-4134-bf23-e41111e461fb.jpeg?im_w=720" alt="coach-action-2" />
+                                            <img className="actionImgRightTwo" src="https://a0.muscache.com/im/pictures/miso/Hosting-52159627/original/4f4102ab-2f61-41f5-89bc-849f966478a8.jpeg?im_w=720" alt="coach-action-2" />
                                     </Grid>
                                 </Grid>
                     </Box>
